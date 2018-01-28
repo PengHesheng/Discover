@@ -1,4 +1,4 @@
-package com.example.a14512.discover.modules.main.view;
+package com.example.a14512.discover.modules.main.view.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,7 +17,6 @@ import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.arround.view.AroundActivity;
 import com.example.a14512.discover.modules.community.view.CommunityActivity;
-import com.example.a14512.discover.modules.main.view.activity.ChooseActivity;
 import com.example.a14512.discover.modules.route.view.RouteActivity;
 import com.example.a14512.discover.modules.travel.view.TravelKnowledgeActivity;
 

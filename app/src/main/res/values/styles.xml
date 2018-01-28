@@ -9,14 +9,14 @@
     </style>
 
     <!--新建一个主题，设置为透明样式，保证滑动的时候能看到下面的Activity-->
-    <style name="PIN.SwipeBack.Transparent.Theme" parent="AppTheme">
+    <style name="SwipeBack.Transparent.Theme" parent="AppTheme">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@style/PIN.Animation.SlidingBack</item>
-        <item name="android:actionBarStyle">@style/PINActionBar.Custom</item>
+        <item name="android:windowAnimationStyle">@style/Animation.SlidingBack</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Custom</item>
     </style>
 
-    <style name="PINActionBar.Custom" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+    <style name="ActionBar.Custom" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="displayOptions">showCustom</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="background">@android:color/transparent</item>
@@ -24,7 +24,7 @@
         <item name="android:height">?actionBarSize</item>
     </style>
 
-    <style name="PIN.Animation.SlidingBack" parent="@android:style/Animation.Activity">
+    <style name="Animation.SlidingBack" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/in_from_right</item>
         <item name="android:activityOpenExitAnimation">@anim/out_to_right</item>
         <item name="android:activityCloseEnterAnimation">@anim/in_from_right</item>

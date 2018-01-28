@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Discover</string>
+    <string name="search_hint_left">From</string>
+    <string name="search_hint_right">To</string>
+    <string name="btn_route_plan">生成行程计划表</string>
+    <string name="hint_want_going">请输入你想要的景点</string>
+    <string name="tv_must_place">必去地点</string>
+    <string name="btn_is_recommend">是否推荐已游览景点？</string>
+    <string name="btn_high_grade">综合评分高</string>
+    <string name="btn_play_long">游玩时间长</string>
+    <string name="btn_less_pay">旅途花费少</string>
+    <string name="btn_sort_distance">游玩路程短</string>
+    <string name="btn_path_plan">生成路线计划表</string>
+    <string name="btn_confirm_plan">确认路线计划表</string>
+    <string name="hint_when">When</string>
+    <string name="tv_choose">优先选择</string>
+    <string name="tv_route">行程计划表</string>
 </resources>

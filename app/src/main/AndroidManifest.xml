@@ -2,6 +2,31 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.a14512.discover">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+<!--
+    //读取设备硬件信息，统计数据
+-->
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+<!--
+    //读取系统信息，包含系统版本等信息，用作统计
+-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+<!--
+    //获取统计数据
+-->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+<!--
+    //鉴权所需该权限获取进程列表
+-->
+    <uses-permission android:name="android.permission.CAMERA" />
+<!--
+    //使用步行AR导航，配置Camera权限
+-->
+
     <application
         android:name=".DiscoverApplication"
         android:allowBackup="true"
@@ -10,18 +35,39 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".modules.main.view.MainActivity">
+        <activity android:name=".modules.main.view.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".modules.travel.view.TravelKnowledgeActivity" />
-        <activity android:name=".modules.arround.view.AroundActivity" />
-        <activity android:name=".modules.community.view.CommunityActivity" />
-        <activity android:name=".modules.route.view.RouteActivity" />
-        <activity android:name=".modules.main.view.activity.ChooseActivity" />
+        <activity android:name=".modules.travel.view.TravelKnowledgeActivity"
+            android:theme="@style/SwipeBack.Transparent.Theme"/>
+
+        <activity android:name=".modules.arround.view.AroundActivity"
+            android:theme="@style/SwipeBack.Transparent.Theme"/>
+
+        <activity android:name=".modules.community.view.CommunityActivity"
+            android:theme="@style/SwipeBack.Transparent.Theme"/>
+
+        <activity android:name=".modules.route.view.RouteActivity"
+            android:theme="@style/SwipeBack.Transparent.Theme"/>
+
+        <activity android:name=".modules.main.view.activity.ChooseActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/SwipeBack.Transparent.Theme"/>
+
+        <activity android:name=".modules.main.view.activity.RoutePlanActivity"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+
+        <activity android:name=".modules.travel.WebActivity"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="5rIz4y26jfVldxvYSGQKieGuZ3iiwupm" />
+
     </application>
 
 </manifest>

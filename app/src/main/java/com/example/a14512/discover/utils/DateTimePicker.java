@@ -1,5 +1,6 @@
 package com.example.a14512.discover.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
@@ -53,6 +54,7 @@ public class DateTimePicker {
         builder.setView(view);
         builder.setTitle("设置时间");
         builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 year = mDatePicker.getYear();
@@ -62,7 +64,8 @@ public class DateTimePicker {
                 minute = mTimePicker.getCurrentMinute();
 
                 StringBuffer stringBuffer = new StringBuffer();
-                stringBuffer.append(year+"/"+ String.format("%02d",month)+"/"+day);
+                stringBuffer.append(year+"/"+ String.format("%02d",month)+"/"+day + "\n"
+                        + String.format("%02d", hour) + ":" + String.format("%02d", minute));
                 textView.setText(stringBuffer);
                 dialog.cancel();
             }
