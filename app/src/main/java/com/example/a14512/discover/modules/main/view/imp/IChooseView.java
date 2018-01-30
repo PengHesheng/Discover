@@ -1,8 +1,4 @@
-package com.example.a14512.discover.modules.main.view;
-
-import android.support.v7.widget.SearchView;
-
-import java.util.ArrayList;
+package com.example.a14512.discover.modules.main.view.imp;
 
 /**
  * @author 14512 on 2018/1/28
@@ -56,8 +52,4 @@ public interface IChooseView {
      */
     String getEndTime();
 
-    /**
-     * @param names
-     */
-    void setList(SearchView searchView, ArrayList<String> names);
 }

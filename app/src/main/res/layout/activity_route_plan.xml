@@ -1,64 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
 
-            <View
-                android:layout_width="34dp"
-                android:layout_height="1dp"
-                android:background="#2f2f2f"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:layout_width="34dp"
+                    android:layout_height="1dp"
+                    android:background="#2f2f2f"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="#302f2f"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginRight="23dp"
+                    android:text="@string/tv_route"/>
+
+                <View
+                    android:layout_width="34dp"
+                    android:layout_height="1dp"
+                    android:background="#2f2f2f"/>
+
+            </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_morning"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="#302f2f"
-                android:layout_marginLeft="23dp"
-                android:layout_marginRight="23dp"
-                android:text="@string/tv_route"/>
+                android:gravity="center"
+                android:textSize="20sp"
+                android:background="#f19149"
+                android:textColor="#f9f7f6"
+                android:text="@string/tv_morning" />
 
-            <View
-                android:layout_width="34dp"
-                android:layout_height="1dp"
-                android:background="#2f2f2f"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/morning_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
+            <TextView
+                android:id="@+id/tv_afternoon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:background="#f19149"
+                android:textColor="#f9f7f6"
+                android:text="@string/tv_afternoon" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/afternoon_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_evening"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:background="#f19149"
+                android:textColor="#f9f7f6"
+                android:text="@string/tv_evening" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/evening_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <RelativeLayout
+                android:gravity="center_vertical"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btn_build"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_path_plan"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_path_plan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <RelativeLayout
-            android:gravity="center_vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_path_plan"
-                android:layout_alignParentEnd="true" />
-        </RelativeLayout>
-    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

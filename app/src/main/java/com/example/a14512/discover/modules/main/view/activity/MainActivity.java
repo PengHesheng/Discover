@@ -40,6 +40,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initNavigation() {
+        setStatusBarColor(R.color.mainToolbar);
         navView.setCheckedItem(R.id.nav_item_my);
         ImageView headPortrait = navView.getHeaderView(0).findViewById(R.id.img_head_portrait);
         TextView name = navView.getHeaderView(0).findViewById(R.id.tv_head_name);

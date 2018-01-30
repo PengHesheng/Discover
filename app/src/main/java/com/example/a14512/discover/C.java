@@ -26,4 +26,11 @@ public class C {
     public static final int CHOOSE_CROPED_PICTURE = 5;
     public static final int UPLOAD_PICTURE = 6;
 
+    /**
+     * route plan time
+     */
+    public static final String MORNING = "morning";
+    public static final String AFTERNOON = "afternoon";
+    public static final String EVENING = "evening";
+
 }

@@ -15,4 +15,7 @@
     <string name="hint_when">When</string>
     <string name="tv_choose">优先选择</string>
     <string name="tv_route">行程计划表</string>
+    <string name="tv_morning">上午</string>
+    <string name="tv_afternoon">下午</string>
+    <string name="tv_evening">晚上</string>
 </resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -8,23 +9,35 @@
     <com.baidu.mapapi.map.TextureMapView
         android:id="@+id/texture_map"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="9"/>
+        android:layout_height="match_parent"/>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@android:color/white"
+        android:layout_gravity="bottom">
 
+        <TextView
+            android:id="@+id/tv_show_place"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textSize="20sp"
+            tools:text="邮电大学——解放碑" />
 
         <Button
             android:id="@+id/btn_confirm_plan"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:text="@string/btn_confirm_plan"
-            android:layout_alignParentEnd="true" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/btn_confirm_plan" />
 
-    </RelativeLayout>
-</LinearLayout>
+    </LinearLayout>
+</FrameLayout>

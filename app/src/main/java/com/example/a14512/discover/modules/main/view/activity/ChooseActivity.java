@@ -1,42 +1,58 @@
 package com.example.a14512.discover.modules.main.view.activity;
 
+import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
+import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.mapapi.search.sug.SuggestionSearch;
 import com.baidu.mapapi.search.sug.SuggestionSearchOption;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseSwipeBackActivity;
 import com.example.a14512.discover.modules.main.presenter.ChoosePresenterImp;
-import com.example.a14512.discover.modules.main.view.IChooseView;
+import com.example.a14512.discover.modules.main.view.imp.IChooseView;
 import com.example.a14512.discover.utils.DateTimePicker;
-import com.example.a14512.discover.utils.ToastUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author 14512 on 2018/1/27
  */
 
-public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClickListener, IChooseView {
+public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClickListener,
+        IChooseView {
     private static final String TAG = "ChooseActivity";
 
     private SuggestionSearch mSuggestionSearch;
+    public LocationClient mLocationClient = null;
+    private String city = null, street = null, myLocation = "我的位置";
+
     private ImageView mBack;
     private TextView mTitle;
+    private ImageView mRight;
     private Toolbar toolbar;
-    private EditText mEdtStartPlace;
-    private EditText mEdtEndPlace;
-    private EditText mEdtStartTime;
-    private EditText mEdtEndTime;
+    private AppCompatAutoCompleteTextView mEdtStartPlace, mEdtEndPlace;
+    private TextView mEdtStartTime, mEdtEndTime;
     private Button mBtnSortDistance;
     private Button mBtnLessPay;
     private Button mBtnLongPlay;
@@ -50,55 +66,51 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //在使用SDK各组件之前初始化context信息，传入ApplicationContext
-        //注意该方法要再setContentView方法之前实现
-//        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_choose);
+        getLocation();
         initView();
         initToolbar();
-//        search();
     }
 
-    private void search() {
-        mSuggestionSearch = SuggestionSearch.newInstance();
-
-        // 使用建议搜索服务获取建议列表，结果在onSuggestionResult()中更新
-//        searchListener(mSearchLeft);
-//        searchListener(mSearchRight);
-//        searchListener(mSearchMustGoing);
-
-    }
-
-    private void searchListener(SearchView searchView) {
-        mSuggestionSearch.setOnGetSuggestionResultListener(mPresenter.suggestionPoi(searchView));
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+    private void getLocation() {
+        mLocationClient = new LocationClient(getApplicationContext());
+        mLocationClient.registerLocationListener(new BDAbstractLocationListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                ToastUtil.showLong(ChooseActivity.this, query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                mSuggestionSearch.requestSuggestion((new SuggestionSearchOption())
-                        .keyword(newText)
-                        .city("重庆"));
-                return false;
+            public void onReceiveLocation(BDLocation location) {
+                //获取详细地址信息
+                String addr = location.getAddrStr();
+                //获取国家
+                String country = location.getCountry();
+                //获取省份
+                String province = location.getProvince();
+                //获取城市
+                city = location.getCity();
+                //获取区县
+                String district = location.getDistrict();
+                //获取街道信息
+                street = location.getStreet();
             }
         });
+        LocationClientOption option = new LocationClientOption();
+        option.setIsNeedAddress(true);
+        option.setOpenGps(true);
+        mLocationClient.setLocOption(option);
+        mLocationClient.start();
     }
-
 
     private void initToolbar() {
         setSupportActionBar(toolbar);
         setStatusBarColor(R.color.mainToolbar);
+        mRight.setBackgroundResource(R.mipmap.share);
         mTitle.setText("生成行程计划表");
         mBack.setOnClickListener(v -> finish());
     }
 
     private void initView() {
+        LinearLayout mainLayout = findViewById(R.id.choose_layout);
         mBack = findViewById(R.id.img_toolbar_left);
         mTitle = findViewById(R.id.tv_toolbar_title);
+        mRight = findViewById(R.id.img_toolbar_right);
         mEdtStartPlace = findViewById(R.id.edt_start_place);
         ImageView imgExchangePlace = findViewById(R.id.img_exchange_place);
         mEdtEndPlace = findViewById(R.id.edt_end_place);
@@ -112,6 +124,19 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
         mBtnHighComment = findViewById(R.id.btn_high_comment);
         mImgIsRecommend = findViewById(R.id.img_is_recommend);
         Button btnBuild = findViewById(R.id.btn_build);
+
+        //初始化背景
+        Glide.with(this)
+                .load(R.mipmap.choose_bg)
+                .into(new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                    mainLayout.setBackgroundResource(R.mipmap.choose_bg);
+                }
+            });
+        mEdtStartTime.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        mEdtEndTime.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        mEdtStartPlace.setText(myLocation);
 
         mBack.setOnClickListener(this);
         mTitle.setOnClickListener(this);
@@ -132,32 +157,39 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
         mEdtEndTime.setOnClickListener(this);
 
         mPresenter = new ChoosePresenterImp(this);
+        mSuggestionSearch = SuggestionSearch.newInstance();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_sort_distance:
-                changeButton(mBtnSortDistance, isSortDistance);
+            case R.id.edt_start_place:
+                searchListener(mEdtStartPlace);
                 break;
-            case R.id.btn_less_pay:
-                changeButton(mBtnLessPay, isLessPay);
-                break;
-            case R.id.btn_long_play:
-                changeButton(mBtnLongPlay, isLognPlay);
-                break;
-            case R.id.btn_high_comment:
-                changeButton(mBtnHighComment, isHighComment);
-                break;
-            case R.id.btn_build:
-                startIntentActivity(this, new RoutePlanActivity());
-                mPresenter.putData();
+            case R.id.edt_end_place:
+                searchListener(mEdtEndPlace);
                 break;
             case R.id.edt_start_time:
                 selectTime(mEdtStartTime);
                 break;
             case R.id.edt_end_time:
                 selectTime(mEdtEndTime);
+                break;
+            case R.id.btn_sort_distance:
+                isSortDistance = changeButton(mBtnSortDistance, isSortDistance);
+                break;
+            case R.id.btn_less_pay:
+                isLessPay = changeButton(mBtnLessPay, isLessPay);
+                break;
+            case R.id.btn_long_play:
+                isLognPlay = changeButton(mBtnLongPlay, isLognPlay);
+                break;
+            case R.id.btn_high_comment:
+                isHighComment = changeButton(mBtnHighComment, isHighComment);
+                break;
+            case R.id.btn_build:
+                startIntentActivity(this, new RoutePlanActivity());
+                mPresenter.putData();
                 break;
             case R.id.img_exchange_place:
                 exchangePlace(mEdtStartPlace.getText().toString(), mEdtEndPlace.getText().toString());
@@ -166,20 +198,72 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
                 exchangeTime(mEdtStartTime.getText().toString(), mEdtEndTime.getText().toString());
                 break;
             case R.id.img_is_recommend:
-                changeImg(isRecommend);
+                isRecommend = changeImg(isRecommend);
                 break;
             default:
                 break;
         }
     }
 
-    private void changeImg(boolean isRecommend) {
+    private void searchListener(AppCompatAutoCompleteTextView textView) {
+
+        OnGetSuggestionResultListener listener = res -> {
+            if (res == null || res.getAllSuggestions() == null) {
+                return;
+                //未找到相关结果
+            }
+
+            ArrayList<String> infos = new ArrayList<>();
+            List<SuggestionResult.SuggestionInfo> list = res.getAllSuggestions();
+            for (SuggestionResult.SuggestionInfo info : list) {
+                if (info.key != null) {
+                    Log.e(TAG, info.key);
+                    infos.add(info.key);
+                }
+            }
+            ArrayAdapter<String> sugAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, infos);
+            textView.setThreshold(1);
+            textView.setAdapter(sugAdapter);
+            sugAdapter.notifyDataSetChanged();
+            //获取在线建议检索结果
+        };
+        mSuggestionSearch.setOnGetSuggestionResultListener(listener);
+
+        textView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.e(TAG, s.toString());
+                mSuggestionSearch.requestSuggestion((new SuggestionSearchOption())
+                        .keyword(s.toString())
+                        .city(city));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private void selectTime(TextView textView) {
+        DateTimePicker dateTimePicker = new DateTimePicker(this);
+        dateTimePicker.setDatePicker(textView);
+    }
+
+    private boolean changeImg(boolean isRecommend) {
         if (!isRecommend) {
+            mImgIsRecommend.setBackgroundResource(R.mipmap.check);
             isRecommend = true;
         } else {
-            mImgIsRecommend.setBackgroundResource(R.mipmap.check);
+            mImgIsRecommend.setBackgroundResource(R.mipmap.uncheck);
             isRecommend = false;
         }
+        return isRecommend;
     }
 
     private void exchangeTime(String start, String end) {
@@ -203,11 +287,6 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
         return isChoosed;
     }
 
-    private void selectTime(EditText edtTime) {
-        DateTimePicker dateTimePicker = new DateTimePicker(this);
-        dateTimePicker.setDatePicker(edtTime);
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -216,12 +295,16 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
 
     @Override
     public String getStartPlace() {
-        return null;
+        if (myLocation.equals(mEdtStartPlace.getText().toString()) && street != null) {
+            return street;
+        } else {
+            return mEdtStartPlace.getText().toString();
+        }
     }
 
     @Override
     public String getEndPlace() {
-        return null;
+        return mEdtEndPlace.getText().toString();
     }
 
     @Override
@@ -257,14 +340,6 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
     @Override
     public String getEndTime() {
         return mEdtEndTime.getText().toString();
-    }
-
-    @Override
-    public void setList(SearchView searchView, ArrayList<String> names) {
-        AutoCompleteTextView completeText = searchView.findViewById(R.id.search_src_text);
-        completeText.setThreshold(1);
-        completeText.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names));
-
     }
 
 }

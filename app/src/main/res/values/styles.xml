@@ -39,4 +39,10 @@
         <item name="android:wallpaperIntraCloseExitAnimation">@anim/out_to_right</item>
     </style>
 
+    <!--底部popupWindow动画-->
+    <style name="anim_bottom_bar">
+        <item name="android:windowEnterAnimation">@anim/bottom_bar_in</item>
+        <item name="android:windowExitAnimation">@anim/bottom_bar_out</item>
+    </style>
+
 </resources>

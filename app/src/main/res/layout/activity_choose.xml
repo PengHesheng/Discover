@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="#ececec"
+    android:id="@+id/choose_layout"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar"/>
@@ -18,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:background="#ffffff"
         android:orientation="vertical">
 
         <LinearLayout
@@ -26,14 +28,14 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <EditText
+            <android.support.v7.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/edt_start_place"
                 android:layout_width="117dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/search_hint_left"
                 android:gravity="center"
                 android:maxWidth="117dp"
                 android:singleLine="true"
+                android:hint="@string/search_hint_left"
                 android:textColor="#b0abab"
                 android:textSize="24sp"/>
 
@@ -45,7 +47,7 @@
                 android:layout_marginRight="5dp"
                 android:src="@mipmap/exchange"/>
 
-            <EditText
+            <android.support.v7.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/edt_end_place"
                 android:layout_width="117dp"
                 android:layout_height="wrap_content"
@@ -64,14 +66,14 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <EditText
+            <TextView
                 android:id="@+id/edt_start_time"
                 android:layout_width="117dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_when"
                 android:gravity="center"
                 android:maxWidth="117dp"
-                android:singleLine="true"
+                android:lines="2"
                 android:textColor="#b0abab"
                 android:textSize="24sp"/>
 
@@ -83,14 +85,14 @@
                 android:layout_marginRight="5dp"
                 android:src="@mipmap/exchange_time"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/edt_end_time"
                 android:layout_width="117dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_when"
                 android:gravity="center"
                 android:maxWidth="117dp"
-                android:singleLine="true"
+                android:lines="2"
                 android:textColor="#b0abab"
                 android:textSize="24sp"/>
 
@@ -99,12 +101,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:textSize="18sp"
+                android:background="#f60"
                 android:textColor="#535351"
                 android:text="@string/tv_choose"/>
 
@@ -114,6 +119,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <Button
@@ -182,13 +188,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@mipmap/check"
-                android:layout_alignParentEnd="true" />
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/uncheck"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp" />
         </RelativeLayout>
 
         <Button
             android:id="@+id/btn_build"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:background="@drawable/btn_bg_select"
@@ -196,6 +204,8 @@
             android:textColor="#3c3b3a"
             android:text="@string/btn_route_plan" />
     </LinearLayout>
+
+
 
 
 
