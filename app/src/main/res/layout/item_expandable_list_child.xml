@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="10dp"
     android:orientation="horizontal">
 
     <ImageView
@@ -12,8 +13,8 @@
         android:layout_height="17dp"
         android:layout_marginLeft="24dp"
         android:layout_gravity="center_vertical"
-        android:src="@mipmap/expand_up"
-        android:layout_marginStart="24dp" />
+        android:src="@null"
+        android:layout_marginStart="24dp"/>
 
     <ImageView
         android:id="@+id/img_child_progress_undo"
@@ -25,35 +26,133 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_step"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
+            android:paddingLeft="5dp"
             android:textColor="#434344"
-            tools:text="加勒比水世界"/>
+            tools:text="加勒比水世界"
+            android:paddingStart="5dp"
+            tools:ignore="RtlSymmetry" />
 
-        <LinearLayout
+        <RelativeLayout
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/tv_travel"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginLeft="5dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
                 android:gravity="center"
                 android:background="@drawable/btn_bus_bg"
                 android:textSize="14sp"
-                android:textColor="#676767"
-                tools:text="346路"/>
+                android:textColor="@android:color/white"
+                tools:text="346路"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="5dp" />
 
             <TextView
+                android:id="@+id/tv_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textSize="14sp"
+                android:textColor="#676767"
                 tools:text="1.3公里（7分钟）"/>
+
+            <View
+                android:layout_width="160dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@+id/img_travel_category"
+                android:layout_toRightOf="@+id/tv_travel"
+                android:layout_below="@+id/tv_distance"
+                android:background="@color/select"
+                android:layout_toStartOf="@+id/img_travel_category"
+                android:layout_toEndOf="@+id/tv_travel" />
+
+            <ImageView
+                android:id="@+id/img_travel_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                tools:src="@mipmap/walk"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_broadcast"
+            android:visibility="gone"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginLeft="5dp"
+                    android:src="@mipmap/broadcast"
+                    android:layout_marginStart="5dp" />
+
+                <TextView
+                    android:id="@+id/tv_next_station"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="11sp"
+                    android:paddingLeft="3dp"
+                    tools:text="(下一站：两路口)"
+                    tools:ignore="RtlSymmetry,SmallSp"
+                    android:paddingStart="3dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginLeft="5dp"
+                    android:src="@mipmap/broadcast"
+                    android:layout_marginStart="5dp" />
+
+                <TextView
+                    android:id="@+id/tv_near_bus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="3dp"
+                    android:textSize="11sp"
+                    tools:text="最近一辆还有一站"
+                    tools:ignore="RtlSymmetry,SmallSp"
+                    android:paddingStart="3dp" />
+
+            </LinearLayout>
+
+
         </LinearLayout>
+
 
     </LinearLayout>
 

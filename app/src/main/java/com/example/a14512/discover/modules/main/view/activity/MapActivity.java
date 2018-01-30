@@ -28,7 +28,13 @@ import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
+import com.example.a14512.discover.modules.main.adpter.ExpandableListAdapter;
 import com.example.a14512.discover.utils.maputils.overlayutil.TransitRouteOverlay;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author 14512 on 2018/1/29
@@ -48,13 +54,42 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
 
     private PopupWindow mPopupWindow;
 
+    private Map<String, List<String>> mMap = new HashMap<>();
+    private List<String> mNodes = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        initData();
         initView();
         search();
         popupWindow();
+    }
+
+    private void initData() {
+        List<String> child1 = getChildList(1);
+        List<String> child2 = getChildList(2);
+        List<String> child3 = getChildList(3);
+        for (int i = 0; i <5; i++) {
+            String str = "parent" + i;
+            mNodes.add(str);
+        }
+        mMap.put(mNodes.get(0), child1);
+        mMap.put(mNodes.get(1), new ArrayList<>());
+        mMap.put(mNodes.get(2), child2);
+        mMap.put(mNodes.get(3), child3);
+        mMap.put(mNodes.get(4), new ArrayList<>());
+
+    }
+
+    private List<String> getChildList(int n) {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i <10; i++) {
+            String str = "child" + n + ":" + i;
+            list.add(str);
+        }
+        return list;
     }
 
     private void search() {
@@ -128,7 +163,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
 
     private void initView() {
         mPlace = findViewById(R.id.tv_show_place);
-        mListView = findViewById(R.id.expanded_list_view);
         mMapView = findViewById(R.id.texture_map);
         Button btnConfirm = findViewById(R.id.btn_confirm_plan);
         mBaiduMap = mMapView.getMap();
@@ -136,6 +170,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
         setStatusBarColor(R.color.mainToolbar);
         btnConfirm.setOnClickListener(this);
         mPlace.setOnClickListener(this);
+        mPlace.setText("邮电大学——解放碑");
     }
 
     @Override
@@ -161,6 +196,15 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
         mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
         mPopupWindow.setAnimationStyle(R.style.anim_bottom_bar);
+
+        popupWindowView();
+    }
+
+    private void popupWindowView() {
+        mListView = mPopupWindow.getContentView().findViewById(R.id.expanded_list_view);
+        ExpandableListAdapter adapter = new ExpandableListAdapter(this, mMap, mNodes);
+        mListView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
