@@ -12,10 +12,13 @@ import android.widget.ExpandableListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.route.BikingRouteResult;
+import com.baidu.mapapi.search.route.DrivingRouteLine;
+import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
 import com.baidu.mapapi.search.route.DrivingRouteResult;
 import com.baidu.mapapi.search.route.IndoorRouteResult;
 import com.baidu.mapapi.search.route.MassTransitRouteResult;
@@ -25,11 +28,18 @@ import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.baidu.mapapi.search.route.TransitRouteLine;
 import com.baidu.mapapi.search.route.TransitRoutePlanOption;
 import com.baidu.mapapi.search.route.TransitRouteResult;
+import com.baidu.mapapi.search.route.WalkingRouteLine;
+import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
+import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.main.adpter.ExpandableListAdapter;
-import com.example.a14512.discover.utils.maputils.overlayutil.TransitRouteOverlay;
+import com.example.a14512.discover.utils.ACache;
+import com.example.a14512.discover.utils.PLog;
+import com.example.a14512.discover.utils.mapapi.overlayutil.DrivingRouteOverlay;
+import com.example.a14512.discover.utils.mapapi.overlayutil.TransitRouteOverlay;
+import com.example.a14512.discover.utils.mapapi.overlayutil.WalkingRouteOverlay;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,18 +54,20 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "MapActivity";
 
     private TextView mPlace;
-    private ExpandableListView mListView;
-
     private RoutePlanSearch mSearch;
     private TextureMapView mMapView;
     private BaiduMap mBaiduMap;
 
-    private PlanNode stMassNode, enMassNode, lastNode;
+    private ArrayList<PlanNode> mPlanNodes = new ArrayList<>();
 
     private PopupWindow mPopupWindow;
-
-    private Map<String, List<String>> mMap = new HashMap<>();
+    private ExpandableListView mListView;
+    private Button mBtnBus, mBtnDriver, mBtnWalk;
+    private Map<String, List<TransitRouteLine.TransitStep>> mBusMap = new HashMap<>();
     private List<String> mNodes = new ArrayList<>();
+    private ExpandableListAdapter adapter;
+    private int position = 0;
+    private String city;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,43 +75,61 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_map);
         initData();
         initView();
-        search();
+        searchResult();
         popupWindow();
     }
 
     private void initData() {
-        List<String> child1 = getChildList(1);
-        List<String> child2 = getChildList(2);
-        List<String> child3 = getChildList(3);
-        for (int i = 0; i <5; i++) {
-            String str = "parent" + i;
-            mNodes.add(str);
+        BDLocation location = (BDLocation) ACache.getDefault().getAsObject(C.LOCATION);
+        if (location != null) {
+            city = location.getCity();
+            PLog.e(city);
+        } else {
+            city = "重庆市";
         }
-        mMap.put(mNodes.get(0), child1);
-        mMap.put(mNodes.get(1), new ArrayList<>());
-        mMap.put(mNodes.get(2), child2);
-        mMap.put(mNodes.get(3), child3);
-        mMap.put(mNodes.get(4), new ArrayList<>());
-
+        PLog.e(city);
+        mNodes.add("邮电大学");
+        mNodes.add("南坪");
+        mNodes.add("解放碑");
+        initPlanNodes();
     }
 
-    private List<String> getChildList(int n) {
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i <10; i++) {
-            String str = "child" + n + ":" + i;
-            list.add(str);
+    private void initPlanNodes() {
+        for (int i = 0; i < mNodes.size(); i++) {
+            PlanNode planNode = PlanNode.withCityNameAndPlaceName("重庆市", mNodes.get(i));
+            mPlanNodes.add(planNode);
         }
-        return list;
     }
 
-    private void search() {
+    private void searchResult() {
         mSearch = RoutePlanSearch.newInstance();
 
         OnGetRoutePlanResultListener routeListener = new OnGetRoutePlanResultListener(){
 
             @Override
-            public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
-
+            public void onGetWalkingRouteResult(WalkingRouteResult result) {
+                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                    //未找到结果
+                    return;
+                }
+                if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+                    //起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+                    //result.getSuggestAddrInfo()
+                    return;
+                }
+                Log.e(TAG, "walk start " + result.error);
+                if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+                    WalkingRouteLine route = result.getRouteLines().get(0);
+                    Log.e(TAG, "" + route.getTitle());
+                    List<WalkingRouteLine.WalkingStep> steps = route.getAllStep();
+                    WalkingRouteLine.WalkingStep step = steps.get(0);
+                    Log.e(TAG, step.getName() + "\n" + step.getEntranceInstructions() + "\n"
+                            + step.getExitInstructions() + "\n" + step.describeContents());
+                    WalkingRouteOverlay overlay = new WalkingRouteOverlay(mBaiduMap);
+                    overlay.setData(route);
+                    overlay.addToMap();
+                    overlay.zoomToSpan();
+                }
             }
 
             @Override
@@ -114,12 +144,22 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                     //result.getSuggestAddrInfo()
                     return;
                 }
-                Log.e(TAG, " start " + result.error);
+                Log.e(TAG, "bus start " + result.error);
                 if (result.error == SearchResult.ERRORNO.NO_ERROR) {
                     TransitRouteLine route = result.getRouteLines().get(0);
-                    Log.e(TAG, "" + route.getTitle());
-                    //创建公交路线规划线路覆盖物
 
+                    //创建公交路线规划线路覆盖物
+                    List<TransitRouteLine.TransitStep> steps = route.getAllStep();
+                    mBusMap.put(mNodes.get(position), steps);
+                    position++;
+                    PLog.e(":"+position);
+                    if (position == mNodes.size() - 1) {
+                        PLog.e(":"+position);
+                        mBusMap.put(mNodes.get(position), new ArrayList<>());
+                        adapter = new ExpandableListAdapter(MapActivity.this, mBusMap, mNodes);
+                        mListView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    }
                     TransitRouteOverlay overlay = new TransitRouteOverlay(mBaiduMap);
                     //设置公交路线规划数据
                     overlay.setData(route);
@@ -137,7 +177,28 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onGetDrivingRouteResult(DrivingRouteResult result) {
-
+                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                    //未找到结果
+                    return;
+                }
+                if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+                    //起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+                    //result.getSuggestAddrInfo()
+                    return;
+                }
+                Log.e(TAG, "drive start " + result.error);
+                if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+                    DrivingRouteLine route = result.getRouteLines().get(0);
+                    List<DrivingRouteLine.DrivingStep> steps = route.getAllStep();
+                    DrivingRouteLine.DrivingStep step = steps.get(0);
+                    Log.e(TAG, step.getName() + "\n" + step.getEntranceInstructions() + "\n"
+                            +step.getExitInstructions() + "\n" +step.getInstructions() + "\n"
+                            +step.getNumTurns());
+                    DrivingRouteOverlay overlay = new DrivingRouteOverlay(mBaiduMap);
+                    overlay.setData(route);
+                    overlay.addToMap();
+                    overlay.zoomToSpan();
+                }
             }
 
             @Override
@@ -152,13 +213,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
         };
 
         mSearch.setOnGetRoutePlanResultListener(routeListener);
-
-        stMassNode = PlanNode.withCityNameAndPlaceName("重庆市", "邮电大学");
-        enMassNode = PlanNode.withCityNameAndPlaceName("重庆市", "南坪");
-        lastNode = PlanNode.withCityNameAndPlaceName("重庆市", "解放碑");
-
-        mSearch.transitSearch(new TransitRoutePlanOption().from(stMassNode).city("重庆市").to(enMassNode));
-        mSearch.transitSearch(new TransitRoutePlanOption().from(enMassNode).city("重庆市").to(lastNode));
     }
 
     private void initView() {
@@ -177,13 +231,54 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_confirm_plan:
-
+                startIntentActivity(this, new MainActivity());
+                finish();
                 break;
             case R.id.tv_show_place:
                 mPopupWindow.showAtLocation(v, Gravity.BOTTOM, 0, 0);
                 break;
+            case R.id.btn_bus:
+                routePlanBus();
+                break;
+            case R.id.btn_car:
+                routePlanCar();
+                mPopupWindow.dismiss();
+                break;
+            case R.id.btn_walk:
+                routePlanWalk();
+                mPopupWindow.dismiss();
+                break;
             default:
                 break;
+        }
+    }
+
+    private void routePlanWalk() {
+        PLog.e(TAG, "walk click");
+        WalkingRoutePlanOption planOption = new WalkingRoutePlanOption();
+        for (int i = 0; i < mPlanNodes.size()-1; i++) {
+            PLog.e(TAG, "xunhuan");
+            mSearch.walkingSearch(planOption.from(mPlanNodes.get(i)).to(mPlanNodes.get(i+1)));
+        }
+    }
+
+    private void routePlanCar() {
+        DrivingRoutePlanOption planOption = new DrivingRoutePlanOption();
+        ArrayList<PlanNode> planNodes = new ArrayList<>();
+        for (int i = 1; i < mPlanNodes.size() - 1; i++) {
+            planNodes.add(mPlanNodes.get(i));
+        }
+        mSearch.drivingSearch(planOption.from(mPlanNodes.get(0)).to(mPlanNodes.get(mPlanNodes.size()-1))
+                .passBy(planNodes).currentCity(city));
+
+    }
+
+    private void routePlanBus() {
+        position = 0;
+        TransitRoutePlanOption planOption = new TransitRoutePlanOption();
+        for (int i = 0; i < mPlanNodes.size()-1; i++) {
+            PLog.e(TAG, "xunhuan");
+            mSearch.transitSearch(planOption.from(mPlanNodes.get(i)).city(city).to(mPlanNodes.get(i+1)));
         }
     }
 
@@ -201,10 +296,16 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void popupWindowView() {
+        mBtnBus = mPopupWindow.getContentView().findViewById(R.id.btn_bus);
+        mBtnDriver = mPopupWindow.getContentView().findViewById(R.id.btn_car);
+        mBtnWalk = mPopupWindow.getContentView().findViewById(R.id.btn_walk);
         mListView = mPopupWindow.getContentView().findViewById(R.id.expanded_list_view);
-        ExpandableListAdapter adapter = new ExpandableListAdapter(this, mMap, mNodes);
-        mListView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+
+        mBtnBus.setOnClickListener(this);
+        mBtnDriver.setOnClickListener(this);
+        mBtnWalk.setOnClickListener(this);
+
+        routePlanBus();
     }
 
     @Override

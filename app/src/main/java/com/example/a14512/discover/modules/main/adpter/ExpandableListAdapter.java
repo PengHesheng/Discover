@@ -1,7 +1,7 @@
 package com.example.a14512.discover.modules.main.adpter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +10,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.mapapi.search.route.TransitRouteLine.TransitStep.TransitRouteStepType;
 import com.example.a14512.discover.R;
+import com.example.a14512.discover.utils.Time;
 
 import java.util.List;
 import java.util.Map;
+
+import static com.baidu.mapapi.search.route.TransitRouteLine.TransitStep;
 
 /**
  * @author 14512 on 2018/1/30
@@ -21,16 +25,16 @@ import java.util.Map;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private static final String TAG = "ExpandableListAdapter";
+    private static final int DISTANCE = 1000;
     private Context mContext;
-    private Map<String, List<String>> mMap;
+    private Map<String, List<TransitStep>> mMap;
     private List<String> mNodes;
 
-    public ExpandableListAdapter(Context context, Map<String, List<String>> map, List<String> nodes) {
+    public ExpandableListAdapter(Context context, Map<String, List<TransitStep>> map, List<String> nodes) {
         this.mContext = context;
         this.mMap = map;
         this.mNodes = nodes;
     }
-
 
     @Override
     public int getGroupCount() {
@@ -113,18 +117,55 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     private void bindChildHolder(int groupPosition, int childPosition, ChildViewHolder holder) {
-        Log.e(TAG, "" + groupPosition + "::" + childPosition);
         if (childPosition == 0) {
             holder.imgExpand.setBackgroundResource(R.mipmap.expand_up);
         }
-        String str = (String) getChild(groupPosition, childPosition);
-        holder.tvStepName.setText(str);
-        holder.tvTravel.setText("步行");
-        holder.tvDistance.setText("1.3公里（7分钟）");
-        holder.imgTravelCategory.setBackgroundResource(R.mipmap.bus);
-        if (str != null) {
-            holder.mLayout.setVisibility(View.VISIBLE);
+
+        TransitStep step = (TransitStep) getChild(groupPosition, childPosition);
+        holder.tvStepName.setText(step.getName());
+//        holder.tvTravel.setText(step.getVehicleInfo().getTitle());
+
+        vehicleType(holder, step.getStepType(), step);
+//        if (str != null) {
+//            holder.mLayout.setVisibility(View.VISIBLE);
+//        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void vehicleType(ChildViewHolder holder, TransitRouteStepType type, TransitStep step) {
+        switch (type) {
+            case BUSLINE:
+                holder.tvDistance.setText(String.valueOf(step.getVehicleInfo().getPassStationNum())
+                        + "站(" + Time.tranceSecondToTime(step.getDuration()) + ")");
+                holder.tvTravel.setText(step.getVehicleInfo().getTitle());
+                holder.imgTravelCategory.setBackgroundResource(R.mipmap.bus);
+                break;
+            case SUBWAY:
+                holder.tvDistance.setText(String.valueOf(step.getVehicleInfo().getPassStationNum())
+                        + "站(" + Time.tranceSecondToTime(step.getDuration()) + ")");
+                holder.tvTravel.setText(step.getVehicleInfo().getTitle());
+                holder.imgTravelCategory.setBackgroundResource(R.mipmap.subway);
+                break;
+            case WAKLING:
+                String distance = justDistance(step.getDistance(), step.getDuration());
+                holder.tvDistance.setText(distance);
+                holder.tvTravel.setText("步行");
+                holder.imgTravelCategory.setBackgroundResource(R.mipmap.walk);
+                break;
+            default:
+                break;
         }
+    }
+
+    private String justDistance(int distance, int duration) {
+        String disAndDur;
+        if (distance > DISTANCE) {
+            disAndDur = distance / DISTANCE + "公里" + (distance - distance / DISTANCE * DISTANCE) + "米";
+        } else {
+            disAndDur = distance + "米";
+        }
+        disAndDur = disAndDur + Time.tranceSecondToTime(duration);
+        return disAndDur;
     }
 
     @Override

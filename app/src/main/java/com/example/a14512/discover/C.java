@@ -33,4 +33,9 @@ public class C {
     public static final String AFTERNOON = "afternoon";
     public static final String EVENING = "evening";
 
+    /**
+     * ChooseActivity location
+     */
+    public static final String LOCATION = "location";
+
 }

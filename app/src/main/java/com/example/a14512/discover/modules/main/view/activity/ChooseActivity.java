@@ -26,11 +26,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseSwipeBackActivity;
 import com.example.a14512.discover.modules.main.presenter.ChoosePresenterImp;
 import com.example.a14512.discover.modules.main.view.imp.IChooseView;
+import com.example.a14512.discover.utils.ACache;
 import com.example.a14512.discover.utils.DateTimePicker;
+import com.example.a14512.discover.utils.PLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +80,7 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
         mLocationClient.registerLocationListener(new BDAbstractLocationListener() {
             @Override
             public void onReceiveLocation(BDLocation location) {
+                ACache.getDefault().put(C.LOCATION, location);
                 //获取详细地址信息
                 String addr = location.getAddrStr();
                 //获取国家
@@ -85,6 +89,7 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
                 String province = location.getProvince();
                 //获取城市
                 city = location.getCity();
+                PLog.e(city);
                 //获取区县
                 String district = location.getDistrict();
                 //获取街道信息

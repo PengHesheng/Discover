@@ -73,6 +73,9 @@
         <activity android:name=".modules.main.view.activity.MapActivity"
             android:theme="@style/SwipeBack.Transparent.Theme" />
 
+        <activity android:name=".modules.main.view.activity.ScenicActivity"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="KdSXm6WC6PUH37vlp8dFjhAScQGDcGGL" />

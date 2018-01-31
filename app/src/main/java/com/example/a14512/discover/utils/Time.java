@@ -13,6 +13,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ *
+ */
 public class Time {
 
     /**
@@ -265,5 +268,43 @@ public class Time {
     public static int getNowDay() {
         Calendar c = Calendar.getInstance();
         return c.get(Calendar.DAY_OF_MONTH);
+    }
+
+    /**
+     * 将秒转换为时-分-秒
+     * @param duration
+     * @return
+     */
+    public static String tranceSecondToTime(int duration) {
+        String str;
+        int hour = duration / 3600;
+        int minute = (duration - hour * 3600) / 60;
+        int second = duration - hour * 3600 - minute * 60;
+        if (hour == 0) {
+            if (minute == 0) {
+                str = second + "秒";
+            } else {
+                if (second == 0) {
+                    str = minute + "分";
+                } else {
+                    str = minute + "分" + second + "秒";
+                }
+            }
+        } else {
+            if (minute == 0) {
+                if (second == 0) {
+                    str = hour + "小时";
+                } else {
+                    str = hour + "小时" + second + "秒";
+                }
+            } else {
+                if (second == 0) {
+                    str = hour + "小时" + minute + "分";
+                } else {
+                    str = hour + "小时" + minute + "分" + second + "秒";
+                }
+            }
+        }
+        return str;
     }
 }

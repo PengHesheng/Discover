@@ -1,10 +1,10 @@
 /*
  * Copyright (C) 2016 Baidu, Inc. All Rights Reserved.
  */
-package com.example.a14512.discover.utils.maputils.overlayutil;
+package com.example.a14512.discover.utils.mapapi.overlayutil;
 
-import android.graphics.Color;
-import android.os.Bundle;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -17,8 +17,8 @@ import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.route.IndoorRouteLine;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.graphics.Color;
+import android.os.Bundle;
 
 public class IndoorRouteOverlay extends OverlayManager {
 

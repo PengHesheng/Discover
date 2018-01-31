@@ -16,21 +16,21 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="公交"/>
+            android:text="@string/tv_travel_bus"/>
 
         <Button
             android:id="@+id/btn_car"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="自驾"/>
+            android:text="@string/tv_travel_car"/>
 
         <Button
             android:id="@+id/btn_walk"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="步行"/>
+            android:text="@string/tv_travel_walk"/>
     </LinearLayout>
 
     <ExpandableListView

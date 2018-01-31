@@ -1,4 +1,4 @@
-package com.example.a14512.discover.utils.maputils.overlayutil;
+package com.example.a14512.discover.utils.mapapi.overlayutil;
 
 import android.graphics.Color;
 import android.os.Bundle;
