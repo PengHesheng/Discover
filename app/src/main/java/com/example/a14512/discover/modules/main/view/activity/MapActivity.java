@@ -57,12 +57,14 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
     private RoutePlanSearch mSearch;
     private TextureMapView mMapView;
     private BaiduMap mBaiduMap;
+    private ArrayList<WalkingRouteOverlay> mWalkOverlays = new ArrayList<>();
+    private ArrayList<TransitRouteOverlay> mTransitOverlays = new ArrayList<>();
+    private ArrayList<DrivingRouteOverlay> mDriveOverlays = new ArrayList<>();
 
     private ArrayList<PlanNode> mPlanNodes = new ArrayList<>();
 
     private PopupWindow mPopupWindow;
     private ExpandableListView mListView;
-    private Button mBtnBus, mBtnDriver, mBtnWalk;
     private Map<String, List<TransitRouteLine.TransitStep>> mBusMap = new HashMap<>();
     private List<String> mNodes = new ArrayList<>();
     private ExpandableListAdapter adapter;
@@ -126,6 +128,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                     Log.e(TAG, step.getName() + "\n" + step.getEntranceInstructions() + "\n"
                             + step.getExitInstructions() + "\n" + step.describeContents());
                     WalkingRouteOverlay overlay = new WalkingRouteOverlay(mBaiduMap);
+                    mWalkOverlays.add(overlay);
                     overlay.setData(route);
                     overlay.addToMap();
                     overlay.zoomToSpan();
@@ -161,6 +164,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                         adapter.notifyDataSetChanged();
                     }
                     TransitRouteOverlay overlay = new TransitRouteOverlay(mBaiduMap);
+                    mTransitOverlays.add(overlay);
                     //设置公交路线规划数据
                     overlay.setData(route);
                     //将公交路线规划覆盖物添加到地图中
@@ -195,6 +199,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                             +step.getExitInstructions() + "\n" +step.getInstructions() + "\n"
                             +step.getNumTurns());
                     DrivingRouteOverlay overlay = new DrivingRouteOverlay(mBaiduMap);
+                    mDriveOverlays.add(overlay);
                     overlay.setData(route);
                     overlay.addToMap();
                     overlay.zoomToSpan();
@@ -238,19 +243,62 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                 mPopupWindow.showAtLocation(v, Gravity.BOTTOM, 0, 0);
                 break;
             case R.id.btn_bus:
+                changeRoute(1);
                 routePlanBus();
                 break;
             case R.id.btn_car:
+                changeRoute(2);
                 routePlanCar();
                 mPopupWindow.dismiss();
                 break;
             case R.id.btn_walk:
+                changeRoute(3);
                 routePlanWalk();
                 mPopupWindow.dismiss();
                 break;
             default:
                 break;
         }
+    }
+
+    private void changeRoute(int type) {
+        switch (type) {
+            case 1:
+                clearCar();
+                clearWalk();
+                break;
+            case 2:
+                clearBus();
+                clearWalk();
+                break;
+            case 3:
+                clearBus();
+                clearCar();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void clearBus() {
+        for (TransitRouteOverlay overlay : mTransitOverlays) {
+            overlay.removeFromMap();
+        }
+        mTransitOverlays.clear();
+    }
+
+    private void clearWalk() {
+        for (WalkingRouteOverlay overlay : mWalkOverlays) {
+            overlay.removeFromMap();
+        }
+        mWalkOverlays.clear();
+    }
+
+    private void clearCar() {
+        for (DrivingRouteOverlay overlay : mDriveOverlays) {
+            overlay.removeFromMap();
+        }
+        mDriveOverlays.clear();
     }
 
     private void routePlanWalk() {
@@ -260,6 +308,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
             PLog.e(TAG, "xunhuan");
             mSearch.walkingSearch(planOption.from(mPlanNodes.get(i)).to(mPlanNodes.get(i+1)));
         }
+//        mSearch.walkingSearch(planOption.from(mPlanNodes.get(0)).to(mPlanNodes.get(1)));
     }
 
     private void routePlanCar() {
@@ -268,8 +317,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
         for (int i = 1; i < mPlanNodes.size() - 1; i++) {
             planNodes.add(mPlanNodes.get(i));
         }
-        mSearch.drivingSearch(planOption.from(mPlanNodes.get(0)).to(mPlanNodes.get(mPlanNodes.size()-1))
-                .passBy(planNodes).currentCity(city));
+        mSearch.drivingSearch(planOption.from(mPlanNodes.get(0)).to(mPlanNodes.get(mPlanNodes.size()-1)));
 
     }
 
@@ -277,9 +325,9 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
         position = 0;
         TransitRoutePlanOption planOption = new TransitRoutePlanOption();
         for (int i = 0; i < mPlanNodes.size()-1; i++) {
-            PLog.e(TAG, "xunhuan");
             mSearch.transitSearch(planOption.from(mPlanNodes.get(i)).city(city).to(mPlanNodes.get(i+1)));
         }
+//        mSearch.transitSearch(planOption.from(mPlanNodes.get(mPlanNodes.size() - 1)).to(mPlanNodes.get(0)));
     }
 
     private void popupWindow() {
@@ -296,14 +344,14 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void popupWindowView() {
-        mBtnBus = mPopupWindow.getContentView().findViewById(R.id.btn_bus);
-        mBtnDriver = mPopupWindow.getContentView().findViewById(R.id.btn_car);
-        mBtnWalk = mPopupWindow.getContentView().findViewById(R.id.btn_walk);
+        Button btnBus = mPopupWindow.getContentView().findViewById(R.id.btn_bus);
+        Button btnDriver = mPopupWindow.getContentView().findViewById(R.id.btn_car);
+        Button btnWalk = mPopupWindow.getContentView().findViewById(R.id.btn_walk);
         mListView = mPopupWindow.getContentView().findViewById(R.id.expanded_list_view);
 
-        mBtnBus.setOnClickListener(this);
-        mBtnDriver.setOnClickListener(this);
-        mBtnWalk.setOnClickListener(this);
+        btnBus.setOnClickListener(this);
+        btnDriver.setOnClickListener(this);
+        btnWalk.setOnClickListener(this);
 
         routePlanBus();
     }

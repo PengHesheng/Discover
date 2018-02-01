@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_community_detail_item_portrait"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:paddingLeft="5dp"
+            android:layout_centerVertical="true"
+            tools:src="@mipmap/ic_launcher_round"
+            android:paddingStart="5dp"
+            tools:ignore="RtlSymmetry" />
+
+        <TextView
+            android:id="@+id/tv_community_detail_item_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/img_community_detail_item_portrait"
+            android:textColor="#626262"
+            android:layout_marginLeft="11dp"
+            android:textSize="14sp"
+            tools:text="迷途的汪汪"
+            android:layout_marginStart="11dp"
+            android:layout_toEndOf="@+id/img_community_detail_item_portrait" />
+
+        <TextView
+            android:id="@+id/tv_community_detail_item_comment_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:textColor="#868686"
+            android:layout_marginLeft="11dp"
+            android:layout_toRightOf="@+id/img_community_detail_item_portrait"
+            android:layout_below="@+id/tv_community_detail_item_user_name"
+            tools:text="今天12:11"
+            android:layout_toEndOf="@+id/img_community_detail_item_portrait"
+            android:layout_marginStart="11dp"
+            tools:ignore="SmallSp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:gravity="center_vertical"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp">
+
+            <ImageView
+                android:id="@+id/img_detail_item_zan"
+                android:layout_width="18dp"
+                android:layout_height="19dp"
+                android:layout_marginRight="15dp"
+                android:src="@mipmap/no_zan"
+                android:layout_marginEnd="15dp" />
+
+            <ImageView
+                android:id="@+id/img_detail_item_comment"
+                android:layout_width="18dp"
+                android:layout_height="19dp"
+                android:src="@mipmap/comment"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tv_community_detail_item_comment_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:layout_marginLeft="43dp"
+        android:layout_marginRight="43dp"
+        android:textSize="15sp"
+        android:textColor="#626262"
+        tools:text="这家店是真的味道不错诶，..." />
+
+</LinearLayout>

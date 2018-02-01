@@ -1,17 +1,18 @@
 package com.example.a14512.discover;
 
-import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.example.a14512.discover.utils.PLog;
 import com.example.a14512.discover.utils.SharedPreferencesUtil;
+import com.mob.MobApplication;
 
 /**
  * @author 14512 on 2018/1/27
  */
 
-public class DiscoverApplication extends Application {
+public class DiscoverApplication extends MobApplication {
     private static Context mContext;
     public static String cacheDir = "";
 
@@ -30,6 +31,8 @@ public class DiscoverApplication extends Application {
         //在使用SDK各组件之前初始化context信息，传入ApplicationContext
         //注意该方法要再setContentView方法之前实现
         SDKInitializer.initialize(mContext);
+        MultiDex.install(this);
+//        MobSDK.init(mContext);
         /**
          * 如果存在SD卡则将缓存写入SD卡,否则写入手机内存
          */

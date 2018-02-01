@@ -1,16 +1,21 @@
 package com.example.a14512.discover.modules.main.adpter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
-import com.example.a14512.discover.modules.main.modle.Scenic;
+import com.example.a14512.discover.modules.main.modle.entity.Scenic;
+import com.example.a14512.discover.modules.main.view.activity.ScenicActivity;
 
 import java.util.ArrayList;
 
@@ -20,7 +25,7 @@ import java.util.ArrayList;
 
 public class RoutePlanAdapter extends RecyclerView.Adapter {
     private Context mContext;
-    private ArrayList<Scenic> mScenics;
+    private ArrayList<Scenic> mScenics = new ArrayList<>();
 
     private OnItemClickListener mOnItemClickListener;
 
@@ -48,18 +53,29 @@ public class RoutePlanAdapter extends RecyclerView.Adapter {
                 ((ScenicViewHolder) holder).name.setText(scenic.name);
                 ((ScenicViewHolder) holder).monthAver.setText(scenic.monthAver);
                 ((ScenicViewHolder) holder).peopleAver.setText(scenic.peopleAver);
-                ((ScenicViewHolder) holder).place.setText(scenic.place);
-                Glide.with(mContext).load(scenic.img).into(((ScenicViewHolder) holder).img);
+                ((ScenicViewHolder) holder).place.setText(scenic.location);
+                Glide.with(mContext).load(scenic.img)
+                        .error(R.mipmap.ic_launcher).into(((ScenicViewHolder) holder).img);
             }
             //如果设置了回调，则设置点击事件
             if (mOnItemClickListener != null) {
                 ((ScenicViewHolder) holder).delete.setOnClickListener(view -> {
-                    mOnItemClickListener.onItemClick(((ScenicViewHolder) holder).delete, position);
+                    mOnItemClickListener.onOnePartyClick(((ScenicViewHolder) holder).delete, position);
                 });
+
+                ((ScenicViewHolder) holder).mLayout.setOnClickListener(v -> startActivityWithData(scenic));
             }
         } else {
 
         }
+    }
+
+    private void startActivityWithData(Scenic scenic) {
+        Intent intent = new Intent(mContext, ScenicActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(C.SCENIC_DETAIL, scenic);
+        intent.putExtra(C.SCENIC_DETAIL, bundle);
+        mContext.startActivity(intent);
     }
 
     @Override
@@ -70,9 +86,11 @@ public class RoutePlanAdapter extends RecyclerView.Adapter {
     public class ScenicViewHolder extends RecyclerView.ViewHolder {
         TextView time, name, monthAver, peopleAver, place;
         ImageView img, delete;
+        LinearLayout mLayout;
 
         public ScenicViewHolder(View itemView) {
             super(itemView);
+            mLayout = itemView.findViewById(R.id.layout_no_delete);
             time = itemView.findViewById(R.id.tv_recommend_time);
             name = itemView.findViewById(R.id.tv_scenic_name);
             monthAver = itemView.findViewById(R.id.tv_month_aver);

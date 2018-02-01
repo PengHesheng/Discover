@@ -42,6 +42,7 @@ public class TravelKnowledgeActivity extends BaseSwipeBackActivity {
         ListView listView = findViewById(R.id.list_view_travel);
 
         setSupportActionBar(toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.mainToolbar));
         setStatusBarColor(R.color.mainToolbar);
         title.setText("旅游小知识");
 

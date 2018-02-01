@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp"
+    android:paddingTop="19dp"
+    android:layout_marginTop="5dp"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    tools:ignore="RtlSymmetry">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/img_community_portrait"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_centerVertical="true"
+            tools:src="@mipmap/ic_launcher_round" />
+
+        <TextView
+            android:id="@+id/tv_community_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/img_community_portrait"
+            android:textColor="#545555"
+            android:layout_marginLeft="10dp"
+            android:textSize="14sp"
+            tools:text="迷途的汪汪"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/img_community_portrait" />
+
+        <TextView
+            android:id="@+id/tv_comment_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            tools:text="今天11:40"
+            android:layout_alignParentEnd="true" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_community_comment_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:layout_marginLeft="3dp"
+        android:textSize="14sp"
+        android:textColor="#545555"
+        tools:text="这家店是真的味道不错诶，..."
+        android:layout_marginStart="3dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="right|center_vertical"
+        tools:ignore="RtlHardcoded">
+
+        <ImageView
+            android:id="@+id/img_community_zan"
+            android:layout_width="15dp"
+            android:layout_height="16dp"
+            android:src="@mipmap/no_zan" />
+
+        <TextView
+            android:id="@+id/tv_community_zan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            tools:text="11"
+            android:textColor="#656464"
+            />
+
+        <ImageView
+            android:id="@+id/img_community_comment"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/comment" />
+
+        <TextView
+            android:id="@+id/tv_community_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            tools:text="11"
+            android:textColor="#656464"
+            />
+
+        <ImageView
+            android:id="@+id/img_community_transmit"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/transmit" />
+
+        <TextView
+            android:id="@+id/tv_comment_transmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            tools:text="4"
+            android:textColor="#656464"
+            android:layout_marginRight="15dp"/>
+    </LinearLayout>
+</LinearLayout>

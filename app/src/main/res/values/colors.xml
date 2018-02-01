@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#2f3234</color>
     <color name="colorAccent">#FF4081</color>
 
     <color name="mainToolbar">#2f3234</color>
@@ -9,4 +9,5 @@
     <color name="select">#fe926c</color>
 
     <color name="unSelect">#dad7d7</color>
+
 </resources>

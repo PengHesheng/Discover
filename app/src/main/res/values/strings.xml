@@ -26,4 +26,5 @@
     <string name="tv_details_comment">用户评价</string>
     <string name="tv_zan">赞</string>
     <string name="tv_comment">评论</string>
+    <string name="tv_all_comment">全部评论</string>
 </resources>

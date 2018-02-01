@@ -14,6 +14,8 @@ import com.baidu.mapapi.search.route.TransitRouteLine.TransitStep.TransitRouteSt
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.utils.Time;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,8 +29,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private static final String TAG = "ExpandableListAdapter";
     private static final int DISTANCE = 1000;
     private Context mContext;
-    private Map<String, List<TransitStep>> mMap;
-    private List<String> mNodes;
+    private Map<String, List<TransitStep>> mMap = new HashMap<>();
+    private List<String> mNodes = new ArrayList<>();
 
     public ExpandableListAdapter(Context context, Map<String, List<TransitStep>> map, List<String> nodes) {
         this.mContext = context;

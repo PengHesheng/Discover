@@ -2,7 +2,7 @@ package com.example.a14512.discover.modules.main.presenter;
 
 import com.example.a14512.discover.C;
 import com.example.a14512.discover.modules.main.modle.ModelImp;
-import com.example.a14512.discover.modules.main.modle.Scenic;
+import com.example.a14512.discover.modules.main.modle.entity.Scenic;
 import com.example.a14512.discover.modules.main.presenter.imp.IRoutePlanPresenter;
 import com.example.a14512.discover.modules.main.view.imp.IRoutePlanView;
 
@@ -28,10 +28,11 @@ public class RoutePlanPresenterImp implements IRoutePlanPresenter{
             Scenic scenic = new Scenic();
             scenic.name = "name" +i;
             scenic.monthAver = "人气" + 80 + i;
-            scenic.peopleAver = "人均" + 50 +i;
-            scenic.place = "南坪" + i;
+            scenic.peopleAver =  "" + 50 +i;
+            scenic.location = "南坪" + i;
             scenic.time = "8:00-10:00" + i;
             scenic.img = "R.mipmap.ic_launcher";
+            scenic.content = "打开了房间哈收到两份卢卡斯地方那蓝色的发货了安利的福建省啊进了房间拉萨的空间放辣椒" + i;
             mScenics.add(scenic);
         }
     }
@@ -68,7 +69,7 @@ public class RoutePlanPresenterImp implements IRoutePlanPresenter{
             scenic.name = "names" +i;
             scenic.monthAver = "人气s" + 80 + i;
             scenic.peopleAver = "人均s" + 50 +i;
-            scenic.place = "南坪s" + i;
+            scenic.location = "南坪s" + i;
             scenic.time = "8:00-10:00s" + i;
             scenic.img = "R.mipmap.ic_launcher";
             scenics.add(scenic);

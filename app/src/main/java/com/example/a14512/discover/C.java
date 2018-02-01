@@ -38,4 +38,9 @@ public class C {
      */
     public static final String LOCATION = "location";
 
+    /**
+     * RoutePlanAdapter 传递Bundle数据
+     */
+    public static final String SCENIC_DETAIL = "scenic_detail";
+
 }

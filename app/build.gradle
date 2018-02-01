@@ -9,6 +9,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        // Enabling multidex support.
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -24,6 +26,7 @@ android {
     }
 
 }
+
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -52,5 +55,10 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:2.0.1'
     implementation 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     implementation 'com.qiniu:qiniu-android-sdk:7.3.10'
+    //百度地图
     implementation files('libs/BaiduLBS_Android.jar')
+    //分享SDK
+    implementation files('libs/MobCommons-2018.0131.1510.jar')
+
+    implementation 'com.android.support:multidex:1.0.2'
 }

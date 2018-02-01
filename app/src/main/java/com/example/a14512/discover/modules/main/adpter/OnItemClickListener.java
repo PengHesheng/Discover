@@ -12,5 +12,5 @@ public interface OnItemClickListener {
      * @param view
      * @param position
      */
-    void onItemClick(View view, int position);
+    void onOnePartyClick(View view, int position);
 }

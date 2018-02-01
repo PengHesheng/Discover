@@ -106,7 +106,8 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
     private void initToolbar() {
         setSupportActionBar(toolbar);
         setStatusBarColor(R.color.mainToolbar);
-        mRight.setBackgroundResource(R.mipmap.share);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.mainToolbar));
+        Glide.with(this).load(R.mipmap.share).into(mRight);
         mTitle.setText("生成行程计划表");
         mBack.setOnClickListener(v -> finish());
     }

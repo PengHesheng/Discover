@@ -13,7 +13,7 @@ import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseSwipeBackActivity;
 import com.example.a14512.discover.modules.main.adpter.CustomLinearLayoutManager;
 import com.example.a14512.discover.modules.main.adpter.RoutePlanAdapter;
-import com.example.a14512.discover.modules.main.modle.Scenic;
+import com.example.a14512.discover.modules.main.modle.entity.Scenic;
 import com.example.a14512.discover.modules.main.presenter.RoutePlanPresenterImp;
 import com.example.a14512.discover.modules.main.view.imp.IRoutePlanView;
 
@@ -65,6 +65,7 @@ public class RoutePlanActivity extends BaseSwipeBackActivity implements IRoutePl
     private void initToolbar() {
         setSupportActionBar(toolbar);
         setStatusBarColor(R.color.mainToolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.mainToolbar));
         mBack.setOnClickListener(v -> finish());
     }
 
@@ -78,7 +79,7 @@ public class RoutePlanActivity extends BaseSwipeBackActivity implements IRoutePl
         mEveningRecyclerView = findViewById(R.id.evening_recycler_view);
 
 
-        Button btnBuild = (Button) findViewById(R.id.btn_build);
+        Button btnBuild = findViewById(R.id.btn_build);
         btnBuild.setOnClickListener(this);
     }
 

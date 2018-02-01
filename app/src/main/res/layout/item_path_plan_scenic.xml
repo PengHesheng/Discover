@@ -4,19 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
     android:layout_marginTop="10dp"
     android:orientation="horizontal">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:gravity="center"
+        android:id="@+id/layout_no_delete"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_recommend_time"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:paddingLeft="11dp"
@@ -26,117 +25,122 @@
             android:paddingStart="11dp"
             tools:ignore="RtlSymmetry" />
 
+        <View
+            android:layout_width="1dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/select"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img_scenic"
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_centerVertical="true"
+                tools:src="@mipmap/ic_launcher_round" />
+
+            <LinearLayout
+                android:layout_toRightOf="@+id/img_scenic"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/img_scenic"
+                android:layout_marginStart="10dp">
+
+                <TextView
+                    android:id="@+id/tv_scenic_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="加勒比水世界"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginLeft="23dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@mipmap/soft_hits"
+                        android:layout_marginStart="23dp"
+                        android:layout_marginEnd="5dp" />
+
+                    <TextView
+                        android:id="@+id/tv_month_aver"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:textColor="#939291"
+                        tools:text="人气88"
+                        tools:ignore="SmallSp" />
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@mipmap/money"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="5dp" />
+
+                    <TextView
+                        android:id="@+id/tv_people_aver"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:textColor="#939291"
+                        tools:text="人均80元"
+                        tools:ignore="SmallSp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_marginLeft="9dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@mipmap/location_icon"
+                        android:layout_marginStart="9dp"
+                        android:layout_marginEnd="5dp" />
+
+                    <TextView
+                        android:id="@+id/tv_place"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="#7b7978"
+                        tools:text="南山"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
     </LinearLayout>
 
-
-    <View
-        android:layout_width="1dp"
-        android:layout_height="60dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="5dp"
-        android:background="@color/select"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="5dp" />
-
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/img_scenic"
-            android:layout_width="80dp"
-            android:layout_height="60dp"
-            android:layout_centerVertical="true"
-            tools:src="@mipmap/ic_launcher_round" />
-
-        <LinearLayout
-            android:layout_toRightOf="@+id/img_scenic"
-            android:layout_marginLeft="10dp"
-            android:orientation="vertical"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/img_scenic"
-            android:layout_marginStart="10dp">
-
-            <TextView
-                android:id="@+id/tv_scenic_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="加勒比水世界"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_marginLeft="23dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@mipmap/soft_hits"
-                    android:layout_marginStart="23dp"
-                    android:layout_marginEnd="5dp" />
-
-                <TextView
-                    android:id="@+id/tv_month_aver"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:textColor="#939291"
-                    tools:text="人气88"
-                    tools:ignore="SmallSp" />
-
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@mipmap/money"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginEnd="5dp" />
-
-                <TextView
-                    android:id="@+id/tv_people_aver"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:textColor="#939291"
-                    tools:text="人均80元"
-                    tools:ignore="SmallSp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:layout_marginLeft="9dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@mipmap/location_icon"
-                    android:layout_marginStart="9dp"
-                    android:layout_marginEnd="5dp" />
-
-                <TextView
-                    android:id="@+id/tv_place"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="#7b7978"
-                    tools:text="南山"/>
-            </LinearLayout>
-
-
-        </LinearLayout>
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/img_delete"
@@ -148,8 +152,8 @@
             android:src="@mipmap/delete"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp" />
-    </RelativeLayout>
 
+    </RelativeLayout>
 
 
 </LinearLayout>

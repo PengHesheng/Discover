@@ -49,6 +49,9 @@ public abstract class OverlayManager implements OnMarkerClickListener, OnPolylin
         }
     }
 
+    protected OverlayManager() {
+    }
+
     /**
      * 覆写此方法设置要管理的Overlay列表
      * 
@@ -78,7 +81,7 @@ public abstract class OverlayManager implements OnMarkerClickListener, OnPolylin
     /**
      * 将所有Overlay 从 地图上消除
      */
-    public final void removeFromMap() {
+    public void removeFromMap() {
         if (mBaiduMap == null) {
             return;
         }
