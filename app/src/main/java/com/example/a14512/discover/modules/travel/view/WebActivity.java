@@ -1,4 +1,4 @@
-package com.example.a14512.discover.modules.travel;
+package com.example.a14512.discover.modules.travel.view;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -37,6 +37,7 @@ public class WebActivity extends BaseSwipeBackActivity {
 
         setSupportActionBar(toolbar);
         setStatusBarColor(R.color.mainToolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.mainToolbar));
         back.setOnClickListener(v -> finish());
 
         title1.setText(title);
@@ -44,6 +45,8 @@ public class WebActivity extends BaseSwipeBackActivity {
         settings.setJavaScriptEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setSupportMultipleWindows(true);
+        settings.setLoadsImagesAutomatically(true);
+//        webView.clearCache(true);
         webView.loadUrl(url);
 
     }

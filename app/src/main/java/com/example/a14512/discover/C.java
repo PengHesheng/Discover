@@ -12,6 +12,7 @@ public class C {
      *      同时，退出登陆的缓存需存在/Login文件夹下
      */
 
+
     // 其他信息
     // 日志文件的日期信息
     public static final String LOG_DATE = "log_date";
@@ -25,6 +26,7 @@ public class C {
     public static final int PICK_FROM_FILE = 4;
     public static final int CHOOSE_CROPED_PICTURE = 5;
     public static final int UPLOAD_PICTURE = 6;
+    public static final int LOGIN = 7;
 
     /**
      * route plan time
@@ -42,5 +44,15 @@ public class C {
      * RoutePlanAdapter 传递Bundle数据
      */
     public static final String SCENIC_DETAIL = "scenic_detail";
+
+    /**
+     * 城市
+     */
+    public static final String CHONG_QING = "重庆市";
+
+    /**
+     * 天气接口APIkey
+     */
+    public static final String WEATHER_KEY = "ba017b1a8a1f4f0fb5912bb2295d21a9";
 
 }

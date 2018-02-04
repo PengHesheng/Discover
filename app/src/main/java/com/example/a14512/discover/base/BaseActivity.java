@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -54,67 +53,43 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * 活动跳转
      * @param activity1 当前活动
-     * @param activity2 目标活动
+     * @param cls 目标活动
      */
-    public void startIntentActivity(BaseActivity activity1,BaseActivity activity2){
+    public void  startIntentActivity(BaseActivity activity1, Class<?> cls) {
         Intent intent = new Intent();
-        intent.setClass(activity1, activity2.getClass());
+        intent.setClass(activity1, cls);
         startActivity(intent);
     }
 
     /**
      * 活动跳转
      * @param activity1 当前活动
-     * @param activity2 目标活动
+     * @param cls 目标活动
      * @param name
      * @param value
      */
-    public void startIntentActivity(BaseActivity activity1,BaseActivity activity2, String name, String value){
+    public void startIntentActivity(BaseActivity activity1,Class<?> cls, String name, String value){
         Intent intent = new Intent();
         intent.putExtra(name, value);
-        intent.setClass(activity1, activity2.getClass());
+        intent.setClass(activity1, cls);
         startActivity(intent);
     }
 
     /**
      * 活动跳转
      * @param activity1 当前活动
-     * @param activity2 目标活动
+     * @param cls 目标活动
      * @param name1
      * @param value1
      * @param name2
      * @param value2
      */
-    public void startIntentActivity(BaseActivity activity1,BaseActivity activity2, String name1, String value1, String name2, String value2){
+    public void startIntentActivity(BaseActivity activity1,Class<?> cls, String name1, String value1, String name2, String value2){
         Intent intent = new Intent();
         intent.putExtra(name1, value1);
         intent.putExtra(name2, value2);
-        intent.setClass(activity1, activity2.getClass());
+        intent.setClass(activity1, cls);
         startActivity(intent);
     }
 
-    /**
-     * 活动跳转
-     * @param activity1 当前活动
-     * @param fragment2 目标活动
-     */
-    public void startIntentActivity(BaseActivity activity1,Fragment fragment2){
-        Intent intent = new Intent();
-        intent.setClass(activity1, fragment2.getClass());
-        startActivity(intent);
-    }
-
-    /**
-     * 活动跳转
-     * @param activity1 当前活动
-     * @param fragment2 目标活动
-     * @param name
-     * @param value
-     */
-    public void startIntentActivity(BaseActivity activity1,Fragment fragment2, String name, String value){
-        Intent intent = new Intent();
-        intent.putExtra(name, value);
-        intent.setClass(activity1, fragment2.getClass());
-        startActivity(intent);
-    }
 }

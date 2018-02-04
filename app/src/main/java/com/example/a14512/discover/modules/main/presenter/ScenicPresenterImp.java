@@ -1,7 +1,7 @@
 package com.example.a14512.discover.modules.main.presenter;
 
-import com.example.a14512.discover.modules.main.modle.ModelImp;
-import com.example.a14512.discover.modules.main.modle.entity.ScenicCommentUser;
+import com.example.a14512.discover.modules.main.mode.ModeImp;
+import com.example.a14512.discover.modules.main.mode.entity.ScenicCommentUser;
 import com.example.a14512.discover.modules.main.presenter.imp.IScenicPresenter;
 import com.example.a14512.discover.modules.main.view.imp.IScenicView;
 
@@ -12,13 +12,13 @@ import java.util.ArrayList;
  */
 
 public class ScenicPresenterImp implements IScenicPresenter {
-    private ModelImp mModelImp;
+    private ModeImp mModeImp;
     private IScenicView mView;
     private ArrayList<ScenicCommentUser> mUsers = new ArrayList<>();
 
     public ScenicPresenterImp(IScenicView view) {
         this.mView = view;
-        mModelImp = new ModelImp();
+        mModeImp = new ModeImp();
     }
 
     @Override

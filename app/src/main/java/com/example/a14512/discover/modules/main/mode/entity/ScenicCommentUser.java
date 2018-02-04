@@ -1,4 +1,4 @@
-package com.example.a14512.discover.modules.main.modle.entity;
+package com.example.a14512.discover.modules.main.mode.entity;
 
 import java.io.Serializable;
 

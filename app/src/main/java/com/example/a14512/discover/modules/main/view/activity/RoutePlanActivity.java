@@ -1,5 +1,6 @@
 package com.example.a14512.discover.modules.main.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +14,7 @@ import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseSwipeBackActivity;
 import com.example.a14512.discover.modules.main.adpter.CustomLinearLayoutManager;
 import com.example.a14512.discover.modules.main.adpter.RoutePlanAdapter;
-import com.example.a14512.discover.modules.main.modle.entity.Scenic;
+import com.example.a14512.discover.modules.main.mode.entity.Scenic;
 import com.example.a14512.discover.modules.main.presenter.RoutePlanPresenterImp;
 import com.example.a14512.discover.modules.main.view.imp.IRoutePlanView;
 
@@ -160,7 +161,15 @@ public class RoutePlanActivity extends BaseSwipeBackActivity implements IRoutePl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_build:
-                startIntentActivity(this, new MapActivity());
+                ArrayList<Scenic> scenics = new ArrayList<>();
+                scenics.addAll(mMorningAdapter.getScenics());
+                scenics.addAll(mAfternoonAdapter.getScenics());
+                scenics.addAll(mEveningAdapter.getScenics());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(C.SCENIC_DETAIL, scenics);
+                Intent intent = new Intent(this, MapActivity.class);
+                intent.putExtra(C.SCENIC_DETAIL, bundle);
+                startActivity(intent);
                 break;
             default:
                 break;

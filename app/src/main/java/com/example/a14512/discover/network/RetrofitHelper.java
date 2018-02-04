@@ -53,7 +53,7 @@ public class RetrofitHelper {
     }
 
     private static Retrofit build(String baseUrl) {
-        if (retrofit == null) {
+//        if (retrofit == null) {
             synchronized (Retrofit.class) {
                 retrofit = new Retrofit.Builder()
                         .baseUrl(baseUrl)
@@ -65,7 +65,7 @@ public class RetrofitHelper {
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
             }
-        }
+//        }
         return retrofit;
     }
 
@@ -116,7 +116,6 @@ public class RetrofitHelper {
 //                .map(new ServiceResponseFun<>());
 //
 //    }
-
 
    /**
     * 示例，外层网络请求

@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseSwipeBackActivity;
-import com.example.a14512.discover.modules.travel.WebActivity;
 
 import java.util.ArrayList;
 
@@ -57,27 +56,27 @@ public class TravelKnowledgeActivity extends BaseSwipeBackActivity {
         listView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
             switch (position) {
                 case 0:
-                    startIntentActivity(this, new WebActivity(), "title", titles.get(position),
+                    startIntentActivity(this, WebActivity.class, "title", titles.get(position),
                             "url", "file:///android_asset/travel/travel_tips/index.html");
                     break;
                 case 1:
-                    startIntentActivity(this, new WebActivity(), "title", titles.get(position),
+                    startIntentActivity(this, WebActivity.class, "title", titles.get(position),
                             "url", "file:///android_asset/travel/emergency_self-help_manual/index.html");
                     break;
                 case 2:
-                    startIntentActivity(this, new WebActivity(), "title", titles.get(position),
+                    startIntentActivity(this, WebActivity.class, "title", titles.get(position),
                             "url", "file:///android_asset/travel/chongqing/index.html");
                     break;
                 case 3:
-                    startIntentActivity(this, new WebActivity(), "title", titles.get(position),
+                    startIntentActivity(this, WebActivity.class, "title", titles.get(position),
                             "url", "file:///android_asset/travel/famous_scenic/index.html");
                     break;
                 case 4:
-                    startIntentActivity(this, new WebActivity(), "title", titles.get(position),
+                    startIntentActivity(this, WebActivity.class, "title", titles.get(position),
                             "url", "file:///android_asset/travel/areal_distribution/index.html");
                     break;
                 case 5:
-                    startIntentActivity(this, new WebActivity(), "title", titles.get(position),
+                    startIntentActivity(this, WebActivity.class, "title", titles.get(position),
                             "url", "file:///android_asset/travel/safety_travel_notes/index.html");
                     break;
                 default:

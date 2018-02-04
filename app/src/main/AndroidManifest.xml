@@ -3,6 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.a14512.discover">
 
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
+    <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
     <!-- 这个权限用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 这个权限用于访问GPS定位-->
@@ -43,13 +52,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".modules.main.view.activity.MainActivity">
+        <activity android:name=".welcome.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".modules.main.view.activity.MainActivity"
+            android:launchMode="singleTask"/>
+
+        <activity android:name=".welcome.GuideActivity"/>
+
+        <activity android:name=".modules.login.view.LoginActivity" />
+
+        <activity android:name=".modules.login.view.RegisterActivity" />
+
         <activity android:name=".modules.travel.view.TravelKnowledgeActivity"
             android:theme="@style/SwipeBack.Transparent.Theme"/>
 
@@ -69,11 +87,15 @@
         <activity android:name=".modules.main.view.activity.RoutePlanActivity"
             android:theme="@style/SwipeBack.Transparent.Theme" />
 
-        <activity android:name=".modules.travel.WebActivity"
+        <activity android:name=".modules.travel.view.WebActivity"
             android:theme="@style/SwipeBack.Transparent.Theme" />
 
         <activity android:name=".modules.main.view.activity.MapActivity"
             android:theme="@style/SwipeBack.Transparent.Theme" />
+
+        <activity android:name=".modules.main.view.activity.GoGuideActivity" />
+
+        <activity android:name=".modules.main.view.activity.MapGuideActivity" />
 
         <activity android:name=".modules.main.view.activity.ScenicActivity"
             android:theme="@style/SwipeBack.Transparent.Theme" />
@@ -86,7 +108,7 @@
             android:value="KdSXm6WC6PUH37vlp8dFjhAScQGDcGGL" />
 
         <service
-            android:name="com.baidu.location.f"
+            android:name="com.baidu.locationManager.f"
             android:enabled="true"
             android:process=":remote" />
 

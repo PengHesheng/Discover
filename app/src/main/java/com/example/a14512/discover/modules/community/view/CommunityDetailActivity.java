@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseSwipeBackActivity;
 
@@ -46,7 +45,7 @@ public class CommunityDetailActivity extends BaseSwipeBackActivity implements Vi
         setStatusBarColor(R.color.mainToolbar);
         mBack.setOnClickListener(v -> finish());
         mTitle.setText("详情");
-        Glide.with(this).load(R.mipmap.add).into(mAdd);
+        mAdd.setImageResource(R.mipmap.add);
     }
 
     private void initView() {

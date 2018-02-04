@@ -1,4 +1,4 @@
-package com.example.a14512.discover.modules.main.modle.entity;
+package com.example.a14512.discover.modules.main.mode.entity;
 
 import java.io.Serializable;
 
@@ -9,9 +9,12 @@ import java.io.Serializable;
 public class Scenic implements Serializable {
     public String img;
     public String name;
-    public String time;
-    public String monthAver;
-    public String peopleAver;
+    public int time;
+    public int monthAver;
+    public int peopleAver;
     public String location;
     public String content;
+    public double latitude;
+    public double longitude;
+
 }

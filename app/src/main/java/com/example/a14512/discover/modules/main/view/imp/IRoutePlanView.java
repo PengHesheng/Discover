@@ -1,6 +1,6 @@
 package com.example.a14512.discover.modules.main.view.imp;
 
-import com.example.a14512.discover.modules.main.modle.entity.Scenic;
+import com.example.a14512.discover.modules.main.mode.entity.Scenic;
 
 import java.util.ArrayList;
 

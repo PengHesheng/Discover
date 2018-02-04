@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.a14512.discover.R;
-import com.example.a14512.discover.modules.main.modle.entity.Scenic;
-import com.example.a14512.discover.modules.main.modle.entity.ScenicCommentUser;
+import com.example.a14512.discover.modules.main.mode.entity.Scenic;
+import com.example.a14512.discover.modules.main.mode.entity.ScenicCommentUser;
 import com.example.a14512.discover.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -76,12 +76,16 @@ public class ScenicCommentAdapter extends RecyclerView.Adapter {
             }
         } else if (holder instanceof FirstScenicDetailViewHolder){
             ((FirstScenicDetailViewHolder) holder).scenicName.setText(mScenic.name);
-            ((FirstScenicDetailViewHolder) holder).workTime.setText(mScenic.time);
+            ((FirstScenicDetailViewHolder) holder).workTime.setText(""+mScenic.time);
             ((FirstScenicDetailViewHolder) holder).about.setText(mScenic.content);
             ((FirstScenicDetailViewHolder) holder).location.setText(mScenic.location);
-            ((FirstScenicDetailViewHolder) holder).money.setText(mScenic.peopleAver);
-            ((FirstScenicDetailViewHolder) holder).monthPeople.setText(mScenic.monthAver);
-            ((FirstScenicDetailViewHolder) holder).attention.setOnClickListener(v -> ToastUtil.show("以关注"));
+            ((FirstScenicDetailViewHolder) holder).money.setText("人均"+mScenic.peopleAver);
+            ((FirstScenicDetailViewHolder) holder).monthPeople.setText("人气"+mScenic.monthAver);
+            if (mOnItemClickListener != null) {
+                ((FirstScenicDetailViewHolder) holder).attention.setOnClickListener(v -> {
+                    mOnItemClickListener.onOnePartyClick(((FirstScenicDetailViewHolder) holder).attention, position);
+                });
+            }
         }
     }
 

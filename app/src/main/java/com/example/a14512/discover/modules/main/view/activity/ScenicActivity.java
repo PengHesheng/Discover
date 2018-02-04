@@ -3,7 +3,6 @@ package com.example.a14512.discover.modules.main.view.activity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -12,11 +11,12 @@ import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseSwipeBackActivity;
 import com.example.a14512.discover.modules.main.adpter.CustomLinearLayoutManager;
 import com.example.a14512.discover.modules.main.adpter.ScenicCommentAdapter;
-import com.example.a14512.discover.modules.main.modle.entity.Scenic;
-import com.example.a14512.discover.modules.main.modle.entity.ScenicCommentUser;
+import com.example.a14512.discover.modules.main.mode.entity.Scenic;
+import com.example.a14512.discover.modules.main.mode.entity.ScenicCommentUser;
 import com.example.a14512.discover.modules.main.presenter.ScenicPresenterImp;
 import com.example.a14512.discover.modules.main.view.imp.IScenicView;
 import com.example.a14512.discover.share.Share;
+import com.example.a14512.discover.utils.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * @author 14512 on 2018/1/31
  */
 
-public class ScenicActivity extends BaseSwipeBackActivity implements View.OnClickListener, IScenicView{
+public class ScenicActivity extends BaseSwipeBackActivity implements IScenicView{
 
     private ImageView imgScenic;
     private ImageView mBack;
@@ -61,6 +61,9 @@ public class ScenicActivity extends BaseSwipeBackActivity implements View.OnClic
             adapter.setScenicsAdapter(mScenic);
             mRecyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
+            adapter.setOnItemClickListener((view, position) -> {
+                ToastUtil.show(this, "以关注");
+            });
             Glide.with(this).load(R.mipmap.ic_launcher_round).into(imgScenic);
         }
     }
@@ -69,8 +72,8 @@ public class ScenicActivity extends BaseSwipeBackActivity implements View.OnClic
         setSupportActionBar(toolbar);
         setDecorView();
         mBack.setOnClickListener(v -> finish());
-        mShare.setBackgroundResource(R.mipmap.share_detail);
-        mShare.setOnClickListener(v -> Share.showShare("nihao", "www.baidu.com", ""));
+        mShare.setImageResource(R.mipmap.share_detail);
+        mShare.setOnClickListener(v -> Share.showShare(mScenic.name, "www.baidu.com", ""));
     }
 
     private void initView() {
@@ -81,15 +84,6 @@ public class ScenicActivity extends BaseSwipeBackActivity implements View.OnClic
         mRecyclerView = findViewById(R.id.scenic_details_recycler_view);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.layout_details_attention:
-                break;
-            default:
-                break;
-        }
-    }
 
     @Override
     public void setAdapter(ArrayList<ScenicCommentUser> users) {

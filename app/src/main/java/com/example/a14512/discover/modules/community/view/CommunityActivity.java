@@ -6,7 +6,6 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseSwipeBackActivity;
 
@@ -35,7 +34,7 @@ public class CommunityActivity extends BaseSwipeBackActivity {
         setStatusBarColor(R.color.mainToolbar);
         mBack.setOnClickListener(v -> finish());
         mTitle.setText("社区");
-        Glide.with(this).load(R.mipmap.add).into(mAdd);
+        mAdd.setImageResource(R.mipmap.add);
     }
 
     private void initView() {

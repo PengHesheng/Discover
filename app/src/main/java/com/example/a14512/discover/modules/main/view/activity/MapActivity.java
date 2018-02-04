@@ -1,5 +1,7 @@
 package com.example.a14512.discover.modules.main.view.activity;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -12,10 +14,16 @@ import android.widget.ExpandableListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MyLocationConfiguration;
+import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.TextureMapView;
+import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.route.BikingRouteLine;
+import com.baidu.mapapi.search.route.BikingRoutePlanOption;
 import com.baidu.mapapi.search.route.BikingRouteResult;
 import com.baidu.mapapi.search.route.DrivingRouteLine;
 import com.baidu.mapapi.search.route.DrivingRoutePlanOption;
@@ -28,18 +36,18 @@ import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.baidu.mapapi.search.route.TransitRouteLine;
 import com.baidu.mapapi.search.route.TransitRoutePlanOption;
 import com.baidu.mapapi.search.route.TransitRouteResult;
-import com.baidu.mapapi.search.route.WalkingRouteLine;
-import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.main.adpter.ExpandableListAdapter;
-import com.example.a14512.discover.utils.ACache;
+import com.example.a14512.discover.modules.main.mode.entity.Scenic;
+import com.example.a14512.discover.utils.LocationUtil;
 import com.example.a14512.discover.utils.PLog;
+import com.example.a14512.discover.utils.ToastUtil;
+import com.example.a14512.discover.utils.mapapi.overlayutil.BikingRouteOverlay;
 import com.example.a14512.discover.utils.mapapi.overlayutil.DrivingRouteOverlay;
 import com.example.a14512.discover.utils.mapapi.overlayutil.TransitRouteOverlay;
-import com.example.a14512.discover.utils.mapapi.overlayutil.WalkingRouteOverlay;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,51 +65,90 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
     private RoutePlanSearch mSearch;
     private TextureMapView mMapView;
     private BaiduMap mBaiduMap;
-    private ArrayList<WalkingRouteOverlay> mWalkOverlays = new ArrayList<>();
+    //路线规划
+    private ArrayList<BikingRouteOverlay> mBikeOverlays = new ArrayList<>();
     private ArrayList<TransitRouteOverlay> mTransitOverlays = new ArrayList<>();
     private ArrayList<DrivingRouteOverlay> mDriveOverlays = new ArrayList<>();
 
-    private ArrayList<PlanNode> mPlanNodes = new ArrayList<>();
+    private ArrayList<Scenic> mScenics;
+    private ArrayList<PlanNode> mPlanNodes;
 
     private PopupWindow mPopupWindow;
     private ExpandableListView mListView;
-    private Map<String, List<TransitRouteLine.TransitStep>> mBusMap = new HashMap<>();
-    private List<String> mNodes = new ArrayList<>();
+    private Map<String, List<TransitRouteLine.TransitStep>> mBusMap;
+    private List<String> mNodes;
     private ExpandableListAdapter adapter;
-    private int position = 0;
+    private int position = 0, type = 1;
     private String city;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        initData();
         initView();
+        getData();
+        getLocation();
         searchResult();
         popupWindow();
     }
 
-    private void initData() {
-        BDLocation location = (BDLocation) ACache.getDefault().getAsObject(C.LOCATION);
-        if (location != null) {
-            city = location.getCity();
-            PLog.e(city);
-        } else {
-            city = "重庆市";
+    private void getLocation() {
+        mBaiduMap.setMyLocationEnabled(true);
+        LocationUtil locationUtil = LocationUtil.getInstance();
+        BDAbstractLocationListener listener = new BDAbstractLocationListener() {
+            @Override
+            public void onReceiveLocation(BDLocation location) {
+
+                //获取城市
+                city = location.getCity();
+                toastError(location.getLocType());
+
+                MyLocationData locData = new MyLocationData.Builder()
+                        .accuracy(location.getRadius())
+                        // 此处设置开发者获取到的方向信息，顺时针0-360
+                        .direction(100).latitude(location.getLatitude())
+                        .longitude(location.getLongitude()).build();
+                mBaiduMap.setMyLocationData(locData);
+                MyLocationConfiguration config = new MyLocationConfiguration(null, true, null);
+                mBaiduMap.setMyLocationConfiguration(config);
+            }
+        };
+        locationUtil.getLocation(this, listener);
+        if (city != null) {
+            locationUtil.unRegisterListener(listener);
         }
-        PLog.e(city);
-        mNodes.add("邮电大学");
-        mNodes.add("南坪");
-        mNodes.add("解放碑");
-        initPlanNodes();
     }
 
-    private void initPlanNodes() {
-        for (int i = 0; i < mNodes.size(); i++) {
-            PlanNode planNode = PlanNode.withCityNameAndPlaceName("重庆市", mNodes.get(i));
+    private void toastError(int locType) {
+        switch (locType) {
+            case 62:
+                ToastUtil.show("定位失败，请检查运营商网络或者WiFi网络是否正常开启!");
+                break;
+            case 63:
+                ToastUtil.show("网络异常，请确认当前测试手机网络是否通畅!");
+                break;
+            case 167:
+                ToastUtil.show("定位失败，请您检查是否禁用获取位置信息权限!");
+                break;
+            default:
+                break;
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void getData() {
+        mNodes = new ArrayList<>();
+        mPlanNodes = new ArrayList<>();
+        mScenics = (ArrayList<Scenic>) getIntent()
+                .getBundleExtra(C.SCENIC_DETAIL).getSerializable(C.SCENIC_DETAIL);
+        mPlace.setText(mScenics.get(0).name + "——" + mScenics.get(mScenics.size() - 1).name);
+        for (Scenic scenic : mScenics) {
+            mNodes.add(scenic.name);
+            PlanNode planNode = PlanNode.withLocation(new LatLng(scenic.latitude, scenic.longitude));
             mPlanNodes.add(planNode);
         }
     }
+
 
     private void searchResult() {
         mSearch = RoutePlanSearch.newInstance();
@@ -110,30 +157,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onGetWalkingRouteResult(WalkingRouteResult result) {
-                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
-                    //未找到结果
-                    return;
-                }
-                if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
-                    //起终点或途经点地址有岐义，通过以下接口获取建议查询信息
-                    //result.getSuggestAddrInfo()
-                    return;
-                }
-                Log.e(TAG, "walk start " + result.error);
-                if (result.error == SearchResult.ERRORNO.NO_ERROR) {
-                    WalkingRouteLine route = result.getRouteLines().get(0);
-                    Log.e(TAG, "" + route.getTitle());
-                    List<WalkingRouteLine.WalkingStep> steps = route.getAllStep();
-                    WalkingRouteLine.WalkingStep step = steps.get(0);
-                    Log.e(TAG, step.getName() + "\n" + step.getEntranceInstructions() + "\n"
-                            + step.getExitInstructions() + "\n" + step.describeContents());
-                    WalkingRouteOverlay overlay = new WalkingRouteOverlay(mBaiduMap);
-                    mWalkOverlays.add(overlay);
-                    overlay.setData(route);
-                    overlay.addToMap();
-                    overlay.zoomToSpan();
-                }
-            }
+
+        }
 
             @Override
             public void onGetTransitRouteResult(TransitRouteResult result) {
@@ -155,9 +180,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                     List<TransitRouteLine.TransitStep> steps = route.getAllStep();
                     mBusMap.put(mNodes.get(position), steps);
                     position++;
-                    PLog.e(":"+position);
                     if (position == mNodes.size() - 1) {
-                        PLog.e(":"+position);
                         mBusMap.put(mNodes.get(position), new ArrayList<>());
                         adapter = new ExpandableListAdapter(MapActivity.this, mBusMap, mNodes);
                         mListView.setAdapter(adapter);
@@ -212,8 +235,31 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
             }
 
             @Override
-            public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
-
+            public void onGetBikingRouteResult(BikingRouteResult result) {
+                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                    PLog.e("bike result1" + result.error);
+                    //未找到结果
+                    return;
+                }
+                if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+                    //起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+                    //result.getSuggestAddrInfo()
+                    return;
+                }
+                Log.e(TAG, "walk start " + result.error);
+                if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+                    BikingRouteLine route = result.getRouteLines().get(0);
+                    Log.e(TAG, "" + route.getTitle());
+                    List<BikingRouteLine.BikingStep> steps = route.getAllStep();
+                    BikingRouteLine.BikingStep step = steps.get(0);
+                    Log.e(TAG, step.getName() + "\n" + step.getEntranceInstructions() + "\n"
+                            + step.getExitInstructions() + "\n" + step.describeContents());
+                    BikingRouteOverlay overlay = new BikingRouteOverlay(mBaiduMap);
+                    mBikeOverlays.add(overlay);
+                    overlay.setData(route);
+                    overlay.addToMap();
+                    overlay.zoomToSpan();
+                }
             }
         };
 
@@ -229,15 +275,19 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
         setStatusBarColor(R.color.mainToolbar);
         btnConfirm.setOnClickListener(this);
         mPlace.setOnClickListener(this);
-        mPlace.setText("邮电大学——解放碑");
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_confirm_plan:
-                startIntentActivity(this, new MainActivity());
-                finish();
+                Intent intent = new Intent(this, GoGuideActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(C.SCENIC_DETAIL, mScenics);
+                intent.putExtra(C.SCENIC_DETAIL, bundle);
+                intent.putExtra("type", type);
+                startActivity(intent);
                 break;
             case R.id.tv_show_place:
                 mPopupWindow.showAtLocation(v, Gravity.BOTTOM, 0, 0);
@@ -253,7 +303,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.btn_walk:
                 changeRoute(3);
-                routePlanWalk();
+                routePlanBike();
                 mPopupWindow.dismiss();
                 break;
             default:
@@ -262,14 +312,15 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void changeRoute(int type) {
+        this.type = type;
         switch (type) {
             case 1:
                 clearCar();
-                clearWalk();
+                clearBike();
                 break;
             case 2:
                 clearBus();
-                clearWalk();
+                clearBike();
                 break;
             case 3:
                 clearBus();
@@ -287,11 +338,11 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
         mTransitOverlays.clear();
     }
 
-    private void clearWalk() {
-        for (WalkingRouteOverlay overlay : mWalkOverlays) {
+    private void clearBike() {
+        for (BikingRouteOverlay overlay : mBikeOverlays) {
             overlay.removeFromMap();
         }
-        mWalkOverlays.clear();
+        mBikeOverlays.clear();
     }
 
     private void clearCar() {
@@ -301,14 +352,11 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
         mDriveOverlays.clear();
     }
 
-    private void routePlanWalk() {
-        PLog.e(TAG, "walk click");
-        WalkingRoutePlanOption planOption = new WalkingRoutePlanOption();
+    private void routePlanBike() {
+        BikingRoutePlanOption planOption = new BikingRoutePlanOption();
         for (int i = 0; i < mPlanNodes.size()-1; i++) {
-            PLog.e(TAG, "xunhuan");
-            mSearch.walkingSearch(planOption.from(mPlanNodes.get(i)).to(mPlanNodes.get(i+1)));
+            mSearch.bikingSearch(planOption.from(mPlanNodes.get(i)).to(mPlanNodes.get(i+1)));
         }
-//        mSearch.walkingSearch(planOption.from(mPlanNodes.get(0)).to(mPlanNodes.get(1)));
     }
 
     private void routePlanCar() {
@@ -317,15 +365,16 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
         for (int i = 1; i < mPlanNodes.size() - 1; i++) {
             planNodes.add(mPlanNodes.get(i));
         }
-        mSearch.drivingSearch(planOption.from(mPlanNodes.get(0)).to(mPlanNodes.get(mPlanNodes.size()-1)));
-
+        mSearch.drivingSearch(planOption.from(mPlanNodes.get(0)).to(mPlanNodes.get(mPlanNodes.size()-1)).passBy(planNodes));
     }
 
     private void routePlanBus() {
         position = 0;
+        mBusMap = new HashMap<>(mNodes.size());
         TransitRoutePlanOption planOption = new TransitRoutePlanOption();
         for (int i = 0; i < mPlanNodes.size()-1; i++) {
-            mSearch.transitSearch(planOption.from(mPlanNodes.get(i)).city(city).to(mPlanNodes.get(i+1)));
+            PLog.e(mNodes.get(i));
+            mSearch.transitSearch(planOption.from(mPlanNodes.get(i)).city(C.CHONG_QING).to(mPlanNodes.get(i+1)));
         }
 //        mSearch.transitSearch(planOption.from(mPlanNodes.get(mPlanNodes.size() - 1)).to(mPlanNodes.get(0)));
     }

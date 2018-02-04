@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/ic_launcher_round"/>
+
+            <EditText
+                android:id="@+id/edt_login_account"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/edt_hint_account"
+                android:layout_marginLeft="10dp"
+                android:paddingLeft="3dp"
+                android:paddingStart="3dp"
+                tools:ignore="RtlSymmetry"
+                android:layout_marginStart="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/ic_launcher_round"/>
+
+            <EditText
+                android:id="@+id/edt_login_pwd"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/edt_hint_pwd"
+                android:layout_marginLeft="10dp"
+                android:paddingLeft="3dp"
+                android:paddingStart="3dp"
+                tools:ignore="RtlSymmetry"
+                android:layout_marginStart="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center">
+
+            <CheckBox
+                android:id="@+id/remember_pwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/holo_red_light"
+                android:text="@string/remember_pwd"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="90dp"
+                android:textColor="@android:color/holo_blue_bright"
+                android:text="@string/tv_forget_pwd"
+                android:layout_marginStart="90dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:textColor="#ffffff"
+            android:background="@drawable/layout_bg_red"
+            android:text="@string/tv_login"/>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_going_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:text="@string/tv_go_register"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="15dp" />
+
+
+</RelativeLayout>

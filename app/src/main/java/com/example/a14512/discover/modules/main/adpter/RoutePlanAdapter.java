@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
-import com.example.a14512.discover.modules.main.modle.entity.Scenic;
+import com.example.a14512.discover.modules.main.mode.entity.Scenic;
 import com.example.a14512.discover.modules.main.view.activity.ScenicActivity;
 
 import java.util.ArrayList;
@@ -49,10 +49,10 @@ public class RoutePlanAdapter extends RecyclerView.Adapter {
         if (holder instanceof ScenicViewHolder) {
             Scenic scenic = mScenics.get(position);
             if (scenic != null) {
-                ((ScenicViewHolder) holder).time.setText(scenic.time);
+                ((ScenicViewHolder) holder).time.setText("游玩时间" + scenic.time);
                 ((ScenicViewHolder) holder).name.setText(scenic.name);
-                ((ScenicViewHolder) holder).monthAver.setText(scenic.monthAver);
-                ((ScenicViewHolder) holder).peopleAver.setText(scenic.peopleAver);
+                ((ScenicViewHolder) holder).monthAver.setText("人气" + scenic.monthAver);
+                ((ScenicViewHolder) holder).peopleAver.setText("人均" + scenic.peopleAver);
                 ((ScenicViewHolder) holder).place.setText(scenic.location);
                 Glide.with(mContext).load(scenic.img)
                         .error(R.mipmap.ic_launcher).into(((ScenicViewHolder) holder).img);
@@ -105,6 +105,10 @@ public class RoutePlanAdapter extends RecyclerView.Adapter {
         mScenics.remove(position);
         mScenics.add(position, scenic);
         notifyDataSetChanged();
+    }
+
+    public ArrayList<Scenic> getScenics() {
+        return this.mScenics;
     }
 
 

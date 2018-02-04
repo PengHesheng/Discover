@@ -16,8 +16,6 @@ import android.widget.TextView;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.mapapi.search.sug.SuggestionSearch;
@@ -26,13 +24,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseSwipeBackActivity;
 import com.example.a14512.discover.modules.main.presenter.ChoosePresenterImp;
 import com.example.a14512.discover.modules.main.view.imp.IChooseView;
-import com.example.a14512.discover.utils.ACache;
 import com.example.a14512.discover.utils.DateTimePicker;
+import com.example.a14512.discover.utils.LocationUtil;
 import com.example.a14512.discover.utils.PLog;
 
 import java.util.ArrayList;
@@ -47,7 +44,6 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
     private static final String TAG = "ChooseActivity";
 
     private SuggestionSearch mSuggestionSearch;
-    public LocationClient mLocationClient = null;
     private String city = null, street = null, myLocation = "我的位置";
 
     private ImageView mBack;
@@ -76,38 +72,36 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
     }
 
     private void getLocation() {
-        mLocationClient = new LocationClient(getApplicationContext());
-        mLocationClient.registerLocationListener(new BDAbstractLocationListener() {
+        LocationUtil locationUtil = LocationUtil.getInstance();
+        BDAbstractLocationListener listener = new BDAbstractLocationListener() {
             @Override
             public void onReceiveLocation(BDLocation location) {
-                ACache.getDefault().put(C.LOCATION, location);
                 //获取详细地址信息
-                String addr = location.getAddrStr();
+//                String addr = location.getAddrStr();
                 //获取国家
-                String country = location.getCountry();
+//                String country = location.getCountry();
                 //获取省份
-                String province = location.getProvince();
+//                String province = location.getProvince();
                 //获取城市
                 city = location.getCity();
                 PLog.e(city);
                 //获取区县
-                String district = location.getDistrict();
+//                String district = location.getDistrict();
                 //获取街道信息
                 street = location.getStreet();
             }
-        });
-        LocationClientOption option = new LocationClientOption();
-        option.setIsNeedAddress(true);
-        option.setOpenGps(true);
-        mLocationClient.setLocOption(option);
-        mLocationClient.start();
+        };
+        locationUtil.getLocation(this, listener);
+        if (city != null) {
+            locationUtil.unRegisterListener(listener);
+        }
     }
 
     private void initToolbar() {
         setSupportActionBar(toolbar);
         setStatusBarColor(R.color.mainToolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.mainToolbar));
-        Glide.with(this).load(R.mipmap.share).into(mRight);
+        mRight.setImageResource(R.mipmap.share);
         mTitle.setText("生成行程计划表");
         mBack.setOnClickListener(v -> finish());
     }
@@ -194,7 +188,7 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
                 isHighComment = changeButton(mBtnHighComment, isHighComment);
                 break;
             case R.id.btn_build:
-                startIntentActivity(this, new RoutePlanActivity());
+                startIntentActivity(this, RoutePlanActivity.class);
                 mPresenter.putData();
                 break;
             case R.id.img_exchange_place:
