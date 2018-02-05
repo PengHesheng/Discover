@@ -16,8 +16,8 @@
 
             <ImageView
                 android:id="@+id/img_toolbar_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/back"
@@ -36,8 +36,8 @@
                 android:id="@+id/img_toolbar_right"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="17dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
                 android:layout_centerVertical="true"
                 tools:src="@mipmap/share"
                 android:layout_alignParentEnd="true"

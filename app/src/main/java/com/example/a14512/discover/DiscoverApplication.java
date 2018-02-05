@@ -2,9 +2,9 @@ package com.example.a14512.discover;
 
 import android.content.Context;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
-import com.example.a14512.discover.utils.PLog;
 import com.example.a14512.discover.utils.SharedPreferencesUtil;
 import com.mob.MobApplication;
 
@@ -20,19 +20,19 @@ public class DiscoverApplication extends MobApplication {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         long startTime = System.currentTimeMillis();
-        SharedPreferencesUtil.init(this);
-        PLog.e("startTime", startTime + "");
+        Log.e("startTime", startTime + "");
+        MultiDex.install(this);
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mContext = getApplicationContext();
+        mContext = this;
+        SharedPreferencesUtil.init(getApplicationContext());
         //在使用SDK各组件之前初始化context信息，传入ApplicationContext
         //注意该方法要再setContentView方法之前实现
         SDKInitializer.initialize(mContext);
-        MultiDex.install(this);
-//        MobSDK.init(mContext);
+
         /**
          * 如果存在SD卡则将缓存写入SD卡,否则写入手机内存
          */

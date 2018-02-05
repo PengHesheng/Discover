@@ -30,19 +30,30 @@
             android:text="下一景点"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <Button
+            android:id="@+id/btn_finish_route"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="结束行程"/>
 
-    <Button
-        android:id="@+id/btn_finish_route"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="结束行程"/>
+        <Button
+            android:id="@+id/btn_all_route"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="总揽"/>
 
-    <Button
-        android:id="@+id/btn_start_guide"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="开始导航"/>
+        <Button
+            android:id="@+id/btn_start_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开始导航"/>
+
+    </LinearLayout>
+
 
     <com.baidu.mapapi.map.TextureMapView
         android:id="@+id/texture_map_go_guide"

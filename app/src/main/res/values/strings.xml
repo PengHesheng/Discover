@@ -40,4 +40,8 @@
     <string name="menu_my_attention">我的关注</string>
     <string name="tv_menu_temp">℃</string>
     <string name="tv_menu_setting">设置</string>
+    <string name="tv_all_route_nervous">紧迫度</string>
+    <string name="tv_all_route_sum_path">总路程</string>
+    <string name="tv_all_route_sum_time">总时间</string>
+    <string name="tv_all_route_sum_pay">总花费</string>
 </resources>

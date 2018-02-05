@@ -1,11 +1,14 @@
 package com.example.a14512.discover.modules.main.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
 import com.baidu.mapapi.bikenavi.BikeNavigateHelper;
 import com.baidu.mapapi.bikenavi.adapter.IBEngineInitListener;
 import com.baidu.mapapi.bikenavi.adapter.IBRoutePlanListener;
@@ -33,10 +36,12 @@ import com.baidu.mapapi.search.route.TransitRouteLine;
 import com.baidu.mapapi.search.route.TransitRoutePlanOption;
 import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
+import com.baidu.mapapi.utils.SpatialRelationUtil;
 import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.main.mode.entity.Scenic;
+import com.example.a14512.discover.utils.LocationUtil;
 import com.example.a14512.discover.utils.PLog;
 import com.example.a14512.discover.utils.ToastUtil;
 import com.example.a14512.discover.utils.mapapi.overlayutil.BikingRouteOverlay;
@@ -55,17 +60,19 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
     private Button back;
     private Button next;
     private Button mStart;
+    private Button mAllRoute;
     private RoutePlanSearch mSearch;
     private TextureMapView mMapView;
     private BaiduMap mBaiduMap;
     private ArrayList<PlanNode> mPlanNodes;
     private ArrayList<Scenic> mScenics;
     private ArrayList<LatLng> mLatLngs;
-    private int position = 1, type;
+    private ArrayList<Integer> mTimes = new ArrayList<>();
+    private int position = 1, type, location = 0, sumDistance = 0;
     //导航
     private BikeNavigateHelper mNaviHelper;
     BikeNaviLaunchParam param;
-    private LatLng startPt;
+    private LatLng startPt, locationPt;
 
 
     @Override
@@ -74,8 +81,26 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.activity_go_guide);
         getData();
         initView();
+        getLocation();
         searchResult();
         guideInit();
+    }
+
+    private void getLocation() {
+        mBaiduMap.setMyLocationEnabled(true);
+        LocationUtil locationUtil = LocationUtil.getInstance();
+        BDAbstractLocationListener listener = new BDAbstractLocationListener() {
+            @Override
+            public void onReceiveLocation(BDLocation bdLocation) {
+                locationPt = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
+                LatLng latLng = SpatialRelationUtil.getNearestPointFromLine(mLatLngs, locationPt);
+                location = mLatLngs.indexOf(latLng);
+            }
+        };
+        locationUtil.getLocation(this, listener);
+        if (locationPt != null) {
+            locationUtil.unRegisterListener(listener);
+        }
     }
 
     private void getData() {
@@ -88,7 +113,6 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
             mPlanNodes.add(PlanNode.withLocation(latLng));
             mLatLngs.add(latLng);
         }
-
     }
 
 
@@ -119,7 +143,8 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
                 }
                 if (result.error == SearchResult.ERRORNO.NO_ERROR) {
                     TransitRouteLine route = result.getRouteLines().get(0);
-
+                    mTimes.add(route.getDuration());
+                    sumDistance += route.getDistance();
                     TransitRouteOverlay overlay = new TransitRouteOverlay(mBaiduMap);
                     //设置公交路线规划数据
                     overlay.setData(route);
@@ -148,6 +173,8 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
                 }
                 if (result.error == SearchResult.ERRORNO.NO_ERROR) {
                     DrivingRouteLine route = result.getRouteLines().get(0);
+                    mTimes.add(route.getDuration());
+                    sumDistance += route.getDistance();
                     DrivingRouteOverlay overlay = new DrivingRouteOverlay(mBaiduMap);
                     overlay.setData(route);
                     overlay.addToMap();
@@ -174,6 +201,8 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
                 }
                 if (result.error == SearchResult.ERRORNO.NO_ERROR) {
                     BikingRouteLine route = result.getRouteLines().get(0);
+                    mTimes.add(route.getDuration());
+                    sumDistance += route.getDistance();
                     BikingRouteOverlay overlay = new BikingRouteOverlay(mBaiduMap);
                     overlay.setData(route);
                     overlay.addToMap();
@@ -205,6 +234,7 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
         pre = findViewById(R.id.btn_pre_scenic);
         back = findViewById(R.id.btn_back_home);
         next = findViewById(R.id.btn_next_scenic);
+        mAllRoute = findViewById(R.id.btn_all_route);
         Button finish = findViewById(R.id.btn_finish_route);
         mStart = findViewById(R.id.btn_start_guide);
         mMapView = findViewById(R.id.texture_map_go_guide);
@@ -214,7 +244,7 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
         back.setOnClickListener(this);
         next.setOnClickListener(this);
         finish.setOnClickListener(this);
-
+        mAllRoute.setOnClickListener(this);
         mStart.setOnClickListener(this);
     }
 
@@ -313,9 +343,23 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
             case R.id.btn_finish_route:
                 startIntentActivity(this, MainActivity.class);
                 break;
+            case R.id.btn_all_route:
+                startActivity();
+                break;
             default:
                 break;
         }
+    }
+
+    private void startActivity() {
+        Intent intent = new Intent(this, AllRouteActivity.class);
+        intent.putExtra("sum_distance", sumDistance);
+        intent.putIntegerArrayListExtra("time", mTimes);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(C.SCENIC_DETAIL, mScenics);
+        intent.putExtra(C.SCENIC_DETAIL, bundle);
+        intent.putExtra("location", location);
+        startActivity(intent);
     }
 
 
@@ -356,7 +400,6 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
             planNodes.add(mPlanNodes.get(i));
         }
         mSearch.drivingSearch(planOption.from(mPlanNodes.get(0)).to(mPlanNodes.get(mPlanNodes.size() - 1)));
-
     }
 
     /**

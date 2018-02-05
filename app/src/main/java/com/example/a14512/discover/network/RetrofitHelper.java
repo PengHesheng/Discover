@@ -2,6 +2,8 @@ package com.example.a14512.discover.network;
 
 import com.example.a14512.discover.BuildConfig;
 import com.example.a14512.discover.DiscoverApplication;
+import com.example.a14512.discover.network.RxUtil.SchedulerTransformer;
+import com.example.a14512.discover.network.RxUtil.interceptor.ServiceResponseFun;
 import com.example.a14512.discover.network.cookie.ClearableCookieJar;
 import com.example.a14512.discover.network.cookie.PersistenceCookieJar;
 import com.example.a14512.discover.network.cookie.cache.SetCookieCache;
@@ -17,6 +19,7 @@ import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -110,24 +113,28 @@ public class RetrofitHelper {
     /**
      * 网络请求统一处理
      * */
-//    public Observable<Gank> getDouBanTop250(int start, int count) {
-//        return apiService.getTop250(start, count)
-//                .compose(SchedulerTransformer.transformer())
-//                .map(new ServiceResponseFun<>());
-//
-//    }
 
-   /**
-    * 示例，外层网络请求
-    *
-    *RetrofitHelper.getInstance().getDouBanTop250(0,20)
-    *           .subscribe(new ApiSubscriber<Gank>(getContext(), true, false) {
-    *    @Override
-    *    public void onNext(Gank value) {
+   public Observable<Object> getScenic(double startLng, double startLat, double endLng,
+                                       double endLat, String startName, String endName,
+                                       long time, int personSelect, int tfSelect,
+                                       int onePlace, String phone) {
+       return apiService.getScenic(startLng, startLat, endLng, endLat, startName, endName,
+               time, personSelect, tfSelect, onePlace, phone)
+               .compose(SchedulerTransformer.transformer())
+               .map(new ServiceResponseFun<>());
+   }
 
-    *    }
-    *});
-    *
-    */
+   public Observable<Object> chaneOneScenic(String changePlace, String lastPlace,
+                                            String nextPlace, int personSelect) {
+       return apiService.changeOneScenic(changePlace, lastPlace, nextPlace, personSelect)
+               .compose(SchedulerTransformer.transformer())
+               .map(new ServiceResponseFun<>());
+   }
+
+   public Observable<Integer> followScenic(int isFollow, String phone, String placeName) {
+       return apiService.followScenic(isFollow, phone, placeName)
+               .compose(SchedulerTransformer.transformer())
+               .map(new ServiceResponseFun<>());
+   }
 
 }

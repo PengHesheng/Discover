@@ -52,4 +52,10 @@ public interface IChooseView {
      */
     String getEndTime();
 
+    /**
+     * 获取到数据后再跳转到下一个活动
+     * @param isHaveData
+     */
+    void startActivity(boolean isHaveData);
+
 }

@@ -12,6 +12,8 @@
 
     <uses-permission android:name="android.permission.VIBRATE"/>
 
+    <uses-permission android:name="android.permission.READ_LOGS" />
+
     <!-- 这个权限用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 这个权限用于访问GPS定位-->
@@ -81,7 +83,7 @@
             android:theme="@style/SwipeBack.Transparent.Theme"/>
 
         <activity android:name=".modules.main.view.activity.ChooseActivity"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/SwipeBack.Transparent.Theme"/>
 
         <activity android:name=".modules.main.view.activity.RoutePlanActivity"
@@ -94,6 +96,8 @@
             android:theme="@style/SwipeBack.Transparent.Theme" />
 
         <activity android:name=".modules.main.view.activity.GoGuideActivity" />
+
+        <activity android:name=".modules.main.view.activity.AllRouteActivity" />
 
         <activity android:name=".modules.main.view.activity.MapGuideActivity" />
 

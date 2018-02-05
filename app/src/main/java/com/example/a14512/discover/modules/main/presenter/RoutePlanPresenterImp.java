@@ -73,7 +73,6 @@ public class RoutePlanPresenterImp implements IRoutePlanPresenter{
         scenic5.peopleAver = 56;
         scenic5.monthAver = 30;
         mScenics.add(scenic5);
-
     }
 
     @Override

@@ -10,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.mapapi.search.core.RouteStep;
 import com.baidu.mapapi.search.route.TransitRouteLine.TransitStep.TransitRouteStepType;
 import com.example.a14512.discover.R;
+import com.example.a14512.discover.utils.DistanceUtil;
 import com.example.a14512.discover.utils.Time;
 
 import java.util.ArrayList;
@@ -25,14 +27,13 @@ import static com.baidu.mapapi.search.route.TransitRouteLine.TransitStep;
  * @author 14512 on 2018/1/30
  */
 
-public class ExpandableListAdapter extends BaseExpandableListAdapter {
+public class ExpandableListAdapter<T extends RouteStep> extends BaseExpandableListAdapter {
     private static final String TAG = "ExpandableListAdapter";
-    private static final int DISTANCE = 1000;
     private Context mContext;
-    private Map<String, List<TransitStep>> mMap = new HashMap<>();
+    private Map<String, List<T>> mMap = new HashMap<>();
     private List<String> mNodes = new ArrayList<>();
 
-    public ExpandableListAdapter(Context context, Map<String, List<TransitStep>> map, List<String> nodes) {
+    public ExpandableListAdapter(Context context, Map<String, List<T>> map, List<String> nodes) {
         this.mContext = context;
         this.mMap = map;
         this.mNodes = nodes;
@@ -149,25 +150,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 holder.imgTravelCategory.setBackgroundResource(R.mipmap.subway);
                 break;
             case WAKLING:
-                String distance = justDistance(step.getDistance(), step.getDuration());
-                holder.tvDistance.setText(distance);
+                holder.tvDistance.setText(DistanceUtil.transformMtoKM(step.getDistance()) +
+                        Time.tranceSecondToTime(step.getDuration()));
                 holder.tvTravel.setText("步行");
                 holder.imgTravelCategory.setBackgroundResource(R.mipmap.walk);
                 break;
             default:
                 break;
         }
-    }
-
-    private String justDistance(int distance, int duration) {
-        String disAndDur;
-        if (distance > DISTANCE) {
-            disAndDur = distance / DISTANCE + "公里" + (distance - distance / DISTANCE * DISTANCE) + "米";
-        } else {
-            disAndDur = distance + "米";
-        }
-        disAndDur = disAndDur + Time.tranceSecondToTime(duration);
-        return disAndDur;
     }
 
     @Override

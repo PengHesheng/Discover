@@ -1,5 +1,6 @@
 package com.example.a14512.discover.modules.main.view.activity;
 
+import android.content.Context;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
@@ -8,6 +9,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,6 +34,7 @@ import com.example.a14512.discover.modules.main.view.imp.IChooseView;
 import com.example.a14512.discover.utils.DateTimePicker;
 import com.example.a14512.discover.utils.LocationUtil;
 import com.example.a14512.discover.utils.PLog;
+import com.example.a14512.discover.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -156,7 +160,7 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
         mEdtStartTime.setOnClickListener(this);
         mEdtEndTime.setOnClickListener(this);
 
-        mPresenter = new ChoosePresenterImp(this);
+        mPresenter = new ChoosePresenterImp(this, this);
         mSuggestionSearch = SuggestionSearch.newInstance();
     }
 
@@ -188,7 +192,6 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
                 isHighComment = changeButton(mBtnHighComment, isHighComment);
                 break;
             case R.id.btn_build:
-                startIntentActivity(this, RoutePlanActivity.class);
                 mPresenter.putData();
                 break;
             case R.id.img_exchange_place:
@@ -225,6 +228,20 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
             textView.setThreshold(1);
             textView.setAdapter(sugAdapter);
             sugAdapter.notifyDataSetChanged();
+            textView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    InputMethodManager imm = (InputMethodManager) ChooseActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(textView.getWindowToken(), 0);
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
             //获取在线建议检索结果
         };
         mSuggestionSearch.setOnGetSuggestionResultListener(listener);
@@ -340,6 +357,15 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
     @Override
     public String getEndTime() {
         return mEdtEndTime.getText().toString();
+    }
+
+    @Override
+    public void startActivity(boolean isHaveData) {
+        if (isHaveData) {
+            startIntentActivity(this, RoutePlanActivity.class);
+        } else {
+            ToastUtil.show(this, "没有找到规划的数据！");
+        }
     }
 
 }

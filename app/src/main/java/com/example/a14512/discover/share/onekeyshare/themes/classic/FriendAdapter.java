@@ -150,7 +150,7 @@ public class FriendAdapter extends PullToRequestListAdapter implements PlatformA
 						following.description = String.valueOf(tweet.get("text"));
 						break;
 					}
-					following.icon = String.valueOf(info.get("head")) + "/100";
+					following.icon = String.valueOf(info.get("head")) + "/weather_100";
 					uidMap.put(following.uid, true);
 					data.add(following);
 				}

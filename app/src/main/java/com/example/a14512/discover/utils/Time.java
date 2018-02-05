@@ -307,4 +307,27 @@ public class Time {
         }
         return str;
     }
+
+    /**
+     * 计算时间差，并以分钟数返回
+     * @param startTime 18:30
+     * @param endTime 20:30
+     * @return minutes
+     */
+    public static int calculateMinute(String startTime, String endTime) {
+        int value;
+        int startH = Integer.parseInt(startTime.substring(0, 2));
+        int startM = Integer.parseInt(startTime.substring(3, 5));
+
+        int endH = Integer.parseInt(endTime.substring(0, 2));
+        int endM = Integer.parseInt(endTime.substring(3, 5));
+
+        if (endM < startM) {
+            endH--;
+            endM += 60;
+        }
+        value = (endH - startH) * 60 + endM - startM;
+        return value;
+    }
+
 }

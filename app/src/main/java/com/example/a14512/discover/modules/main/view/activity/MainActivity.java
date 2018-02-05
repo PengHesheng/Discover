@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
+import com.bumptech.glide.Glide;
 import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
@@ -39,6 +40,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private TextView mSignature;
     private LinearLayout mAttention;
     private TextView mTemperature;
+    private ImageView mWeatherIcon;
     private LinearLayout mSettings;
     private LinearLayout mainLayout;
     private SlidingView mSlidingView;
@@ -63,12 +65,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         .getWeather(bdLocation.getCity(), C.WEATHER_KEY)
                         .compose(SchedulerTransformer.transformer())
                         .onErrorResumeNext(new HttpResponseFunc<>())
-                        .subscribe(new ApiSubscriber<WeatherData>(MainActivity.this, false, false) {
+                        .subscribe(new ApiSubscriber<WeatherData>(MainActivity.this,
+                                false, false) {
                             @Override
                             public void onNext(WeatherData value) {
                                 if (value.heWeather != null) {
                                     PLog.e(value.heWeather.get(0).mNow.tmp);
                                     mTemperature.setText(value.heWeather.get(0).mNow.tmp);
+                                    String icon = "https://cdn.heweather.com/cond_icon/" +
+                                            value.heWeather.get(0).mNow.condCode +".png";
+                                    PLog.e(icon);
+                                    //TODO 图片加载问题，Url加载不了 https的原因
+                                    Glide.with(MainActivity.this).load(icon)
+                                            .error(R.mipmap.weather_100).into(mWeatherIcon);
                                 }
                             }
                         });
@@ -84,6 +93,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mSignature = findViewById(R.id.tv_head_signature);
         mAttention = findViewById(R.id.layout_my_attention);
         mTemperature = findViewById(R.id.tv_menu_temperature);
+        mWeatherIcon = findViewById(R.id.img_weather_icon);
         mSettings = findViewById(R.id.layout_menu_settings);
         mainLayout = findViewById(R.id.main_layout);
         mSlidingView = findViewById(R.id.sliding_view);
@@ -93,6 +103,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         LinearLayout layoutCommunity = findViewById(R.id.layout_community);
         LinearLayout layoutAround = findViewById(R.id.layout_around);
         LinearLayout layoutMyRoute = findViewById(R.id.layout_my_route);
+
+        Glide.with(this).load("http://oyojokgx1.bkt.clouddn.com/2017-11-20_22:32:19:066").into(imgBtnRoutePlan);
 
         mPortrait.setOnClickListener(this);
         mName.setOnClickListener(this);

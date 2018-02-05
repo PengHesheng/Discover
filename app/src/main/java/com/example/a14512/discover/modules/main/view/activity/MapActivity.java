@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -99,6 +98,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onReceiveLocation(BDLocation location) {
 
+                PLog.e(location.getStreet());
                 //获取城市
                 city = location.getCity();
                 toastError(location.getLocType());
@@ -172,10 +172,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                     //result.getSuggestAddrInfo()
                     return;
                 }
-                Log.e(TAG, "bus start " + result.error);
                 if (result.error == SearchResult.ERRORNO.NO_ERROR) {
                     TransitRouteLine route = result.getRouteLines().get(0);
-
                     //创建公交路线规划线路覆盖物
                     List<TransitRouteLine.TransitStep> steps = route.getAllStep();
                     mBusMap.put(mNodes.get(position), steps);
@@ -213,14 +211,9 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                     //result.getSuggestAddrInfo()
                     return;
                 }
-                Log.e(TAG, "drive start " + result.error);
                 if (result.error == SearchResult.ERRORNO.NO_ERROR) {
                     DrivingRouteLine route = result.getRouteLines().get(0);
                     List<DrivingRouteLine.DrivingStep> steps = route.getAllStep();
-                    DrivingRouteLine.DrivingStep step = steps.get(0);
-                    Log.e(TAG, step.getName() + "\n" + step.getEntranceInstructions() + "\n"
-                            +step.getExitInstructions() + "\n" +step.getInstructions() + "\n"
-                            +step.getNumTurns());
                     DrivingRouteOverlay overlay = new DrivingRouteOverlay(mBaiduMap);
                     mDriveOverlays.add(overlay);
                     overlay.setData(route);
@@ -237,7 +230,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onGetBikingRouteResult(BikingRouteResult result) {
                 if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
-                    PLog.e("bike result1" + result.error);
                     //未找到结果
                     return;
                 }
@@ -246,14 +238,9 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                     //result.getSuggestAddrInfo()
                     return;
                 }
-                Log.e(TAG, "walk start " + result.error);
                 if (result.error == SearchResult.ERRORNO.NO_ERROR) {
                     BikingRouteLine route = result.getRouteLines().get(0);
-                    Log.e(TAG, "" + route.getTitle());
                     List<BikingRouteLine.BikingStep> steps = route.getAllStep();
-                    BikingRouteLine.BikingStep step = steps.get(0);
-                    Log.e(TAG, step.getName() + "\n" + step.getEntranceInstructions() + "\n"
-                            + step.getExitInstructions() + "\n" + step.describeContents());
                     BikingRouteOverlay overlay = new BikingRouteOverlay(mBaiduMap);
                     mBikeOverlays.add(overlay);
                     overlay.setData(route);
@@ -373,7 +360,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
         mBusMap = new HashMap<>(mNodes.size());
         TransitRoutePlanOption planOption = new TransitRoutePlanOption();
         for (int i = 0; i < mPlanNodes.size()-1; i++) {
-            PLog.e(mNodes.get(i));
             mSearch.transitSearch(planOption.from(mPlanNodes.get(i)).city(C.CHONG_QING).to(mPlanNodes.get(i+1)));
         }
 //        mSearch.transitSearch(planOption.from(mPlanNodes.get(mPlanNodes.size() - 1)).to(mPlanNodes.get(0)));
