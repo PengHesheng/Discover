@@ -1,4 +1,4 @@
-package com.example.a14512.discover.modules.travel.view;
+package com.example.a14512.discover.modules.userself.modules.travel.view;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;

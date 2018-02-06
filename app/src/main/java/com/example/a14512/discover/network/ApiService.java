@@ -1,7 +1,10 @@
 package com.example.a14512.discover.network;
 
 
+import com.example.a14512.discover.modules.main.mode.entity.Scenic;
 import com.example.a14512.discover.modules.main.mode.entity.weather.WeatherData;
+
+import java.util.ArrayList;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -45,7 +48,7 @@ public interface ApiService {
      * @param endLat
      * @param startName
      * @param endName
-     * @param time
+     * @param seTime
      * @param personSelect
      * @param tfSelect
      * @param onePlace
@@ -53,17 +56,18 @@ public interface ApiService {
      * @return
      */
     @GET("LinePlanServlet")
-    Observable<Result<Object>> getScenic(@Query("startLng") double startLng,
-                           @Query("startLat") double startLat,
-                           @Query("engLng") double endLng,
-                           @Query("endLat") double endLat,
-                           @Query("startName") String startName,
-                           @Query("endName") String endName,
-                           @Query("seTime") long time,
-                           @Query("personSelect") int personSelect,
-                           @Query("tfSelect") int tfSelect,
-                           @Query("oneePlace") int onePlace,
-                           @Query("userPhone") String phone);
+    Observable<Result<ArrayList<Scenic>>> getScenic(@Query("startLng") double startLng,
+                                                    @Query("startLat") double startLat,
+                                                    @Query("endLng") double endLng,
+                                                    @Query("endLat") double endLat,
+                                                    @Query("startName") String startName,
+                                                    @Query("endName") String endName,
+                                                    @Query("startTime") String startTime,
+                                                    @Query("seTime") long seTime,
+                                                    @Query("personSelect") int personSelect,
+                                                    @Query("tfSelect") int tfSelect,
+                                                    @Query("onePlace") int onePlace,
+                                                    @Query("userPhone") String phone);
 
     /**
      * 刷新某一个景点
@@ -74,7 +78,7 @@ public interface ApiService {
      * @return
      */
     @GET("ChangePlaceServlet")
-    Observable<Result<Object>> changeOneScenic(@Query("changePlace") String changePlace,
+    Observable<Result<Scenic>> changeOneScenic(@Query("changePlace") String changePlace,
                                        @Query("lastPlace") String lastPlace,
                                        @Query("nextPlcae") String nextPlace,
                                        @Query("personSelect") int personSelect);

@@ -1,10 +1,15 @@
 package com.example.a14512.discover.modules.main.presenter;
 
+import android.content.Context;
+
 import com.example.a14512.discover.C;
 import com.example.a14512.discover.modules.main.mode.ModeImp;
 import com.example.a14512.discover.modules.main.mode.entity.Scenic;
 import com.example.a14512.discover.modules.main.presenter.imp.IRoutePlanPresenter;
 import com.example.a14512.discover.modules.main.view.imp.IRoutePlanView;
+import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
+import com.example.a14512.discover.utils.ACache;
+import com.example.a14512.discover.utils.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -13,11 +18,13 @@ import java.util.ArrayList;
  */
 
 public class RoutePlanPresenterImp implements IRoutePlanPresenter{
+    private Context mContext;
     private IRoutePlanView mView;
     private ModeImp mModel;
     private ArrayList<Scenic> mScenics = new ArrayList<>();
 
-    public RoutePlanPresenterImp(IRoutePlanView view) {
+    public RoutePlanPresenterImp(IRoutePlanView view, Context context) {
+        this.mContext = context;
         this.mView = view;
         mModel = new ModeImp();
         initData();
@@ -77,9 +84,20 @@ public class RoutePlanPresenterImp implements IRoutePlanPresenter{
 
     @Override
     public void getData() {
-        ArrayList<Scenic> morning = getInitData(0, 1);
-        ArrayList<Scenic> afternoon = getInitData(2, 2);
-        ArrayList<Scenic> evening = getInitData(3, 4);
+        ArrayList<Scenic> morning;
+        ArrayList<Scenic> afternoon;
+        ArrayList<Scenic> evening;
+        ArrayList<Scenic> scenics = (ArrayList<Scenic>) ACache.getDefault().getAsObject(C.SCENIC_DETAIL);
+        if (scenics != null) {
+           morning = getScenics(scenics, -1);
+           afternoon = getScenics(scenics, 0);
+           evening = getScenics(scenics, 1);
+        } else {
+            morning = getInitData(0, 1);
+            afternoon = getInitData(2, 2);
+            evening = getInitData(3, 4);
+        }
+
         if (morning != null) {
             mView.setAdapter(morning, C.MORNING);
         }
@@ -89,6 +107,33 @@ public class RoutePlanPresenterImp implements IRoutePlanPresenter{
         if (evening != null) {
             mView.setAdapter(evening, C.EVENING);
         }
+
+    }
+
+    @Override
+    public void deleteOneData(String category, String changePlace, int position,
+                              String last, String next, int personSlect) {
+        ApiSubscriber<Scenic> apiSubscriber = new ApiSubscriber<Scenic>(mContext, false, false) {
+            @Override
+            public void onNext(Scenic value) {
+                if (value != null) {
+                    mView.setOneData(position, value, category);
+                } else {
+                    ToastUtil.show(mContext, "没有数据了！");
+                }
+            }
+        };
+        mModel.changeOneScenic(apiSubscriber, changePlace, last, next, personSlect);
+    }
+
+    private ArrayList<Scenic> getScenics(ArrayList<Scenic> scenics, int type) {
+        ArrayList<Scenic> scenicArrayList = new ArrayList<>();
+        for (Scenic scenic : scenics) {
+            if (Integer.valueOf(scenic.times) == type) {
+                scenicArrayList.add(scenic);
+            }
+        }
+        return scenicArrayList;
     }
 
     private ArrayList<Scenic> getInitData(int start, int end) {
@@ -97,22 +142,6 @@ public class RoutePlanPresenterImp implements IRoutePlanPresenter{
             scenics.add(mScenics.get(i));
         }
         return scenics;
-    }
-
-    @Override
-    public void deleteOneData(String category, int position) {
-        ArrayList<Scenic> scenics = new ArrayList<>();
-        for (int i = 0; i <= 6; i++) {
-            Scenic scenic = new Scenic();
-            scenic.name = "names" +i;
-            scenic.monthAver = 80 + i;
-            scenic.peopleAver = 50 + i;
-            scenic.location = "南坪s" + i;
-            scenic.time = 30 + i;
-            scenic.img = "R.mipmap.ic_launcher";
-            scenics.add(scenic);
-        }
-        mView.setOneData(position, scenics.get(position), category);
     }
 
 }

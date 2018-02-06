@@ -66,7 +66,6 @@ public class ScenicCommentAdapter extends RecyclerView.Adapter {
                 Glide.with(mContext).load(user.portrait)
                         .error(R.mipmap.ic_launcher).into(((CommentViewHolder) holder).portrait);
                 ((CommentViewHolder) holder).name.setText(user.name);
-                ((CommentViewHolder) holder).commentContent.setText(user.content);
             }
             //如果设置了回调，则设置点击事件
             if (mOnItemClickListener != null) {

@@ -141,11 +141,14 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
         mPlanNodes = new ArrayList<>();
         mScenics = (ArrayList<Scenic>) getIntent()
                 .getBundleExtra(C.SCENIC_DETAIL).getSerializable(C.SCENIC_DETAIL);
-        mPlace.setText(mScenics.get(0).name + "——" + mScenics.get(mScenics.size() - 1).name);
-        for (Scenic scenic : mScenics) {
-            mNodes.add(scenic.name);
-            PlanNode planNode = PlanNode.withLocation(new LatLng(scenic.latitude, scenic.longitude));
-            mPlanNodes.add(planNode);
+
+        if (mScenics != null) {
+            mPlace.setText(mScenics.get(0).name + "——" + mScenics.get(mScenics.size() - 1).name);
+            for (Scenic scenic : mScenics) {
+                mNodes.add(scenic.name);
+                PlanNode planNode = PlanNode.withLocation(new LatLng(scenic.latitude, scenic.longitude));
+                mPlanNodes.add(planNode);
+            }
         }
     }
 

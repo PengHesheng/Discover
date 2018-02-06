@@ -1,5 +1,7 @@
 package com.example.a14512.discover.modules.main.mode.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -8,9 +10,13 @@ import java.io.Serializable;
 
 public class ScenicCommentUser implements Serializable {
     public String portrait;
+
+    @SerializedName("userName")
     public String name;
+
+    @SerializedName("comment")
     public int star;
-    public String content;
-    public int zanNum;
-    public int commentNum;
+
+    @SerializedName("userPhone")
+    public String phone;
 }

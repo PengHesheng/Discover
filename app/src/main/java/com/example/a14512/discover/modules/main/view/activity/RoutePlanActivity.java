@@ -36,6 +36,8 @@ public class RoutePlanActivity extends BaseSwipeBackActivity implements IRoutePl
 
     private RoutePlanPresenterImp mPresenter;
 
+    private int personSelect;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +49,8 @@ public class RoutePlanActivity extends BaseSwipeBackActivity implements IRoutePl
     }
 
     private void getData() {
-        mPresenter = new RoutePlanPresenterImp(this);
+        personSelect = getIntent().getIntExtra("personSelect", 4);
+        mPresenter = new RoutePlanPresenterImp(this, this);
         mPresenter.getData();
     }
 
@@ -123,7 +126,8 @@ public class RoutePlanActivity extends BaseSwipeBackActivity implements IRoutePl
         mMorningAdapter.notifyDataSetChanged();
         mMorningRecyclerView.setAdapter(mMorningAdapter);
         mMorningAdapter.setOnItemClickListener((view, position) -> {
-            mPresenter.deleteOneData(C.MORNING, position);
+            mPresenter.deleteOneData(C.MORNING, arrayList.get(position).name, position,
+                    arrayList.get(position - 1).name, arrayList.get(position + 1).name, personSelect);
         });
     }
 
@@ -132,7 +136,8 @@ public class RoutePlanActivity extends BaseSwipeBackActivity implements IRoutePl
         mAfternoonAdapter.notifyDataSetChanged();
         mAfternoonRecyclerView.setAdapter(mAfternoonAdapter);
         mAfternoonAdapter.setOnItemClickListener((view, position) -> {
-            mPresenter.deleteOneData(C.AFTERNOON, position);
+            mPresenter.deleteOneData(C.AFTERNOON, arrayList.get(position).name, position,
+                    arrayList.get(position - 1).name, arrayList.get(position + 1).name, personSelect);
         });
     }
 
@@ -141,7 +146,8 @@ public class RoutePlanActivity extends BaseSwipeBackActivity implements IRoutePl
         mEveningAdapter.notifyDataSetChanged();
         mEveningRecyclerView.setAdapter(mEveningAdapter);
         mEveningAdapter.setOnItemClickListener((view, position) -> {
-            mPresenter.deleteOneData(C.EVENING, position);
+            mPresenter.deleteOneData(C.EVENING, arrayList.get(position).name, position,
+                    arrayList.get(position - 1).name, arrayList.get(position + 1).name, personSelect);
         });
     }
 

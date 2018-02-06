@@ -70,7 +70,7 @@
 
         <activity android:name=".modules.login.view.RegisterActivity" />
 
-        <activity android:name=".modules.travel.view.TravelKnowledgeActivity"
+        <activity android:name=".modules.userself.modules.travel.view.TravelKnowledgeActivity"
             android:theme="@style/SwipeBack.Transparent.Theme"/>
 
         <activity android:name=".modules.arround.view.AroundActivity"
@@ -79,17 +79,17 @@
         <activity android:name=".modules.community.view.CommunityActivity"
             android:theme="@style/SwipeBack.Transparent.Theme"/>
 
-        <activity android:name=".modules.route.view.RouteActivity"
+        <activity android:name=".modules.userself.modules.route.view.RouteActivity"
             android:theme="@style/SwipeBack.Transparent.Theme"/>
 
         <activity android:name=".modules.main.view.activity.ChooseActivity"
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="adjustResize|adjustPan"
             android:theme="@style/SwipeBack.Transparent.Theme"/>
 
         <activity android:name=".modules.main.view.activity.RoutePlanActivity"
             android:theme="@style/SwipeBack.Transparent.Theme" />
 
-        <activity android:name=".modules.travel.view.WebActivity"
+        <activity android:name=".modules.userself.modules.travel.view.WebActivity"
             android:theme="@style/SwipeBack.Transparent.Theme" />
 
         <activity android:name=".modules.main.view.activity.MapActivity"

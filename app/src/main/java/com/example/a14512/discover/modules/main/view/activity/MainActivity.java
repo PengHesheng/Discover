@@ -1,11 +1,13 @@
 package com.example.a14512.discover.modules.main.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.location.BDAbstractLocationListener;
@@ -16,15 +18,18 @@ import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.custom.SlidingView;
 import com.example.a14512.discover.modules.arround.view.AroundActivity;
-import com.example.a14512.discover.modules.community.view.CommunityActivity;
+import com.example.a14512.discover.modules.login.view.LoginActivity;
 import com.example.a14512.discover.modules.main.mode.entity.weather.WeatherData;
-import com.example.a14512.discover.modules.route.view.RouteActivity;
-import com.example.a14512.discover.modules.travel.view.TravelKnowledgeActivity;
+import com.example.a14512.discover.modules.userself.modules.attention.MyAttentionActivity;
+import com.example.a14512.discover.modules.userself.modules.route.view.RouteActivity;
+import com.example.a14512.discover.modules.shark.SharkActivity;
+import com.example.a14512.discover.modules.userself.modules.travel.view.TravelKnowledgeActivity;
 import com.example.a14512.discover.network.ApiService;
 import com.example.a14512.discover.network.RetrofitHelper;
 import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 import com.example.a14512.discover.network.RxUtil.SchedulerTransformer;
 import com.example.a14512.discover.network.RxUtil.interceptor.HttpResponseFunc;
+import com.example.a14512.discover.utils.ACache;
 import com.example.a14512.discover.utils.LocationUtil;
 import com.example.a14512.discover.utils.PLog;
 
@@ -34,26 +39,44 @@ import com.example.a14512.discover.utils.PLog;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
-
+    private LinearLayout mLogin;
+    private LinearLayout mLoginOut;
     private ImageView mPortrait;
     private TextView mName;
-    private TextView mSignature;
-    private LinearLayout mAttention;
+    private LinearLayout mAttentionLayout;
+    private LinearLayout mRouteLayout;
+    private LinearLayout mShareLayout;
+    private LinearLayout mTravelLayout;
     private TextView mTemperature;
     private ImageView mWeatherIcon;
+
     private LinearLayout mSettings;
-    private LinearLayout mainLayout;
+    private RelativeLayout mainLayout;
     private SlidingView mSlidingView;
 
     private LocationUtil mLocationUtil;
     private BDAbstractLocationListener listener;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        isLogin();
         getWeather();
+    }
+
+    private void isLogin() {
+        String account = ACache.getDefault().getAsString("account");
+        if (account != null) {
+            mLoginOut.setVisibility(View.GONE);
+            mLogin.setVisibility(View.VISIBLE);
+        } else {
+            mLoginOut.setVisibility(View.VISIBLE);
+            mLogin.setVisibility(View.GONE);
+        }
     }
 
     private void getWeather() {
@@ -88,47 +111,69 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
     private void initView() {
+        mSlidingView = findViewById(R.id.sliding_view);
+
+        mLogin = findViewById(R.id.layout_login);
+        mLoginOut = findViewById(R.id.layout_login_out);
         mPortrait = findViewById(R.id.img_head_portrait);
         mName = findViewById(R.id.tv_head_name);
-        mSignature = findViewById(R.id.tv_head_signature);
-        mAttention = findViewById(R.id.layout_my_attention);
+
+        mAttentionLayout = findViewById(R.id.layout_my_attention);
+        mRouteLayout = findViewById(R.id.layout_my_route);
+        mShareLayout = findViewById(R.id.layout_my_share);
+        mTravelLayout = findViewById(R.id.layout_travel);
+
         mTemperature = findViewById(R.id.tv_menu_temperature);
         mWeatherIcon = findViewById(R.id.img_weather_icon);
         mSettings = findViewById(R.id.layout_menu_settings);
+
         mainLayout = findViewById(R.id.main_layout);
-        mSlidingView = findViewById(R.id.sliding_view);
+
+        ImageView menu = findViewById(R.id.main_menu_icon);
         ImageButton imgBtnRoutePlan = findViewById(R.id.img_btn_route_plan);
-        TextView tv = findViewById(R.id.tv_route_plan);
-        LinearLayout layoutTravel = findViewById(R.id.layout_travel);
-        LinearLayout layoutCommunity = findViewById(R.id.layout_community);
-        LinearLayout layoutAround = findViewById(R.id.layout_around);
-        LinearLayout layoutMyRoute = findViewById(R.id.layout_my_route);
+        ImageButton imgBtnAround = findViewById(R.id.img_btn_around);
+        ImageButton imgBtnShark = findViewById(R.id.img_btn_shark);
 
-        Glide.with(this).load("http://oyojokgx1.bkt.clouddn.com/2017-11-20_22:32:19:066").into(imgBtnRoutePlan);
-
-        mPortrait.setOnClickListener(this);
-        mName.setOnClickListener(this);
-        mSignature.setOnClickListener(this);
-        mAttention.setOnClickListener(this);
-        mTemperature.setOnClickListener(this);
-        mSettings.setOnClickListener(this);
         mainLayout.setOnClickListener(this);
 
-        tv.setText("路线规划");
-        imgBtnRoutePlan.setBackgroundResource(R.mipmap.ic_launcher_round);
+        mLogin.setOnClickListener(this);
+        mLoginOut.setOnClickListener(this);
+        mPortrait.setOnClickListener(this);
+        mName.setOnClickListener(this);
+
+        mAttentionLayout.setOnClickListener(this);
+        mRouteLayout.setOnClickListener(this);
+        mShareLayout.setOnClickListener(this);
+        mTravelLayout.setOnClickListener(this);
+
+        mSettings.setOnClickListener(this);
+
+
+        menu.setOnClickListener(this);
         imgBtnRoutePlan.setOnClickListener(this);
-        layoutTravel.setOnClickListener(this);
-        layoutCommunity.setOnClickListener(this);
-        layoutAround.setOnClickListener(this);
-        layoutMyRoute.setOnClickListener(this);
+        imgBtnAround.setOnClickListener(this);
+        imgBtnShark.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.img_btn_route_plan:
-                startIntentActivity(this, ChooseActivity.class);
+            case R.id.main_layout:
+                if (mSlidingView.getMenu()) {
+                    mSlidingView.changeMenu();
+                } else {
+                    return;
+                }
+                break;
+            case R.id.layout_login_out:
+                startActivityForResult(new Intent(this, LoginActivity.class), 10);
+                break;
+            case R.id.img_head_portrait:
+                //TODO 点击头像处理事件
+                break;
+            case R.id.layout_my_attention:
+                startIntentActivity(this, MyAttentionActivity.class);
                 break;
             case R.id.layout_travel:
                 if (mSlidingView.getMenu()) {
@@ -136,9 +181,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 } else {
                     startIntentActivity(this, TravelKnowledgeActivity.class);
                 }
-                break;
-            case R.id.layout_community:
-                startIntentActivity(this, CommunityActivity.class);
                 break;
             case R.id.layout_around:
                 if (mSlidingView.getMenu()) {
@@ -150,15 +192,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.layout_my_route:
                 startIntentActivity(this, RouteActivity.class);
                 break;
-            case R.id.layout_my_attention:
-                mSlidingView.changeMenu();
+
+
+            case R.id.img_btn_route_plan:
+                startIntentActivity(this, ChooseActivity.class);
                 break;
-            case R.id.main_layout:
-                if (mSlidingView.getMenu()) {
-                    mSlidingView.changeMenu();
-                } else {
-                    return;
-                }
+            case R.id.img_btn_around:
+                startIntentActivity(this, AroundActivity.class);
+                break;
+            case R.id.img_btn_shark:
+                startIntentActivity(this, SharkActivity.class);
                 break;
             default:
                 break;

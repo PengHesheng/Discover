@@ -360,9 +360,9 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
     }
 
     @Override
-    public void startActivity(boolean isHaveData) {
+    public void startActivity(boolean isHaveData, int personSelect) {
         if (isHaveData) {
-            startIntentActivity(this, RoutePlanActivity.class);
+            startIntentActivity(this, RoutePlanActivity.class, "personSelect", personSelect);
         } else {
             ToastUtil.show(this, "没有找到规划的数据！");
         }

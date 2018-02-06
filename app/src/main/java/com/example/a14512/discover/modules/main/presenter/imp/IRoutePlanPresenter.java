@@ -12,7 +12,13 @@ public interface IRoutePlanPresenter {
     void getData();
 
     /**
+     * @param category
+     * @param changePlace
      * @param position
+     * @param last
+     * @param next
+     * @param personSelect
      */
-    void deleteOneData(String category, int position);
+    void deleteOneData(String category, String changePlace, int position,
+                       String last, String next, int personSelect);
 }

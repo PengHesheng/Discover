@@ -76,6 +76,19 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
+     * @param activity1
+     * @param cls
+     * @param name
+     * @param value
+     */
+    public void startIntentActivity(BaseActivity activity1,Class<?> cls, String name, int value){
+        Intent intent = new Intent();
+        intent.putExtra(name, value);
+        intent.setClass(activity1, cls);
+        startActivity(intent);
+    }
+
+    /**
      * 活动跳转
      * @param activity1 当前活动
      * @param cls 目标活动

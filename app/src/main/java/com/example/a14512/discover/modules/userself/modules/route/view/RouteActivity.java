@@ -1,4 +1,4 @@
-package com.example.a14512.discover.modules.route.view;
+package com.example.a14512.discover.modules.userself.modules.route.view;
 
 import android.os.Bundle;
 
