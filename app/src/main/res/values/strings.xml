@@ -4,7 +4,7 @@
     <string name="app_name">Discover</string>
     <string name="search_hint_left">From</string>
     <string name="search_hint_right">To</string>
-    <string name="btn_route_plan">生成行程计划表</string>
+    <string name="btn_route_plan">生成计划表</string>
     <string name="hint_want_going">请输入你想要的景点</string>
     <string name="tv_must_place">必去地点</string>
     <string name="btn_is_recommend">是否推荐已游览景点？</string>

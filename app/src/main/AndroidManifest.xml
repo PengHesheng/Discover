@@ -55,7 +55,7 @@
 
         <activity android:name=".modules.main.userself.attention.view.MyAttentionActivity" />
 
-        <activity android:name=".modules.main.userself.my_route.view.MyRouteActivity"
+        <activity android:name=".modules.main.userself.myroute.view.MyRouteActivity"
             android:theme="@style/SwipeBack.Transparent.Theme"/>
 
         <activity android:name=".modules.main.userself.share.view.MyShareActivity" />
@@ -77,26 +77,26 @@
 
         <activity android:name=".modules.shake.view.ShakeActivity" />
 
-        <activity android:name=".modules.route_plan.view.activity.ChooseActivity"
+        <activity android:name=".modules.routeplan.view.activity.ChooseActivity"
             android:windowSoftInputMode="adjustResize|adjustPan"
             android:theme="@style/SwipeBack.Transparent.Theme"/>
 
-        <activity android:name=".modules.route_plan.view.activity.RoutePlanActivity"
+        <activity android:name=".modules.routeplan.view.activity.RoutePlanActivity"
             android:theme="@style/SwipeBack.Transparent.Theme" />
 
         <activity android:name=".modules.main.userself.travel.view.WebActivity"
             android:theme="@style/SwipeBack.Transparent.Theme" />
 
-        <activity android:name=".modules.route_plan.view.activity.MapActivity"
+        <activity android:name=".modules.routeplan.view.activity.MapActivity"
             android:theme="@style/SwipeBack.Transparent.Theme" />
 
-        <activity android:name=".modules.route_plan.view.activity.GoGuideActivity" />
+        <activity android:name=".modules.routeplan.view.activity.GoGuideActivity" />
 
-        <activity android:name=".modules.route_plan.view.activity.AllRouteActivity" />
+        <activity android:name=".modules.routeplan.view.activity.AllRouteActivity" />
 
-        <activity android:name=".modules.route_plan.view.activity.MapGuideActivity" />
+        <activity android:name=".modules.routeplan.view.activity.MapGuideActivity" />
 
-        <activity android:name=".modules.route_plan.view.activity.ScenicActivity"
+        <activity android:name=".modules.routeplan.view.activity.ScenicActivity"
             android:theme="@style/SwipeBack.Transparent.Theme" />
 
         <meta-data

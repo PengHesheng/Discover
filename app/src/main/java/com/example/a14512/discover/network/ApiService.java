@@ -1,7 +1,7 @@
 package com.example.a14512.discover.network;
 
 
-import com.example.a14512.discover.modules.route_plan.mode.entity.Scenic;
+import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.modules.main.mode.entity.WeatherData;
 
 import java.util.ArrayList;
@@ -80,7 +80,7 @@ public interface ApiService {
     @GET("ChangePlaceServlet")
     Observable<Result<Scenic>> changeOneScenic(@Query("changePlace") String changePlace,
                                        @Query("lastPlace") String lastPlace,
-                                       @Query("nextPlcae") String nextPlace,
+                                       @Query("nextPlace") String nextPlace,
                                        @Query("personSelect") int personSelect);
 
     /**
