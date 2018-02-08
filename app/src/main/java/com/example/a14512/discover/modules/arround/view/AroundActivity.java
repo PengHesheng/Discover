@@ -27,6 +27,13 @@ public class AroundActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_around);
         initView();
+        initToolbar();
+    }
+
+    private void initToolbar() {
+        setSupportActionBar(toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.mainToolbar));
+        mBack.setOnClickListener(v -> finish());
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -36,10 +43,6 @@ public class AroundActivity extends BaseActivity {
         mRight = findViewById(R.id.img_toolbar_right);
         toolbar = findViewById(R.id.toolbar);
         mWebView = findViewById(R.id.web_view_around);
-
-        setSupportActionBar(toolbar);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.mainToolbar));
-        mBack.setOnClickListener(v -> finish());
 
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);

@@ -1,8 +1,8 @@
 package com.example.a14512.discover.network;
 
 
-import com.example.a14512.discover.modules.main.mode.entity.Scenic;
-import com.example.a14512.discover.modules.main.mode.entity.weather.WeatherData;
+import com.example.a14512.discover.modules.route_plan.mode.entity.Scenic;
+import com.example.a14512.discover.modules.main.mode.entity.WeatherData;
 
 import java.util.ArrayList;
 

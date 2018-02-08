@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.example.a14512.discover.modules.login.mode.Mode;
 import com.example.a14512.discover.modules.login.presenter.imp.ILoginPresenter;
 import com.example.a14512.discover.modules.login.view.imp.ILoginView;
+import com.example.a14512.discover.utils.ACache;
 import com.example.a14512.discover.utils.ToastUtil;
 
 /**
@@ -28,6 +29,7 @@ public class LoginPresenterImp implements ILoginPresenter {
             ToastUtil.show("帐号或密码不能为空!");
         } else {
             ToastUtil.show("正在登陆！");
+            ACache.getDefault().put("account", account);
             mView.isLogin();
             if (isRemember) {
                 ToastUtil.show("remember");

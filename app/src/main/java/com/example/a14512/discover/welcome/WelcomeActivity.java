@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
-import com.example.a14512.discover.modules.main.view.activity.MainActivity;
+import com.example.a14512.discover.modules.main.view.MainActivity;
 
 /**
  * @author 14512

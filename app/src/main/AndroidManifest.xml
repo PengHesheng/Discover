@@ -5,11 +5,10 @@
 
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
     <!-- 这个权限用于进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
 
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <!--摇一摇-->
     <uses-permission android:name="android.permission.VIBRATE"/>
 
     <uses-permission android:name="android.permission.READ_LOGS" />
@@ -27,23 +26,13 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
-<!--
-    //读取系统信息，包含系统版本等信息，用作统计
--->
+    <!--//读取系统信息，包含系统版本等信息，用作统计-->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-<!--
-    //获取统计数据
--->
+    <!--//获取统计数据-->
     <uses-permission android:name="android.permission.GET_TASKS" />
-<!--
-    //鉴权所需该权限获取进程列表
--->
-    <uses-permission android:name="android.permission.CAMERA" />
-<!--
-    //使用步行AR导航，配置Camera权限
--->
+    <!--//鉴权所需该权限获取进程列表-->
 
     <application
         android:name=".DiscoverApplication"
@@ -61,8 +50,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".modules.main.view.activity.MainActivity"
+        <activity android:name=".modules.main.view.MainActivity"
             android:launchMode="singleTask"/>
+
+        <activity android:name=".modules.main.userself.attention.view.MyAttentionActivity" />
+
+        <activity android:name=".modules.main.userself.my_route.view.MyRouteActivity"
+            android:theme="@style/SwipeBack.Transparent.Theme"/>
+
+        <activity android:name=".modules.main.userself.share.view.MyShareActivity" />
+
+        <activity android:name=".modules.main.userself.travel.view.TravelKnowledgeActivity"
+            android:theme="@style/SwipeBack.Transparent.Theme"/>
+
+        <activity android:name=".modules.main.userself.settings.view.SettingsActivity" />
 
         <activity android:name=".welcome.GuideActivity"/>
 
@@ -70,41 +71,32 @@
 
         <activity android:name=".modules.login.view.RegisterActivity" />
 
-        <activity android:name=".modules.userself.modules.travel.view.TravelKnowledgeActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"/>
 
         <activity android:name=".modules.arround.view.AroundActivity"
             android:theme="@style/SwipeBack.Transparent.Theme"/>
 
-        <activity android:name=".modules.community.view.CommunityActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"/>
+        <activity android:name=".modules.shake.view.ShakeActivity" />
 
-        <activity android:name=".modules.userself.modules.route.view.RouteActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"/>
-
-        <activity android:name=".modules.main.view.activity.ChooseActivity"
+        <activity android:name=".modules.route_plan.view.activity.ChooseActivity"
             android:windowSoftInputMode="adjustResize|adjustPan"
             android:theme="@style/SwipeBack.Transparent.Theme"/>
 
-        <activity android:name=".modules.main.view.activity.RoutePlanActivity"
+        <activity android:name=".modules.route_plan.view.activity.RoutePlanActivity"
             android:theme="@style/SwipeBack.Transparent.Theme" />
 
-        <activity android:name=".modules.userself.modules.travel.view.WebActivity"
+        <activity android:name=".modules.main.userself.travel.view.WebActivity"
             android:theme="@style/SwipeBack.Transparent.Theme" />
 
-        <activity android:name=".modules.main.view.activity.MapActivity"
+        <activity android:name=".modules.route_plan.view.activity.MapActivity"
             android:theme="@style/SwipeBack.Transparent.Theme" />
 
-        <activity android:name=".modules.main.view.activity.GoGuideActivity" />
+        <activity android:name=".modules.route_plan.view.activity.GoGuideActivity" />
 
-        <activity android:name=".modules.main.view.activity.AllRouteActivity" />
+        <activity android:name=".modules.route_plan.view.activity.AllRouteActivity" />
 
-        <activity android:name=".modules.main.view.activity.MapGuideActivity" />
+        <activity android:name=".modules.route_plan.view.activity.MapGuideActivity" />
 
-        <activity android:name=".modules.main.view.activity.ScenicActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme" />
-
-        <activity android:name=".modules.community.view.CommunityDetailActivity"
+        <activity android:name=".modules.route_plan.view.activity.ScenicActivity"
             android:theme="@style/SwipeBack.Transparent.Theme" />
 
         <meta-data
@@ -112,9 +104,9 @@
             android:value="KdSXm6WC6PUH37vlp8dFjhAScQGDcGGL" />
 
         <service
-            android:name="com.baidu.locationManager.f"
+            android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" />
+            android:process=":remote"/>
 
         <!-- ShareSDK的activity -->
         <activity

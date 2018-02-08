@@ -10,7 +10,7 @@ import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.login.presenter.RegisterPresenterImp;
 import com.example.a14512.discover.modules.login.view.imp.IRegisterView;
-import com.example.a14512.discover.modules.main.view.activity.MainActivity;
+import com.example.a14512.discover.modules.main.view.MainActivity;
 import com.example.a14512.discover.utils.ObservableTimer;
 
 

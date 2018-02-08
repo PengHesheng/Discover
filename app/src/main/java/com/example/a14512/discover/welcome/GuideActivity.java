@@ -13,7 +13,7 @@ import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.login.view.LoginActivity;
-import com.example.a14512.discover.modules.main.view.activity.MainActivity;
+import com.example.a14512.discover.modules.main.view.MainActivity;
 import com.example.a14512.discover.utils.ToastUtil;
 
 import java.util.ArrayList;

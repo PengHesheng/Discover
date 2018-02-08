@@ -46,4 +46,7 @@
     <string name="tv_all_route_sum_path">总路程</string>
     <string name="tv_all_route_sum_time">总时间</string>
     <string name="tv_all_route_sum_pay">总花费</string>
+    <string name="menu_my_route">我的路线</string>
+    <string name="menu_my_share">我的分享</string>
+    <string name="tv_travel_knowledge">旅游小知识</string>
 </resources>

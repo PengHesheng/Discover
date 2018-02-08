@@ -99,7 +99,6 @@ public class SlidingView extends HorizontalScrollView {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-
         if (changed) {
             this.scrollTo(mMenuWidth, 0);
         }
@@ -130,35 +129,35 @@ public class SlidingView extends HorizontalScrollView {
     /**
      * 事件分发，冲突处理，外部拦截
      * */
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        boolean intercepted = false;
-        int x = (int) ev.getX();
-        int y = (int) ev.getY();
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                //处理内部拦截时
-                onTouchEvent(ev);
-                intercepted = false;
-                break;
-            case MotionEvent.ACTION_MOVE:
-                //外部拦截ScrollView的上下滑动，当ScrollView上下滑动时，事件给ScrollView
-                if (Math.abs(x - lastXIntercept) > Math.abs(y - lastYIntercept)) {
-                    intercepted = true;
-                } else {
-                    intercepted = false;
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                intercepted = false;
-                break;
-            default:
-                break;
-        }
-        lastXIntercept = x;
-        lastYIntercept = y;
-        return intercepted;
-    }
+//    @Override
+//    public boolean onInterceptTouchEvent(MotionEvent ev) {
+//        boolean intercepted = false;
+//        int x = (int) ev.getX();
+//        int y = (int) ev.getY();
+//        switch (ev.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                //处理内部拦截时
+//                onTouchEvent(ev);
+//                intercepted = false;
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                //外部拦截ScrollView的上下滑动，当ScrollView上下滑动时，事件给ScrollView
+//                if (Math.abs(x - lastXIntercept) > Math.abs(y - lastYIntercept)) {
+//                    intercepted = true;
+//                } else {
+//                    intercepted = false;
+//                }
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                intercepted = false;
+//                break;
+//            default:
+//                break;
+//        }
+//        lastXIntercept = x;
+//        lastYIntercept = y;
+//        return intercepted;
+//    }
 
     /**
      * 滚动事调用

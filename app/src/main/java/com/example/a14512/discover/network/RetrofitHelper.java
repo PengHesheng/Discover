@@ -2,7 +2,7 @@ package com.example.a14512.discover.network;
 
 import com.example.a14512.discover.BuildConfig;
 import com.example.a14512.discover.DiscoverApplication;
-import com.example.a14512.discover.modules.main.mode.entity.Scenic;
+import com.example.a14512.discover.modules.route_plan.mode.entity.Scenic;
 import com.example.a14512.discover.network.RxUtil.SchedulerTransformer;
 import com.example.a14512.discover.network.RxUtil.interceptor.HttpResponseFunc;
 import com.example.a14512.discover.network.RxUtil.interceptor.ServiceResponseFun;
