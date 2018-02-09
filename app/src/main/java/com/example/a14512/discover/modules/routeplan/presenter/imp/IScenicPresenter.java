@@ -7,7 +7,14 @@ package com.example.a14512.discover.modules.routeplan.presenter.imp;
 public interface IScenicPresenter {
 
     /**
-     *
+     *获取评论
      */
     void getData();
+
+    /**
+     * 关注景点
+     * @param placeName
+     * @param placeFollow
+     */
+    void followScenic(String placeName, int placeFollow);
 }

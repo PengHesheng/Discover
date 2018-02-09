@@ -14,4 +14,10 @@ public interface IScenicView {
      * @param users
      */
     void setAdapter(ArrayList<ScenicCommentUser> users);
+
+    /**
+     * 是否关注成功
+     * @param result
+     */
+    void isFollow(int result);
 }

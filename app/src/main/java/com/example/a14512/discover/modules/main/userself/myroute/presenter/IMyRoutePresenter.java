@@ -5,4 +5,14 @@ package com.example.a14512.discover.modules.main.userself.myroute.presenter;
  */
 
 public interface IMyRoutePresenter {
+
+    /**
+     * 获取历史路线
+     */
+    void getHistoricRoute();
+
+    /**
+     * 获取我的收藏
+     */
+    void getMyCollect();
 }

@@ -53,11 +53,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layout_my_attention"
+        android:id="@+id/layout_travel"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/layout_bg_menu_selector"
-        android:focusable="true"
+        android:background="#fa7703"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -66,14 +65,14 @@
             android:layout_height="30dp"
             android:layout_marginLeft="31dp"
             android:layout_marginStart="31dp"
-            android:src="@mipmap/my_attention" />
+            android:src="@mipmap/travel_knowledge" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
-            android:text="@string/menu_my_attention"
+            android:text="@string/tv_travel_knowledge"
             android:textColor="#ffffff"
             android:textSize="17sp" />
 
@@ -106,6 +105,33 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layout_my_attention"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#fa7703"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="31dp"
+            android:layout_marginStart="31dp"
+            android:src="@mipmap/my_attention" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/menu_my_attention"
+            android:textColor="#ffffff"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/layout_my_share"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -126,32 +152,6 @@
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:text="@string/menu_my_share"
-            android:textColor="#ffffff"
-            android:textSize="17sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_travel"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/layout_bg_menu_selector"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="31dp"
-            android:layout_marginStart="31dp"
-            android:src="@mipmap/travel_knowledge" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:text="@string/tv_travel_knowledge"
             android:textColor="#ffffff"
             android:textSize="17sp" />
 

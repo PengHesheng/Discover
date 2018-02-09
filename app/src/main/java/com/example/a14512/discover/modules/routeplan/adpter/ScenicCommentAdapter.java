@@ -39,7 +39,7 @@ public class ScenicCommentAdapter extends RecyclerView.Adapter {
         this.mUsers = list;
     }
 
-    public void setScenicsAdapter(Scenic scenic) {
+    public void setScenicAdapter(Scenic scenic) {
         this.mScenic = scenic;
     }
 

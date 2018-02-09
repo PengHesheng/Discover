@@ -17,6 +17,8 @@ import com.example.a14512.discover.modules.routeplan.adpter.RoutePlanAdapter;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.modules.routeplan.presenter.RoutePlanPresenterImp;
 import com.example.a14512.discover.modules.routeplan.view.imp.IRoutePlanView;
+import com.example.a14512.discover.utils.ACache;
+import com.example.a14512.discover.utils.PLog;
 
 import java.util.ArrayList;
 
@@ -181,15 +183,21 @@ public class RoutePlanActivity extends BaseSwipeBackActivity implements IRoutePl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_build:
-                ArrayList<Scenic> scenics = new ArrayList<>();
-                scenics.addAll(mMorningAdapter.getScenics());
-                scenics.addAll(mAfternoonAdapter.getScenics());
-                scenics.addAll(mEveningAdapter.getScenics());
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(C.SCENIC_DETAIL, scenics);
-                Intent intent = new Intent(this, MapActivity.class);
-                intent.putExtra(C.SCENIC_DETAIL, bundle);
-                startActivity(intent);
+                ArrayList<Scenic> scenicsLast = (ArrayList<Scenic>) ACache.getDefault().getAsObject(C.SCENIC_DETAIL);
+                if (scenicsLast != null) {
+                    ArrayList<Scenic> scenics = new ArrayList<>();
+                    scenics.add(scenicsLast.get(0));
+                    scenics.addAll(mMorningAdapter.getScenics());
+                    scenics.addAll(mAfternoonAdapter.getScenics());
+                    scenics.addAll(mEveningAdapter.getScenics());
+                    scenics.add(scenicsLast.get(scenicsLast.size() - 1));
+                    PLog.e(""+scenics.get(scenics.size() - 1).name);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(C.SCENIC_DETAIL, scenics);
+                    Intent intent = new Intent(this, MapActivity.class);
+                    intent.putExtra(C.SCENIC_DETAIL, bundle);
+                    startActivity(intent);
+                }
                 break;
             default:
                 break;

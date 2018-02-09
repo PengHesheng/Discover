@@ -22,7 +22,7 @@
     <string name="tv_evening">晚上</string>
     <string name="tv_travel_bus">公交</string>
     <string name="tv_travel_car">自驾</string>
-    <string name="tv_travel_walk">步行</string>
+    <string name="tv_travel_bike">骑行</string>
     <string name="tv_attention">关注</string>
     <string name="tv_brief_sessions">简介</string>
     <string name="tv_details_comment">用户评价</string>
@@ -47,6 +47,18 @@
     <string name="tv_all_route_sum_time">总时间</string>
     <string name="tv_all_route_sum_pay">总花费</string>
     <string name="menu_my_route">我的路线</string>
-    <string name="menu_my_share">我的分享</string>
+    <string name="menu_my_share">分享</string>
     <string name="tv_travel_knowledge">旅游小知识</string>
+    <string name="tv_settings_advice">意见反馈</string>
+    <string name="tv_login_out">退出登录</string>
+    <string name="tv_join_us">加入我们</string>
+    <string name="tv_help">帮助</string>
+    <string name="tv_about">关于</string>
+    <string name="tab_historic_route">历史路线</string>
+    <string name="tab_collect_route">收藏路线</string>
+    <string name="tv_my_route_item">路线</string>
+    <string name="tv_my_route_pass_by">中转站</string>
+    <string name="tv_my_route_long_path">路程</string>
+    <string name="tv_my_route_pay">花费</string>
+    <string name="tv_my_route_save_time">保存时间</string>
 </resources>

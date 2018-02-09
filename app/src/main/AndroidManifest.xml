@@ -65,6 +65,11 @@
 
         <activity android:name=".modules.main.userself.settings.view.SettingsActivity" />
 
+        <activity android:name=".modules.main.userself.settings.view.AdviceActivity" />
+        <activity android:name=".modules.main.userself.settings.view.AboutActivity" />
+        <activity android:name=".modules.main.userself.settings.view.HelpActivity" />
+        <activity android:name=".modules.main.userself.settings.view.JoinUsActivity" />
+
         <activity android:name=".welcome.GuideActivity"/>
 
         <activity android:name=".modules.login.view.LoginActivity" />

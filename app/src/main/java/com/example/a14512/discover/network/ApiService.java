@@ -20,9 +20,32 @@ public interface ApiService {
     String BASE_URL = "http://139.199.15.137:8080/faxianbeiwork/";
     String WEATHER = "https://free-api.heweather.com/s6/weather/";
 
+    /**
+     * 获取验证码
+     * @param phone
+     * @param pwd
+     * @return
+     */
+    @GET("SendMessages")
+    Observable<Result<String>> getCode(@Query("phone") String phone, @Query("pssword") String pwd);
 
+    /**
+     * 注册
+     * @param phone
+     * @param code
+     * @return
+     */
+    @GET("RegisterServlet")
+    Observable<Result<String>> register(@Query("phone") String phone, @Query("userCode") String code);
 
-    //---------------------user---------------------------------------------
+    /**
+     * 验证登录
+     * @param phone
+     * @param pwd
+     * @return
+     */
+    @GET("IndexServlet")
+    Observable<Result<Boolean>> isLogin(@Query("phone") String phone, @Query("password") String pwd);
 
     /**
      * 获取七牛云token

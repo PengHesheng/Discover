@@ -2,7 +2,7 @@ package com.example.a14512.discover.modules.routeplan.presenter;
 
 import android.content.Context;
 
-import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
 import com.baidu.mapapi.search.poi.PoiCitySearchOption;
@@ -33,11 +33,12 @@ public class ChoosePresenterImp implements IChoosePresenter {
     private Context mContext;
     private IChooseView mView;
     private ModeImp mModel;
-    private LatLng start, end;
     private int tfSelect, personSelect, time;
     private String startPlace;
     private String endPlace;
     private String startT;
+    private Scenic startScenic;
+    private Scenic endScenic;
 
     public ChoosePresenterImp(IChooseView chooseView, Context context) {
         this.mContext = context;
@@ -77,16 +78,26 @@ public class ChoosePresenterImp implements IChoosePresenter {
             public void onGetPoiResult(PoiResult poiResult) {
                 if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {
                     if (type == 1) {
-                        start = poiResult.getAllPoi().get(0).location;
+                        startScenic = new Scenic();
+                        PoiInfo poiInfo = poiResult.getAllPoi().get(0);
+                        startScenic.latitude = poiInfo.location.latitude;
+                        startScenic.longitude = poiInfo.location.longitude;
+                        startScenic.name = "我的位置";
+                        startScenic.times = "-2";
                     } else {
-                        end = poiResult.getAllPoi().get(0).location;
+                        endScenic = new Scenic();
+                        PoiInfo poiInfo = poiResult.getAllPoi().get(0);
+                        endScenic.name = endPlace;
+                        endScenic.latitude = poiInfo.location.latitude;
+                        endScenic.longitude = poiInfo.location.longitude;
+                        endScenic.times = "2";
                     }
-                    if (start != null && end != null) {
-                        PLog.e(start.longitude + "  " + start.latitude + "\n"
-                                + end.longitude + "  " + end.latitude);
+                    if (startScenic != null && endScenic != null) {
+                        PLog.e(startScenic.longitude + "  " + startScenic.latitude + "\n"
+                                + endScenic.longitude + "  " + endScenic.latitude);
                         poiSearch.destroy();
                         try {
-                            putRoute(start, end);
+                            putRoute(startScenic, endScenic);
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }
@@ -109,11 +120,11 @@ public class ChoosePresenterImp implements IChoosePresenter {
         poiSearch.searchInCity(new PoiCitySearchOption().city("重庆市").keyword(startPlace));
     }
 
-    private void putRoute(LatLng start, LatLng end) throws UnsupportedEncodingException {
-        double startLng = start.longitude;
-        double startLat = start.latitude;
-        double endLng = end.longitude;
-        double endLat = end.latitude;
+    private void putRoute(Scenic startScenic, Scenic endScenic) throws UnsupportedEncodingException {
+        double startLng = startScenic.longitude;
+        double startLat = startScenic.latitude;
+        double endLng = endScenic.longitude;
+        double endLat = endScenic.latitude;
 
         String phone = "18323954590";
 
@@ -127,13 +138,14 @@ public class ChoosePresenterImp implements IChoosePresenter {
         personSelect = 4;
         tfSelect = 1;
 
-//        mView.startActivity(true, personSelect);
         ApiSubscriber<ArrayList<Scenic>> apiSubscriber = new ApiSubscriber<ArrayList<Scenic>>(mContext,
                 false, false) {
             @Override
             public void onNext(ArrayList<Scenic> value) {
                 PLog.e(value.size()+"");
                 if (value != null) {
+                    value.add(0, startScenic);
+                    value.add(endScenic);
                     ACache.getDefault().put(C.SCENIC_DETAIL, value);
                     PLog.e(value.get(0).name);
                     mView.startActivity(true, personSelect);

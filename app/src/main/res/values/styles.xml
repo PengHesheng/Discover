@@ -45,4 +45,10 @@
         <item name="android:windowExitAnimation">@anim/bottom_bar_out</item>
     </style>
 
+    <!--tabLayout text style-->
+    <style name="MyTabLayoutTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
 </resources>

@@ -31,7 +31,6 @@ public class MainPresenterImp implements IMainPresenter {
             @Override
             public void onNext(WeatherData value) {
                 if (value.heWeather != null) {
-                    PLog.e(value.heWeather.get(0).mNow.tmp);
                     mView.setWeather(value.heWeather.get(0));
                 }
             }

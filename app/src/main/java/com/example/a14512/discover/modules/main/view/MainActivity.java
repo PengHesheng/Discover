@@ -29,7 +29,6 @@ import com.example.a14512.discover.modules.main.userself.travel.view.TravelKnowl
 import com.example.a14512.discover.modules.routeplan.view.activity.ChooseActivity;
 import com.example.a14512.discover.modules.shake.view.ShakeActivity;
 import com.example.a14512.discover.utils.LocationUtil;
-import com.example.a14512.discover.utils.PLog;
 
 /**
  * @author 14512 on 2018/1/27
@@ -221,7 +220,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mTemperature.setText(weather.mNow.tmp);
         String icon = "file:///android_asset/cond_icon_heweather/" +
                weather.mNow.condCode +".png";
-        PLog.e(icon);
         Glide.with(this).load(icon).error(R.mipmap.weather_100).into(mWeatherIcon);
     }
 

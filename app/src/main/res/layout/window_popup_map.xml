@@ -26,11 +26,11 @@
             android:text="@string/tv_travel_car"/>
 
         <Button
-            android:id="@+id/btn_walk"
+            android:id="@+id/btn_bike"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/tv_travel_walk"/>
+            android:text="@string/tv_travel_bike"/>
     </LinearLayout>
 
     <ExpandableListView

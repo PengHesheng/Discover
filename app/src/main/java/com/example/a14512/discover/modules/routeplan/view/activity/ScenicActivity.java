@@ -1,9 +1,13 @@
 package com.example.a14512.discover.modules.routeplan.view.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.a14512.discover.C;
@@ -34,8 +38,9 @@ public class ScenicActivity extends BaseSwipeBackActivity implements IScenicView
     private  ScenicCommentAdapter adapter;
     private Scenic mScenic;
     private ScenicPresenterImp mPresenter;
+    private LinearLayout attention;
 
-    private boolean isZan = false;
+    private boolean isZan = false, isFollow = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,15 +59,23 @@ public class ScenicActivity extends BaseSwipeBackActivity implements IScenicView
 
     private void getData() {
         adapter = new ScenicCommentAdapter(this);
-        mPresenter = new ScenicPresenterImp(this);
+        mPresenter = new ScenicPresenterImp(this, this);
         mPresenter.getData();
         mScenic = (Scenic) getIntent().getBundleExtra(C.SCENIC_DETAIL).get(C.SCENIC_DETAIL);
         if (mScenic != null) {
-            adapter.setScenicsAdapter(mScenic);
+            adapter.setScenicAdapter(mScenic);
             mRecyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             adapter.setOnItemClickListener((view, position) -> {
-                ToastUtil.show(this, "以关注");
+                attention = (LinearLayout) view;
+                if (!isFollow) {
+                    mPresenter.followScenic(mScenic.name, 1);
+                    ToastUtil.show(this, "以关注");
+                } else {
+                    mPresenter.followScenic(mScenic.name, 0);
+                    ToastUtil.show(this, "取消关注");
+                }
+
             });
             Glide.with(this).load(R.mipmap.ic_launcher_round).into(imgScenic);
         }
@@ -99,5 +112,20 @@ public class ScenicActivity extends BaseSwipeBackActivity implements IScenicView
                 isZan = false;
             }
         });
+    }
+
+    @Override
+    public void isFollow(int result) {
+        @SuppressLint("CutPasteId") ImageView img = attention.findViewById(R.id.img_attention);
+        @SuppressLint("CutPasteId") TextView tv = attention.findViewById(R.id.tv_attention);
+        if (result == 1) {
+            img.setVisibility(View.GONE);
+            tv.setText("已关注");
+            isFollow = true;
+        } else {
+            img.setVisibility(View.VISIBLE);
+            tv.setText("关注");
+            isFollow = false;
+        }
     }
 }

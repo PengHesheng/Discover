@@ -117,6 +117,28 @@ public class RetrofitHelper {
      * 网络请求统一处理
      * */
 
+    public Observable<Boolean> isLogin(String phone, String pwd) {
+        return apiService.isLogin(phone, pwd)
+                .compose(SchedulerTransformer.transformer())
+                .onErrorResumeNext(new HttpResponseFunc<>())
+                .map(new ServiceResponseFun<>());
+    }
+
+    public Observable<String> register(String phone, String code) {
+        return apiService.register(phone, code)
+                .compose(SchedulerTransformer.transformer())
+                .onErrorResumeNext(new HttpResponseFunc<>())
+                .map(new ServiceResponseFun<>());
+    }
+
+    public Observable<String> getCode(String phone, String pwd) {
+        return apiService.getCode(phone, pwd)
+                .compose(SchedulerTransformer.transformer())
+                .onErrorResumeNext(new HttpResponseFunc<>())
+                .map(new ServiceResponseFun<>());
+    }
+
+
    public Observable<ArrayList<Scenic>> getScenic(double startLng, double startLat, double endLng,
                                                   double endLat, String startName, String endName,
                                                   String startTime, long time, int personSelect, int tfSelect,

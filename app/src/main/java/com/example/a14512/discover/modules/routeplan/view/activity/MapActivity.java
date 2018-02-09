@@ -293,7 +293,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                 routePlanCar();
                 mPopupWindow.dismiss();
                 break;
-            case R.id.btn_walk:
+            case R.id.btn_bike:
                 changeRoute(3);
                 routePlanBike();
                 mPopupWindow.dismiss();
@@ -386,12 +386,12 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
     private void popupWindowView() {
         Button btnBus = mPopupWindow.getContentView().findViewById(R.id.btn_bus);
         Button btnDriver = mPopupWindow.getContentView().findViewById(R.id.btn_car);
-        Button btnWalk = mPopupWindow.getContentView().findViewById(R.id.btn_walk);
+        Button btnBike = mPopupWindow.getContentView().findViewById(R.id.btn_bike);
         mListView = mPopupWindow.getContentView().findViewById(R.id.expanded_list_view);
 
         btnBus.setOnClickListener(this);
         btnDriver.setOnClickListener(this);
-        btnWalk.setOnClickListener(this);
+        btnBike.setOnClickListener(this);
 
         routePlanBus();
     }
