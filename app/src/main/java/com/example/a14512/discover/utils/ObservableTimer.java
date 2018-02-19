@@ -43,7 +43,7 @@ public class ObservableTimer {
 
                     @Override
                     public void onNext(Long value) {
-                        button.setText(String.format("获取验证码(%ss)", value));
+                        button.setText(String.format("重新获取(%ss)", value));
                     }
 
                     @Override

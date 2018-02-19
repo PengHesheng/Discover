@@ -19,10 +19,13 @@ import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.custom.SlidingView;
 import com.example.a14512.discover.modules.arround.view.AroundActivity;
 import com.example.a14512.discover.modules.login.view.LoginActivity;
+import com.example.a14512.discover.modules.main.mode.entity.UserInfo;
 import com.example.a14512.discover.modules.main.mode.entity.WeatherData;
 import com.example.a14512.discover.modules.main.presenter.MainPresenterImp;
 import com.example.a14512.discover.modules.main.userself.attention.view.MyAttentionActivity;
+import com.example.a14512.discover.modules.main.userself.changeuser.view.ChangeUserInfoActivity;
 import com.example.a14512.discover.modules.main.userself.myroute.view.MyRouteActivity;
+import com.example.a14512.discover.modules.main.userself.personality.view.PersonalityActivity;
 import com.example.a14512.discover.modules.main.userself.settings.view.SettingsActivity;
 import com.example.a14512.discover.modules.main.userself.share.view.MyShareActivity;
 import com.example.a14512.discover.modules.main.userself.travel.view.TravelKnowledgeActivity;
@@ -40,6 +43,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private LinearLayout mLoginOut;
     private ImageView mPortrait;
     private TextView mName;
+    private TextView mSigned;
     private TextView mTemperature;
     private ImageView mWeatherIcon;
 
@@ -74,6 +78,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             @Override
             public void onReceiveLocation(BDLocation bdLocation) {
                 mPresenter.getWeather(bdLocation.getCity());
+                mLocationUtil.unRegisterListener(listener);
             }
         };
         mLocationUtil.getLocation(this, listener);
@@ -86,11 +91,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mLoginOut = findViewById(R.id.layout_login_out);
         mPortrait = findViewById(R.id.img_head_portrait);
         mName = findViewById(R.id.tv_head_name);
+        mSigned = findViewById(R.id.tv_head_signed);
 
         LinearLayout attentionLayout = findViewById(R.id.layout_my_attention);
         LinearLayout routeLayout = findViewById(R.id.layout_my_route);
         LinearLayout shareLayout = findViewById(R.id.layout_my_share);
         LinearLayout travelLayout = findViewById(R.id.layout_travel);
+        LinearLayout personalityLayout = findViewById(R.id.layout_personality);
 
         mTemperature = findViewById(R.id.tv_menu_temperature);
         mWeatherIcon = findViewById(R.id.img_weather_icon);
@@ -114,6 +121,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         routeLayout.setOnClickListener(this);
         shareLayout.setOnClickListener(this);
         travelLayout.setOnClickListener(this);
+        personalityLayout.setOnClickListener(this);
 
         settings.setOnClickListener(this);
 
@@ -137,7 +145,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startActivityForResult(new Intent(this, LoginActivity.class), C.LOGIN);
                 break;
             case R.id.img_head_portrait:
-                //TODO 点击头像处理事件
+                startActivityForResult(new Intent(this, ChangeUserInfoActivity.class),
+                        C.UPDATE_INFO);
                 break;
             case R.id.layout_my_attention:
                 if (mIsLogin) {
@@ -154,17 +163,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 }
                 break;
             case R.id.layout_my_share:
-                if (mIsLogin) {
-                    startIntentActivity(this, MyShareActivity.class);
-                } else {
-                    startActivityForResult(new Intent(this, LoginActivity.class), C.LOGIN);
-                }
+//                if (mIsLogin) {
+//                    startIntentActivity(this, MyShareActivity.class);
+//                } else {
+//                    startActivityForResult(new Intent(this, LoginActivity.class), C.LOGIN);
+//                }
+                startIntentActivity(this, MyShareActivity.class);
                 break;
             case R.id.layout_travel:
                 startIntentActivity(this, TravelKnowledgeActivity.class);
                 break;
+            case R.id.layout_personality:
+                if (mIsLogin) {
+                    startIntentActivity(this, PersonalityActivity.class);
+                } else {
+                    startActivityForResult(new Intent(this, LoginActivity.class), C.LOGIN);
+                }
+                break;
             case R.id.layout_menu_settings:
-                startIntentActivity(this, SettingsActivity.class);
+                startActivityForResult(new Intent(this, SettingsActivity.class),
+                        C.LOGIN_OUT);
                 break;
             case R.id.main_menu_icon:
                 mSlidingView.changeMenu();
@@ -176,7 +194,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     if (mIsLogin) {
                         startIntentActivity(this, ChooseActivity.class);
                     } else {
-                        startActivityForResult(new Intent(this, LoginActivity.class), C.LOGIN);
+                        startActivityForResult(new Intent(this, LoginActivity.class),
+                                C.LOGIN);
                     }
                 }
                 break;
@@ -202,17 +221,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            if (requestCode == C.LOGIN) {
-                mIsLogin = true;
-                isLogin(true);
+            switch (requestCode) {
+                case C.LOGIN:
+                    mIsLogin = true;
+                    isLogin(true);
+                    break;
+                case C.LOGIN_OUT:
+                    mIsLogin = false;
+                    isLogin(false);
+                    break;
+                case C.UPDATE_INFO:
+                    mPresenter.getUserInfo();
+                    break;
+                default:
+                    break;
             }
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mLocationUtil.unRegisterListener(listener);
     }
 
     @Override
@@ -233,5 +257,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             mLoginOut.setVisibility(View.VISIBLE);
             mLogin.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void setUserInfo(UserInfo userInfo) {
+        Glide.with(this).load(userInfo.portrait).into(mPortrait);
+        mName.setText(userInfo.name);
+        mSigned.setText(userInfo.signed);
     }
 }

@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/view_pager3">
 
     <ImageView
+        android:id="@+id/img_view_pager3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@mipmap/ic_launcher"/>
-</android.support.constraint.ConstraintLayout>
+        android:layout_height="match_parent" />
+
+
+    <TextView
+        android:id="@+id/tv_view_pager_go"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:text="进入>>"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp" />
+</RelativeLayout>

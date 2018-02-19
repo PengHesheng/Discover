@@ -1,32 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:gravity="center_horizontal"
+    android:id="@+id/layout_register"
+    android:background="@drawable/login_bg"
     android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:src="@mipmap/ic_launcher_round"/>
 
     <EditText
         android:id="@+id/edt_register_number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="210dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
         android:inputType="phone"
-        android:hint="@string/edt_phone_number"/>
-
-    <EditText
-        android:id="@+id/edt_register_pwd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/edt_hint_pwd"/>
+        android:paddingLeft="5dp"
+        android:paddingStart="5dp"
+        android:textColor="#7a546169"
+        android:textSize="15sp"
+        android:hint="@string/edt_phone_number"
+        tools:ignore="RtlSymmetry" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal">
 
         <EditText
             android:id="@+id/edt_code"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="48dp"
+            android:paddingLeft="5dp"
+            android:paddingStart="5dp"
+            android:textColor="#7a546169"
+            android:textSize="15sp"
             android:inputType="numberSigned"
-            android:hint="@string/edt_code"/>
+            android:hint="@string/edt_code"
+            tools:ignore="RtlSymmetry" />
 
         <Button
             android:id="@+id/btn_get_code"
@@ -35,10 +56,77 @@
             android:text="@string/btn_get_code"/>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_register"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btn_register"/>
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
 
+        <EditText
+            android:id="@+id/edt_register_pwd"
+            android:layout_width="185dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:inputType="textPassword"
+            android:paddingLeft="5dp"
+            android:paddingStart="5dp"
+            android:textColor="#7a546169"
+            android:textSize="15sp"
+            android:hint="@string/edt_hint_pwd"
+            tools:ignore="RtlSymmetry" />
+
+        <ImageView
+            android:id="@+id/img_register_pwd_show"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/pwd_unshow"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@mipmap/register_btn_bg"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:text="@string/tv_registered"
+            android:textColor="#4c5559"/>
+
+        <TextView
+            android:id="@+id/tv_register_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:text="@string/tv_register_login"
+            android:textColor="@color/loginSelect" />
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:text="@string/tv_login_third"
+        android:textColor="#353535"
+        android:textSize="13sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:src="@mipmap/third_login" />
 </LinearLayout>

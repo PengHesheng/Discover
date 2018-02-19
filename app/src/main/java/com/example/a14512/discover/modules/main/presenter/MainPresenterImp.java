@@ -2,12 +2,13 @@ package com.example.a14512.discover.modules.main.presenter;
 
 import android.content.Context;
 
+import com.example.a14512.discover.C;
 import com.example.a14512.discover.modules.main.mode.Mode;
+import com.example.a14512.discover.modules.main.mode.entity.UserInfo;
 import com.example.a14512.discover.modules.main.mode.entity.WeatherData;
 import com.example.a14512.discover.modules.main.view.IMainView;
 import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 import com.example.a14512.discover.utils.ACache;
-import com.example.a14512.discover.utils.PLog;
 
 /**
  * @author 14512 on 2018/2/8
@@ -36,17 +37,21 @@ public class MainPresenterImp implements IMainPresenter {
             }
         };
         mMode.getWeather(apiSubscriber, city);
-
-
     }
 
     @Override
     public void isLogin() {
-        String account = ACache.getDefault().getAsString("account");
-        if (account != null) {
+        String account = ACache.getDefault().getAsString(C.ACCOUNT);
+        if (!C.ACCOUNT.equals(account)) {
             mView.isLogin(true);
         } else {
             mView.isLogin(false);
         }
+    }
+
+    @Override
+    public void getUserInfo() {
+        UserInfo userInfo = new UserInfo();
+        ACache.getDefault().put("user_info", userInfo);
     }
 }

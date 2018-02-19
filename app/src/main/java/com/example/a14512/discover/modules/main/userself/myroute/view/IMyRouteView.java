@@ -1,6 +1,6 @@
 package com.example.a14512.discover.modules.main.userself.myroute.view;
 
-import com.example.a14512.discover.modules.main.userself.myroute.mode.MyRoute;
+import com.example.a14512.discover.modules.main.userself.myroute.mode.entity.MyRoute;
 
 import java.util.ArrayList;
 

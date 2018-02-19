@@ -12,11 +12,17 @@
 
     <color name="white">#ffffff</color>
 
-    <color name="allRoute">#eb7e1d</color>
+    <color name="allRoute2">#eb7e1d</color>
+    <color name="allRoute3">#fff100</color>
+    <color name="allRoute1">#ff0000</color>
 
     <color name="black">#212121</color>
 
     <color name="titleBlack">#414141</color>
+
+    <color name="loginSelect">#e19149</color>
+
+    <color name="loginUnSelect">#4c5559</color>
 
 
 </resources>

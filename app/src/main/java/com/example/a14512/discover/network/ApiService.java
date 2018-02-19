@@ -1,8 +1,10 @@
 package com.example.a14512.discover.network;
 
 
-import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.modules.main.mode.entity.WeatherData;
+import com.example.a14512.discover.modules.main.userself.myroute.mode.entity.MyRoute;
+import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
+import com.example.a14512.discover.modules.routeplan.mode.entity.ScenicCommentUser;
 
 import java.util.ArrayList;
 
@@ -32,11 +34,11 @@ public interface ApiService {
     /**
      * 注册
      * @param phone
-     * @param code
+     * @param userCode
      * @return
      */
-    @GET("RegisterServlet")
-    Observable<Result<String>> register(@Query("phone") String phone, @Query("userCode") String code);
+    @GET("RegisterSevlet")
+    Observable<Result<String>> register(@Query("phone") String phone, @Query("userCode") String userCode);
 
     /**
      * 验证登录
@@ -45,7 +47,7 @@ public interface ApiService {
      * @return
      */
     @GET("IndexServlet")
-    Observable<Result<Boolean>> isLogin(@Query("phone") String phone, @Query("password") String pwd);
+    Observable<Result<String>> isLogin(@Query("phone") String phone, @Query("password") String pwd);
 
     /**
      * 获取七牛云token
@@ -118,6 +120,77 @@ public interface ApiService {
                                     @Query("userPhone") String phone,
                                     @Query("placeName") String placeName);
 
+    /**
+     * 修改个人信息
+     * @param userPhone
+     * @param userPhoto
+     * @param userName
+     * @param userSex
+     * @param userBirth
+     * @param userSchool
+     * @param userSign
+     * @param userEmail
+     * @return
+     */
+    @GET("ModifyInformationServlet")
+    Observable<Result<Integer>> changeUserData(@Query("userPhone") String userPhone,
+                                               @Query("userPhoto") String userPhoto,
+                                               @Query("userName") String userName,
+                                               @Query("userSex") String userSex,
+                                               @Query("userBirthday") String userBirth,
+                                               @Query("userSchool") String userSchool,
+                                               @Query("userSign") String userSign,
+                                               @Query("userEmail") String userEmail);
 
+    /**
+     * 获取我的关注
+     * @param userPhone
+     * @return
+     */
+    @GET("MyFollowServlet")
+    Observable<Result<ArrayList<Scenic>>> getMyFollow(@Query("userPhone") String userPhone);
+
+    /**
+     * 获取我的路线
+     * @param userPhone
+     * @return
+     */
+    @GET("MyRouteServlet")
+    Observable<Result<ArrayList<MyRoute>>> getMyRoute(@Query("userPhone") String userPhone);
+
+    /**
+     * 评分
+     * @param userPhone
+     * @param placeName
+     * @param score
+     * @return
+     */
+    @GET("ScoreServlet")
+    Observable<Result<Integer>> setCommentStar(@Query("userPhone") String userPhone,
+                                               @Query("placeName") String placeName,
+                                               @Query("placeScore") int score);
+
+    /**
+     * 获取评论评分
+     * @param placeName
+     * @return
+     */
+    @GET("UserCommentServlet")
+    Observable<Result<ArrayList<ScenicCommentUser>>> getCommentScore(@Query("placeName") String placeName);
+
+    /**
+     * 获取摇一摇景点
+     * @return
+     */
+    @GET("NearbyServlet")
+    Observable<Result<Scenic>> getShakeScenic();
+
+    @GET("PersonalServlet")
+    Observable<Result<Object>> setPersonality(@Query("userPhone") String phone,
+                                              @Query("personFound") String found);
+
+    @GET("AddHistroyPlaceServlet")
+    Observable<Result<Integer>> addHistoricRoute(@Query("userPhone") String phone,
+                                                 @Query("routePlace") String routePlace);
 
 }

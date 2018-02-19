@@ -43,7 +43,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".welcome.WelcomeActivity">
+        <activity android:name=".modules.welcome.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,15 +53,20 @@
         <activity android:name=".modules.main.view.MainActivity"
             android:launchMode="singleTask"/>
 
+        <activity android:name=".modules.main.userself.personality.view.PersonalityAdviceActivity" />
+
+        <activity android:name=".modules.main.userself.changeuser.view.ChangeUserInfoActivity" />
+        <activity android:name=".modules.main.userself.changeuser.view.ChooseCityActivity" />
+
         <activity android:name=".modules.main.userself.attention.view.MyAttentionActivity" />
 
-        <activity android:name=".modules.main.userself.myroute.view.MyRouteActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"/>
+        <activity android:name=".modules.main.userself.myroute.view.MyRouteActivity"/>
 
         <activity android:name=".modules.main.userself.share.view.MyShareActivity" />
 
-        <activity android:name=".modules.main.userself.travel.view.TravelKnowledgeActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"/>
+        <activity android:name=".modules.main.userself.travel.view.TravelKnowledgeActivity"/>
+
+        <activity android:name=".modules.main.userself.personality.view.PersonalityActivity" />
 
         <activity android:name=".modules.main.userself.settings.view.SettingsActivity" />
 
@@ -70,39 +75,36 @@
         <activity android:name=".modules.main.userself.settings.view.HelpActivity" />
         <activity android:name=".modules.main.userself.settings.view.JoinUsActivity" />
 
-        <activity android:name=".welcome.GuideActivity"/>
+        <activity android:name=".modules.welcome.GuideActivity"/>
 
-        <activity android:name=".modules.login.view.LoginActivity" />
+        <activity android:name=".modules.login.view.LoginActivity"
+            android:launchMode="singleTop"/>
 
         <activity android:name=".modules.login.view.RegisterActivity" />
 
 
-        <activity android:name=".modules.arround.view.AroundActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"/>
+        <activity android:name=".modules.arround.view.AroundActivity"/>
 
         <activity android:name=".modules.shake.view.ShakeActivity" />
 
         <activity android:name=".modules.routeplan.view.activity.ChooseActivity"
-            android:windowSoftInputMode="adjustResize|adjustPan"
-            android:theme="@style/SwipeBack.Transparent.Theme"/>
+            android:windowSoftInputMode="adjustResize|adjustPan"/>
 
-        <activity android:name=".modules.routeplan.view.activity.RoutePlanActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity android:name=".modules.routeplan.view.activity.RoutePlanActivity" />
 
-        <activity android:name=".modules.main.userself.travel.view.WebActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity android:name=".modules.main.userself.travel.view.WebActivity" />
 
-        <activity android:name=".modules.routeplan.view.activity.MapActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity android:name=".modules.routeplan.view.activity.MapActivity"/>
 
         <activity android:name=".modules.routeplan.view.activity.GoGuideActivity" />
+
+        <activity android:name=".modules.routeplan.view.activity.CommentScoreActivity" />
 
         <activity android:name=".modules.routeplan.view.activity.AllRouteActivity" />
 
         <activity android:name=".modules.routeplan.view.activity.MapGuideActivity" />
 
-        <activity android:name=".modules.routeplan.view.activity.ScenicActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity android:name=".modules.routeplan.view.activity.ScenicActivity" />
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

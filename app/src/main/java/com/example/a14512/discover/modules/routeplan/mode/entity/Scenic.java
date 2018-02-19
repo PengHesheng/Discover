@@ -9,6 +9,19 @@ import java.io.Serializable;
  */
 
 public class Scenic implements Serializable {
+
+    /**
+     * place_time : 70
+     * place_popularity : 62
+     * place_lat : 29.509211
+     * place_name : 重庆动物园
+     * place_photo : null
+     * place_lng : 106.512557
+     * place_introduce : 4A级景区 亲子好去处
+     * place_price : 20
+     */
+
+    @SerializedName("place_photo")
     public String img;
 
     @SerializedName("place_name")

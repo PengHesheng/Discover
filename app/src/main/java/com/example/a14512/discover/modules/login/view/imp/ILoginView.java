@@ -20,4 +20,10 @@ public interface ILoginView {
      * 判断是否登录成功
      */
     void isLogin();
+
+    /**
+     * 设置头像
+     * @param portrait
+     */
+    void setPortrait(String portrait);
 }

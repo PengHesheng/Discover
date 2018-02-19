@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
-import com.example.a14512.discover.base.BaseSwipeBackActivity;
+import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.routeplan.adpter.CustomLinearLayoutManager;
 import com.example.a14512.discover.modules.routeplan.adpter.ScenicCommentAdapter;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * @author 14512 on 2018/1/31
  */
 
-public class ScenicActivity extends BaseSwipeBackActivity implements IScenicView{
+public class ScenicActivity extends BaseActivity implements IScenicView{
 
     private ImageView imgScenic;
     private ImageView mBack;
@@ -47,8 +47,8 @@ public class ScenicActivity extends BaseSwipeBackActivity implements IScenicView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scenic);
         initView();
-        getData();
         initToolbar();
+        getData();
         initRecyclerView();
     }
 
@@ -58,11 +58,13 @@ public class ScenicActivity extends BaseSwipeBackActivity implements IScenicView
     }
 
     private void getData() {
-        adapter = new ScenicCommentAdapter(this);
-        mPresenter = new ScenicPresenterImp(this, this);
-        mPresenter.getData();
         mScenic = (Scenic) getIntent().getBundleExtra(C.SCENIC_DETAIL).get(C.SCENIC_DETAIL);
+        int type = getIntent().getIntExtra("type", 0);
+        adapter = new ScenicCommentAdapter(this, type);
+        mPresenter = new ScenicPresenterImp(this, this);
+        isFollow = type == 1;
         if (mScenic != null) {
+            mPresenter.getData(mScenic.name);
             adapter.setScenicAdapter(mScenic);
             mRecyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
@@ -70,12 +72,11 @@ public class ScenicActivity extends BaseSwipeBackActivity implements IScenicView
                 attention = (LinearLayout) view;
                 if (!isFollow) {
                     mPresenter.followScenic(mScenic.name, 1);
-                    ToastUtil.show(this, "以关注");
+                    ToastUtil.show(ScenicActivity.this, "以关注");
                 } else {
                     mPresenter.followScenic(mScenic.name, 0);
-                    ToastUtil.show(this, "取消关注");
+                    ToastUtil.show(ScenicActivity.this, "取消关注");
                 }
-
             });
             Glide.with(this).load(R.mipmap.ic_launcher_round).into(imgScenic);
         }
@@ -101,8 +102,8 @@ public class ScenicActivity extends BaseSwipeBackActivity implements IScenicView
     @Override
     public void setAdapter(ArrayList<ScenicCommentUser> users) {
         adapter.setCommentAdapter(users);
-        adapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         adapter.setOnItemClickListener((view, position) -> {
             if (!isZan) {
                 view.setBackgroundResource(R.drawable.btn_bus_bg);

@@ -1,5 +1,6 @@
 package com.example.a14512.discover.modules.main.userself.myroute.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.a14512.discover.R;
-import com.example.a14512.discover.modules.main.userself.myroute.mode.MyRoute;
+import com.example.a14512.discover.modules.main.userself.myroute.mode.entity.MyRoute;
 
 import java.util.ArrayList;
 
@@ -34,11 +35,14 @@ public class MyRouteAdapter extends RecyclerView.Adapter {
         return new MyRouteViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyRouteViewHolder) {
             MyRoute myRoute = mMyRoutes.get(position);
-
+            ((MyRouteViewHolder) holder).pay.setText(String.valueOf(myRoute.getAll_coast()) + "元");
+            ((MyRouteViewHolder) holder).path.setText(String.valueOf(myRoute.getAll_distance()) + "km");
+            ((MyRouteViewHolder) holder).saveTime.setText(myRoute.getRoute_time());
         }
     }
 

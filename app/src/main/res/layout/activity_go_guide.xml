@@ -1,63 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/btn_pre_scenic"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="上一景点"/>
-
-        <Button
-            android:id="@+id/btn_back_home"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="返回"/>
-
-        <Button
-            android:id="@+id/btn_next_scenic"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="下一景点"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="top">
+        <include layout="@layout/toolbar"/>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/btn_finish_route"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="结束行程"/>
-
-        <Button
-            android:id="@+id/btn_all_route"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="总揽"/>
-
-        <Button
-            android:id="@+id/btn_start_guide"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="开始导航"/>
-
-    </LinearLayout>
-
 
     <com.baidu.mapapi.map.TextureMapView
         android:id="@+id/texture_map_go_guide"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="40dp"
+        android:layout_height="100dp"
+        android:orientation="vertical"
+        android:layout_gravity="right|bottom"
+        android:background="#ffffff"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="100dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginEnd="11dp"
+        tools:ignore="RtlHardcoded">
+
+        <ImageView
+            android:id="@+id/img_pre_scenic"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:src="@mipmap/go_guide_pre"/>
+
+        <ImageView
+            android:id="@+id/img_next_scenic"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:src="@mipmap/go_guide_next"/>
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:background="#ffffff"
+        android:gravity="center_vertical"
+        android:layout_gravity="bottom">
+
+        <LinearLayout
+            android:id="@+id/layout_all_route"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/go_guide_all" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#7a7a7a"
+                android:text="总览"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_go_guide"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/layout_bg_all_route"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/go_guide_to_guide" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="#ffffff"
+                android:text="出发"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_finish"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/go_guide_over" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#7a7a7a"
+                android:text="结束"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</FrameLayout>

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.a14512.discover.R;
+import com.example.a14512.discover.utils.PLog;
 
 import java.util.ArrayList;
 
@@ -48,17 +49,25 @@ public class AllRouteAdapter extends RecyclerView.Adapter {
             }
             if (position == mLocation) {
                 ((AllRouteViewHolder) holder).location.setVisibility(View.VISIBLE);
-                ((AllRouteViewHolder) holder).num.setTextColor(mContext.getResources().getColor(R.color.allRoute));
+                ((AllRouteViewHolder) holder).num.setTextColor(mContext.getResources().getColor(R.color.allRoute2));
                 ((AllRouteViewHolder) holder).num.setTextSize(18);
             }
         }
     }
 
     private void setProgress(ImageView progress, Integer dis) {
-        progress.setBackgroundColor(mContext.getResources().getColor(R.color.allRoute));
+        int width = dis / 60;
+        PLog.e(width+"");
+        if (width <= 10) {
+            progress.setBackgroundColor(mContext.getResources().getColor(R.color.allRoute3));
+        } else if (width > 10 && width <= 30) {
+            progress.setBackgroundColor(mContext.getResources().getColor(R.color.allRoute2));
+        } else {
+            progress.setBackgroundColor(mContext.getResources().getColor(R.color.allRoute1));
+        }
         ViewGroup.LayoutParams params = progress.getLayoutParams();
         //TODO 百分比有待优化
-        params.width =  dis / 60;
+        params.width =  width;
         progress.setLayoutParams(params);
     }
 

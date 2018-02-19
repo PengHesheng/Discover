@@ -1,5 +1,7 @@
 package com.example.a14512.discover.modules.main.userself.myroute.mode;
 
+import com.example.a14512.discover.modules.main.userself.myroute.mode.entity.MyRoute;
+import com.example.a14512.discover.network.RetrofitHelper;
 import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 
 import java.util.ArrayList;
@@ -10,11 +12,7 @@ import java.util.ArrayList;
 
 public class Mode {
 
-    public void getHistoricRoute(ApiSubscriber<ArrayList<MyRoute>> apiSubscriber) {
-
-    }
-
-    public void getMyCollect(ApiSubscriber<ArrayList<MyRoute>> apiSubscriber) {
-
+    public void getMyRoute(ApiSubscriber<ArrayList<MyRoute>> apiSubscriber, String phone) {
+        RetrofitHelper.getInstance().getMyRoute(phone).subscribe(apiSubscriber);
     }
 }

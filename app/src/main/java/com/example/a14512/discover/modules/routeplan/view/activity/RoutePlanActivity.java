@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
-import com.example.a14512.discover.base.BaseSwipeBackActivity;
+import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.routeplan.adpter.CustomLinearLayoutManager;
 import com.example.a14512.discover.modules.routeplan.adpter.RoutePlanAdapter;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * @author 14512 on 2018/1/28
  */
 
-public class RoutePlanActivity extends BaseSwipeBackActivity implements IRoutePlanView, View.OnClickListener {
+public class RoutePlanActivity extends BaseActivity implements IRoutePlanView, View.OnClickListener {
     private ImageView mBack;
     private TextView mTitle;
     private ImageView mRight;
@@ -123,7 +123,8 @@ public class RoutePlanActivity extends BaseSwipeBackActivity implements IRoutePl
     }
 
     private void setMorningAdapter(ArrayList<Scenic> arrayList) {
-        mMorningAdapter = new RoutePlanAdapter(this, arrayList);
+        mMorningAdapter = new RoutePlanAdapter(this);
+        mMorningAdapter.setRoutePlanAdapter(arrayList);
         mMorningAdapter.notifyDataSetChanged();
         mMorningRecyclerView.setAdapter(mMorningAdapter);
         mMorningAdapter.setOnItemClickListener((view, position) -> {
@@ -138,7 +139,8 @@ public class RoutePlanActivity extends BaseSwipeBackActivity implements IRoutePl
     }
 
     private void setAfternoonAdapter(ArrayList<Scenic> arrayList) {
-        mAfternoonAdapter = new RoutePlanAdapter(this, arrayList);
+        mAfternoonAdapter = new RoutePlanAdapter(this);
+        mAfternoonAdapter.setRoutePlanAdapter(arrayList);
         mAfternoonAdapter.notifyDataSetChanged();
         mAfternoonRecyclerView.setAdapter(mAfternoonAdapter);
         mAfternoonAdapter.setOnItemClickListener((view, position) -> {
@@ -153,7 +155,8 @@ public class RoutePlanActivity extends BaseSwipeBackActivity implements IRoutePl
     }
 
     private void setEveningAdapter(ArrayList<Scenic> arrayList) {
-        mEveningAdapter = new RoutePlanAdapter(this, arrayList);
+        mEveningAdapter = new RoutePlanAdapter(this);
+        mEveningAdapter.setRoutePlanAdapter(arrayList);
         mEveningAdapter.notifyDataSetChanged();
         mEveningRecyclerView.setAdapter(mEveningAdapter);
         mEveningAdapter.setOnItemClickListener((view, position) -> {

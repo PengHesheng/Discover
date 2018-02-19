@@ -5,10 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.a14512.discover.welcome.WelcomeActivity">
+    android:background="@drawable/launch"
+    tools:context=".modules.welcome.WelcomeActivity">
 
-    <ImageView
-        android:id="@+id/img_welcome"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 </LinearLayout>

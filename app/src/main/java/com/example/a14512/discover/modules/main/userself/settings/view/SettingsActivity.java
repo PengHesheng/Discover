@@ -2,14 +2,18 @@ package com.example.a14512.discover.modules.main.userself.settings.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
+import com.example.a14512.discover.utils.ACache;
+import com.example.a14512.discover.utils.ToastUtil;
 
 /**
  * @author 14512 on 2018/2/6
@@ -86,6 +90,20 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void loginOut() {
-
+        if (C.ACCOUNT.equals(ACache.getDefault().getAsString(C.ACCOUNT))) {
+            ToastUtil.show(this, "已经退出了！");
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("确定退出吗？")
+                    .setCancelable(false)
+                    .setPositiveButton("是", (dialog, id) -> {
+                        ACache.getDefault().put(C.ACCOUNT, C.ACCOUNT);
+                        ToastUtil.show(this, "退出登录成功！");
+                        setResult(RESULT_OK);
+                    })
+                    .setNegativeButton("否", (dialog, id) -> dialog.cancel());
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
 }

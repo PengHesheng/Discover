@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.modules.routeplan.mode.entity.ScenicCommentUser;
+import com.example.a14512.discover.utils.PLog;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 
 public class ScenicCommentAdapter extends RecyclerView.Adapter {
     private Context mContext;
+    private int type;
     private ArrayList<ScenicCommentUser> mUsers = new ArrayList<>();
     private Scenic mScenic;
 
@@ -31,8 +33,9 @@ public class ScenicCommentAdapter extends RecyclerView.Adapter {
         this.mOnItemClickListener = onItemClickListener1;
     }
 
-    public ScenicCommentAdapter(Context context) {
+    public ScenicCommentAdapter(Context context, int type) {
         this.mContext = context;
+        this.type = type;
     }
 
     public void setCommentAdapter(ArrayList<ScenicCommentUser> list) {
@@ -60,17 +63,19 @@ public class ScenicCommentAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof CommentViewHolder) {
-            ScenicCommentUser user = mUsers.get(position);
+            ScenicCommentUser user = mUsers.get(position-1);
             if (user != null) {
                 Glide.with(mContext).load(user.portrait)
                         .error(R.mipmap.ic_launcher).into(((CommentViewHolder) holder).portrait);
                 ((CommentViewHolder) holder).name.setText(user.name);
-                setStar(user.star, ((CommentViewHolder) holder).imgComment);
+                setStar(Integer.parseInt(user.star), ((CommentViewHolder) holder).imgComment);
             }
             //如果设置了回调，则设置点击事件
             if (mOnItemClickListener != null) {
-                ((CommentViewHolder) holder).zan.setOnClickListener(v ->
-                        mOnItemClickListener.onOnePartyClick(((CommentViewHolder) holder).zan, position));
+                ((CommentViewHolder) holder).zan.setOnClickListener(v ->{
+                    PLog.e("1");
+                    mOnItemClickListener.onOnePartyClick(((CommentViewHolder) holder).zan, position);
+                });
             }
         } else if (holder instanceof FirstScenicDetailViewHolder){
             ((FirstScenicDetailViewHolder) holder).scenicName.setText(mScenic.name);
@@ -79,11 +84,24 @@ public class ScenicCommentAdapter extends RecyclerView.Adapter {
             ((FirstScenicDetailViewHolder) holder).location.setText(mScenic.location);
             ((FirstScenicDetailViewHolder) holder).money.setText("人均"+mScenic.peopleAver);
             ((FirstScenicDetailViewHolder) holder).monthPeople.setText("人气"+mScenic.monthAver);
+            setDefaultText(((FirstScenicDetailViewHolder) holder).attention);
             if (mOnItemClickListener != null) {
                 ((FirstScenicDetailViewHolder) holder).attention.setOnClickListener(v -> {
                     mOnItemClickListener.onOnePartyClick(((FirstScenicDetailViewHolder) holder).attention, position);
                 });
             }
+        }
+    }
+
+    private void setDefaultText(LinearLayout attention) {
+        ImageView img = attention.findViewById(R.id.img_attention);
+        TextView tv = attention.findViewById(R.id.tv_attention);
+        if (type == 1) {
+            img.setVisibility(View.GONE);
+            tv.setText("已关注");
+        } else {
+            img.setVisibility(View.VISIBLE);
+            tv.setText("关注");
         }
     }
 
@@ -123,7 +141,7 @@ public class ScenicCommentAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return mUsers.size();
+        return mUsers.size() + 1;
     }
 
     public class CommentViewHolder extends RecyclerView.ViewHolder {

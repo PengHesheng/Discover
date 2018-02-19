@@ -40,6 +40,9 @@ public class ChoosePresenterImp implements IChoosePresenter {
     private Scenic startScenic;
     private Scenic endScenic;
 
+    private PoiSearch poiSearch;
+    private OnGetPoiSearchResultListener listener;
+
     public ChoosePresenterImp(IChooseView chooseView, Context context) {
         this.mContext = context;
         this.mView = chooseView;
@@ -72,8 +75,8 @@ public class ChoosePresenterImp implements IChoosePresenter {
     }
 
     private void poiSearch(String startPlace, int type) {
-        PoiSearch poiSearch = PoiSearch.newInstance();
-        OnGetPoiSearchResultListener listener = new OnGetPoiSearchResultListener() {
+        poiSearch = PoiSearch.newInstance();
+        listener = new OnGetPoiSearchResultListener() {
             @Override
             public void onGetPoiResult(PoiResult poiResult) {
                 if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {
@@ -121,6 +124,7 @@ public class ChoosePresenterImp implements IChoosePresenter {
     }
 
     private void putRoute(Scenic startScenic, Scenic endScenic) throws UnsupportedEncodingException {
+        poiSearch.destroy();
         double startLng = startScenic.longitude;
         double startLat = startScenic.latitude;
         double endLng = endScenic.longitude;
@@ -138,8 +142,8 @@ public class ChoosePresenterImp implements IChoosePresenter {
         personSelect = 4;
         tfSelect = 1;
 
-        ApiSubscriber<ArrayList<Scenic>> apiSubscriber = new ApiSubscriber<ArrayList<Scenic>>(mContext,
-                false, false) {
+        ApiSubscriber<ArrayList<Scenic>> apiSubscriber = new ApiSubscriber<ArrayList<Scenic>>(
+                mContext, true, false) {
             @Override
             public void onNext(ArrayList<Scenic> value) {
                 PLog.e(value.size()+"");

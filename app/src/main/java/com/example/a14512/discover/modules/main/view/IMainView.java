@@ -1,5 +1,6 @@
 package com.example.a14512.discover.modules.main.view;
 
+import com.example.a14512.discover.modules.main.mode.entity.UserInfo;
 import com.example.a14512.discover.modules.main.mode.entity.WeatherData;
 
 /**
@@ -19,4 +20,10 @@ public interface IMainView {
      * @param isLogin
      */
     void isLogin(boolean isLogin);
+
+    /**
+     * 展示个人信息
+     * @param userInfo
+     */
+    void setUserInfo(UserInfo userInfo);
 }

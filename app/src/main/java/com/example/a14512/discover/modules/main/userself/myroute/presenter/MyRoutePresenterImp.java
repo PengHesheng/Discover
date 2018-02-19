@@ -2,8 +2,9 @@ package com.example.a14512.discover.modules.main.userself.myroute.presenter;
 
 import android.content.Context;
 
+import com.example.a14512.discover.C;
 import com.example.a14512.discover.modules.main.userself.myroute.mode.Mode;
-import com.example.a14512.discover.modules.main.userself.myroute.mode.MyRoute;
+import com.example.a14512.discover.modules.main.userself.myroute.mode.entity.MyRoute;
 import com.example.a14512.discover.modules.main.userself.myroute.view.IMyRouteView;
 import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 import com.example.a14512.discover.utils.ACache;
@@ -26,42 +27,50 @@ public class MyRoutePresenterImp implements IMyRoutePresenter{
     }
 
     @Override
-    public void getHistoricRoute() {
+    public void getHistoricRouteFromACache() {
         ArrayList<MyRoute> routes = (ArrayList<MyRoute>) ACache.getDefault().getAsObject("my_historic");
-        if (routes == null) {
-            ApiSubscriber<ArrayList<MyRoute>> apiSubscriber = new ApiSubscriber<ArrayList<MyRoute>>(
-                    mContext, false, false) {
-                @Override
-                public void onNext(ArrayList<MyRoute> value) {
-                    if (value != null) {
-                        mView.setHistoricRoute(value);
-                        ACache.getDefault().put("my_historic", value);
-                    }
-                }
-            };
-            mMode.getHistoricRoute(apiSubscriber);
-        } else {
+        if (routes != null) {
             mView.setHistoricRoute(routes);
         }
     }
 
     @Override
-    public void getMyCollect() {
-        ArrayList<MyRoute> routes = (ArrayList<MyRoute>) ACache.getDefault().getAsObject("my_historic");
-        if (routes == null) {
-            ApiSubscriber<ArrayList<MyRoute>> apiSubscriber = new ApiSubscriber<ArrayList<MyRoute>>(
-                    mContext, false, false) {
-                @Override
-                public void onNext(ArrayList<MyRoute> value) {
-                    if (value != null) {
-                        mView.setMyCollect(value);
-                        ACache.getDefault().put("my_historic", value);
-                    }
-                }
-            };
-            mMode.getMyCollect(apiSubscriber);
-        } else {
+    public void getMyCollectFromACache() {
+        ArrayList<MyRoute> routes = (ArrayList<MyRoute>) ACache.getDefault().getAsObject("my_collect");
+        if (routes != null) {
             mView.setMyCollect(routes);
         }
+    }
+
+    @Override
+    public void getMtRoute() {
+        String phone = ACache.getDefault().getAsString(C.ACCOUNT);
+        ApiSubscriber<ArrayList<MyRoute>> apiSubscriber = new ApiSubscriber<ArrayList<MyRoute>>(
+                mContext, true, false) {
+            @Override
+            public void onNext(ArrayList<MyRoute> value) {
+                if (value != null) {
+                    chooseMyRoute(value);
+                }
+            }
+        };
+        mMode.getMyRoute(apiSubscriber, phone);
+
+    }
+
+    private void chooseMyRoute(ArrayList<MyRoute> routes) {
+        ArrayList<MyRoute> historicRoutes = new ArrayList<>();
+        ArrayList<MyRoute> collectRoutes = new ArrayList<>();
+        for (MyRoute myRoute : routes) {
+            if (myRoute.getRoute_found() == 1) {
+                historicRoutes.add(myRoute);
+            } else if (myRoute.getRoute_found() == 0) {
+                collectRoutes.add(myRoute);
+            }
+        }
+        ACache.getDefault().put("my_historic", historicRoutes);
+        ACache.getDefault().put("my_collect", collectRoutes);
+//        mView.setMyCollect(collectRoutes);
+        mView.setHistoricRoute(historicRoutes);
     }
 }

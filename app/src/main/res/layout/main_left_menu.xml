@@ -8,11 +8,12 @@
 
     <LinearLayout
         android:id="@+id/layout_login"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="225dp"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible">
+
         <ImageView
             android:id="@+id/img_head_portrait"
             android:layout_width="93dp"
@@ -28,12 +29,31 @@
             android:textColor="#ffffff"
             android:textSize="20sp" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp" />
+
+            <TextView
+                android:id="@+id/tv_head_signed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="#ffffff"
+                tools:text="你从哪里来？将要去哪里？" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layout_login_out"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="225dp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -157,6 +177,32 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/layout_personality"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#fa7703"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="31dp"
+            android:layout_marginStart="31dp"
+            android:src="@mipmap/personality" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/tv_menu_personality"
+            android:textColor="#ffffff"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -176,17 +222,18 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginStart="15dp"
                 android:textColor="#40ffffff"
-                android:textSize="90sp"
+                android:textSize="75sp"
                 tools:text="23" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
+                android:paddingTop="16dp"
                 android:text="@string/tv_menu_temp"
                 android:textColor="#40ffffff"
-                android:textSize="25sp" />
+                android:textSize="36sp" />
 
             <ImageView
                 android:id="@+id/img_weather_icon"

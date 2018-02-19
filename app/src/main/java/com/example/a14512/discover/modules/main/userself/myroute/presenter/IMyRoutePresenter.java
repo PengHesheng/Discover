@@ -9,10 +9,15 @@ public interface IMyRoutePresenter {
     /**
      * 获取历史路线
      */
-    void getHistoricRoute();
+    void getHistoricRouteFromACache();
 
     /**
      * 获取我的收藏
      */
-    void getMyCollect();
+    void getMyCollectFromACache();
+
+    /**
+     * 获取我的路线
+     */
+    void getMtRoute();
 }

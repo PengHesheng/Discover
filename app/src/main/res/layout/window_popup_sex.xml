@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f0f0f0"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <RadioGroup
+        android:id="@+id/rgUserBasicSex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/rbMale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="4dp"
+            android:paddingStart="4dp"
+            android:text="@string/rb_sex_man"
+            android:textSize="14sp"
+            tools:ignore="RtlSymmetry" />
+
+        <RadioButton
+            android:id="@+id/rbSex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:paddingLeft="4dp"
+            android:paddingStart="4dp"
+            android:text="@string/rb_sex_sex"
+            android:textSize="14sp"
+            tools:ignore="RtlSymmetry" />
+
+        <RadioButton
+            android:id="@+id/rbFemale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="4dp"
+            android:paddingStart="4dp"
+            android:text="@string/rb_sex_woman"
+            android:textSize="14sp"
+            tools:ignore="RtlSymmetry" />
+    </RadioGroup>
+</LinearLayout>

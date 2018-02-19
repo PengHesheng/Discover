@@ -15,4 +15,9 @@ public interface IMainPresenter {
      * 判断是否登录
      */
     void isLogin();
+
+    /**
+     * 获取个人信息
+     */
+    void getUserInfo();
 }

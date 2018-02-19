@@ -113,12 +113,10 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                 mBaiduMap.setMyLocationData(locData);
                 MyLocationConfiguration config = new MyLocationConfiguration(null, true, null);
                 mBaiduMap.setMyLocationConfiguration(config);
+                locationUtil.unRegisterListener(listener);
             }
         };
         locationUtil.getLocation(this, listener);
-        if (city != null) {
-            locationUtil.unRegisterListener(listener);
-        }
     }
 
     private void toastError(int locType) {

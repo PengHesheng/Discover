@@ -14,7 +14,7 @@ public interface IRegisterView {
     /**
      * @return 获取验证码
      */
-    int getCode();
+    String getCode();
 
     /**
      * @return 获取密码

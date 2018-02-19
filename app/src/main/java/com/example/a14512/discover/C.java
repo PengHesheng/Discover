@@ -27,6 +27,9 @@ public class C {
     public static final int CHOOSE_CROPED_PICTURE = 5;
     public static final int UPLOAD_PICTURE = 6;
     public static final int LOGIN = 7;
+    public static final int LOGIN_OUT = 8;
+    public static final int UPDATE_INFO = 9;
+    public static final int CHOOSE_CITY = 10;
 
     /**
      * route plan time
@@ -54,5 +57,15 @@ public class C {
      * 天气接口APIkey
      */
     public static final String WEATHER_KEY = "ba017b1a8a1f4f0fb5912bb2295d21a9";
+
+    /**
+     * 存储账户信息-电话号码
+     */
+    public static final String ACCOUNT = "account";
+
+    /**
+     * 缓存区的头像
+     */
+    public static final String PORTRAIT = "portrait";
 
 }

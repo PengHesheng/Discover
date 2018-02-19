@@ -15,7 +15,7 @@ public class ScenicCommentUser implements Serializable {
     public String name;
 
     @SerializedName("comment")
-    public int star;
+    public String star;
 
     @SerializedName("userPhone")
     public String phone;

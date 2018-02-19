@@ -3,12 +3,15 @@ package com.example.a14512.discover.modules.routeplan.view.activity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
@@ -17,6 +20,7 @@ import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.utils.ACache;
 import com.example.a14512.discover.utils.DistanceUtil;
 import com.example.a14512.discover.utils.Time;
+import com.example.a14512.discover.utils.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -37,6 +41,7 @@ public class AllRouteActivity extends BaseActivity {
     private TextView mSumTime;
     private TextView mSumPay;
     private RecyclerView mRecyclerView;
+    private FloatingActionButton mActionButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +59,7 @@ public class AllRouteActivity extends BaseActivity {
         setStatusBarColor(R.color.mainToolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.white));
         mShare.setImageResource(R.mipmap.exchange_direction);
-        mBack.setImageResource(R.mipmap.all_route_back);
+        mBack.setImageResource(R.mipmap.left_back);
         mBack.setOnClickListener(v -> finish());
     }
 
@@ -78,6 +83,8 @@ public class AllRouteActivity extends BaseActivity {
         int sumDistance = getIntent().getIntExtra("sum_distance", 0);
 
         mDate.setText(date);
+        int time = Time.calculateMinute(startTime, endTime) - calculatePatTime(stepTimes);
+        calculateNervous(time, mImgNervous);
         mTime.setText(startTime + "——" + endTime);
         mSumDistance.setText(DistanceUtil.transformMtoKM(sumDistance));
         mSumTime.setText(sumTime(stepTimes));
@@ -90,7 +97,57 @@ public class AllRouteActivity extends BaseActivity {
         adapter.setAdapterData(names, location, stepTimes);
         mRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+    }
 
+    private void calculateNervous(int time, ImageView nervous) {
+        if (time >= 4*60) {
+            setStar(0, nervous);
+        } else if (time >= 3*60 && time < 4*60) {
+            setStar(1, nervous);
+        } else if (time >= 2*60 && time < 3*60) {
+            setStar(2, nervous);
+        } else if (time >= 60 && time < 2*60) {
+            setStar(3, nervous);
+        } else if (time >= 30 && time < 60) {
+            setStar(4, nervous);
+        } else {
+            setStar(5, nervous);
+        }
+
+    }
+
+    private int calculatePatTime(ArrayList<Integer> second) {
+        int sum = 0;
+        for (int i : second) {
+            sum += i;
+        }
+        sum = sum / 60;
+        return sum;
+    }
+
+    private void setStar(int star, ImageView imageView) {
+        switch (star) {
+            case 0:
+                Glide.with(this).load(R.drawable.nervous0).into(imageView);
+                break;
+            case 1:
+                Glide.with(this).load(R.drawable.nervous1).into(imageView);
+                break;
+            case 2:
+                Glide.with(this).load(R.drawable.nervous2).into(imageView);
+                break;
+            case 3:
+                Glide.with(this).load(R.drawable.nervous3).into(imageView);
+                break;
+            case 4:
+                Glide.with(this).load(R.drawable.nervous4).into(imageView);
+                break;
+            case 5:
+                Glide.with(this).load(R.drawable.nervous5).into(imageView);
+                break;
+            default:
+                break;
+        }
     }
 
     private String sumTime(ArrayList<Integer> second) {
@@ -113,5 +170,19 @@ public class AllRouteActivity extends BaseActivity {
         mSumTime = findViewById(R.id.tv_all_route_sum_time);
         mSumPay = findViewById(R.id.tv_all_route_sum_pay);
         mRecyclerView = findViewById(R.id.all_route_recycler_view);
+        mActionButton = findViewById(R.id.floating_btn_all_route);
+
+        mActionButton.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("保存路线")
+                    .setCancelable(false)
+                    .setPositiveButton("是", (dialog, id) -> {
+                        //TODO 保存路线逻辑
+                        ToastUtil.show(this, "保存成功！");
+                    })
+                    .setNegativeButton("否", (dialog, id) -> dialog.cancel());
+            AlertDialog alert = builder.create();
+            alert.show();
+        });
     }
 }

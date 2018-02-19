@@ -8,8 +8,9 @@ public interface IScenicPresenter {
 
     /**
      *获取评论
+     * @param place
      */
-    void getData();
+    void getData(String place);
 
     /**
      * 关注景点

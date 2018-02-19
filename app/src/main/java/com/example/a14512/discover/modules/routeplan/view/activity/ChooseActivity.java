@@ -10,7 +10,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,10 +27,11 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.a14512.discover.R;
-import com.example.a14512.discover.base.BaseSwipeBackActivity;
+import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.routeplan.presenter.ChoosePresenterImp;
 import com.example.a14512.discover.modules.routeplan.view.imp.IChooseView;
 import com.example.a14512.discover.utils.DateTimePicker;
+import com.example.a14512.discover.utils.KeyBoardUtil;
 import com.example.a14512.discover.utils.LocationUtil;
 import com.example.a14512.discover.utils.PLog;
 import com.example.a14512.discover.utils.ToastUtil;
@@ -43,13 +43,14 @@ import java.util.List;
  * @author 14512 on 2018/1/27
  */
 
-public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClickListener,
+public class ChooseActivity extends BaseActivity implements View.OnClickListener,
         IChooseView {
     private static final String TAG = "ChooseActivity";
 
     private SuggestionSearch mSuggestionSearch;
     private String city = null, street = null, myLocation = "我的位置";
 
+    private LinearLayout mainLayout;
     private ImageView mBack;
     private TextView mTitle;
     private ImageView mRight;
@@ -61,6 +62,9 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
     private Button mBtnLongPlay;
     private Button mBtnHighComment;
     private ImageView mImgIsRecommend;
+
+    private LocationUtil locationUtil;
+    private BDAbstractLocationListener listener;
 
     private ChoosePresenterImp mPresenter;
     private boolean isSortDistance = false, isLessPay = false, isLognPlay = false,
@@ -76,8 +80,8 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
     }
 
     private void getLocation() {
-        LocationUtil locationUtil = LocationUtil.getInstance();
-        BDAbstractLocationListener listener = new BDAbstractLocationListener() {
+        locationUtil = LocationUtil.getInstance();
+        listener = new BDAbstractLocationListener() {
             @Override
             public void onReceiveLocation(BDLocation location) {
                 //获取详细地址信息
@@ -93,12 +97,10 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
 //                String district = location.getDistrict();
                 //获取街道信息
                 street = location.getStreet();
+                locationUtil.unRegisterListener(listener);
             }
         };
         locationUtil.getLocation(this, listener);
-        if (city != null) {
-            locationUtil.unRegisterListener(listener);
-        }
     }
 
     private void initToolbar() {
@@ -110,7 +112,7 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
     }
 
     private void initView() {
-        LinearLayout mainLayout = findViewById(R.id.choose_layout);
+        mainLayout = findViewById(R.id.choose_layout);
         mBack = findViewById(R.id.img_toolbar_left);
         mTitle = findViewById(R.id.tv_toolbar_title);
         mRight = findViewById(R.id.img_toolbar_right);
@@ -141,6 +143,7 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
         mEdtEndTime.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         mEdtStartPlace.setText(myLocation);
 
+        mainLayout.setOnClickListener(this);
         mBack.setOnClickListener(this);
         mTitle.setOnClickListener(this);
         toolbar.setOnClickListener(this);
@@ -166,6 +169,9 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.choose_layout:
+                KeyBoardUtil.hideInputFromWindow(this, mainLayout);
+                break;
             case R.id.edt_start_place:
                 searchListener(mEdtStartPlace);
                 break;
@@ -173,33 +179,42 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
                 searchListener(mEdtEndPlace);
                 break;
             case R.id.edt_start_time:
+                KeyBoardUtil.hideInputFromWindow(this, mainLayout);
                 selectTime(mEdtStartTime);
                 break;
             case R.id.edt_end_time:
+                KeyBoardUtil.hideInputFromWindow(this, mainLayout);
                 selectTime(mEdtEndTime);
                 break;
             case R.id.btn_sort_distance:
+                KeyBoardUtil.hideInputFromWindow(this, mainLayout);
                 isSortDistance = changeButton(mBtnSortDistance, isSortDistance);
                 break;
             case R.id.btn_less_pay:
+                KeyBoardUtil.hideInputFromWindow(this, mainLayout);
                 isLessPay = changeButton(mBtnLessPay, isLessPay);
                 break;
             case R.id.btn_long_play:
+                KeyBoardUtil.hideInputFromWindow(this, mainLayout);
                 isLognPlay = changeButton(mBtnLongPlay, isLognPlay);
                 break;
             case R.id.btn_high_comment:
+                KeyBoardUtil.hideInputFromWindow(this, mainLayout);
                 isHighComment = changeButton(mBtnHighComment, isHighComment);
                 break;
             case R.id.btn_build:
                 mPresenter.putData();
                 break;
             case R.id.img_exchange_place:
+                KeyBoardUtil.hideInputFromWindow(this, mainLayout);
                 exchangePlace(mEdtStartPlace.getText().toString(), mEdtEndPlace.getText().toString());
                 break;
             case R.id.img_exchange_Time:
+                KeyBoardUtil.hideInputFromWindow(this, mainLayout);
                 exchangeTime(mEdtStartTime.getText().toString(), mEdtEndTime.getText().toString());
                 break;
             case R.id.img_is_recommend:
+                KeyBoardUtil.hideInputFromWindow(this, mainLayout);
                 isRecommend = changeImg(isRecommend);
                 break;
             default:
@@ -227,18 +242,10 @@ public class ChooseActivity extends BaseSwipeBackActivity implements View.OnClic
             textView.setThreshold(1);
             textView.setAdapter(sugAdapter);
             sugAdapter.notifyDataSetChanged();
-            textView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    InputMethodManager imm = (InputMethodManager) ChooseActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    if (imm != null) {
-                        imm.hideSoftInputFromWindow(textView.getWindowToken(), 0);
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
+            textView.setOnItemClickListener((parent, view, position, id) -> {
+                InputMethodManager imm = (InputMethodManager) ChooseActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(textView.getWindowToken(), 0);
                 }
             });
             //获取在线建议检索结果

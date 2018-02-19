@@ -11,4 +11,9 @@ public interface ILoginPresenter {
      * @param isRemember
      */
     void login(boolean isRemember);
+
+    /**
+     * 获取缓存中的头像
+     */
+    void getPortrait();
 }

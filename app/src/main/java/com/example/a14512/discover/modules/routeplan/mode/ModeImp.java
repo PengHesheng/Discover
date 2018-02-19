@@ -1,6 +1,7 @@
 package com.example.a14512.discover.modules.routeplan.mode;
 
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
+import com.example.a14512.discover.modules.routeplan.mode.entity.ScenicCommentUser;
 import com.example.a14512.discover.network.RetrofitHelper;
 import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 
@@ -32,6 +33,8 @@ public class ModeImp {
                 .subscribe(apiSubscriber);
     }
 
-
+    public void getCommentUser(ApiSubscriber<ArrayList<ScenicCommentUser>> apiSubscriber, String place) {
+        RetrofitHelper.getInstance().getCommentUser(place).subscribe(apiSubscriber);
+    }
 
 }

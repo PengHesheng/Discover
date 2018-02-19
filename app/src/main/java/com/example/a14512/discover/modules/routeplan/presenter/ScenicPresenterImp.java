@@ -2,6 +2,7 @@ package com.example.a14512.discover.modules.routeplan.presenter;
 
 import android.content.Context;
 
+import com.example.a14512.discover.C;
 import com.example.a14512.discover.modules.routeplan.mode.ModeImp;
 import com.example.a14512.discover.modules.routeplan.mode.entity.ScenicCommentUser;
 import com.example.a14512.discover.modules.routeplan.presenter.imp.IScenicPresenter;
@@ -20,7 +21,6 @@ public class ScenicPresenterImp implements IScenicPresenter {
     private Context mContext;
     private ModeImp mModeImp;
     private IScenicView mView;
-    private ArrayList<ScenicCommentUser> mUsers = new ArrayList<>();
 
     public ScenicPresenterImp(IScenicView view, Context context) {
         this.mContext = context;
@@ -29,15 +29,23 @@ public class ScenicPresenterImp implements IScenicPresenter {
     }
 
     @Override
-    public void getData() {
-        initData();
-        mView.setAdapter(mUsers);
+    public void getData(String place) {
+        place = "重庆动物园";
+        ApiSubscriber<ArrayList<ScenicCommentUser>> apiSubscriber =
+                new ApiSubscriber<ArrayList<ScenicCommentUser>>(mContext, true, false) {
+            @Override
+            public void onNext(ArrayList<ScenicCommentUser> value) {
+                if (value != null) {
+                    mView.setAdapter(value);
+                }
+            }
+        };
+        mModeImp.getCommentUser(apiSubscriber, place);
     }
 
     @Override
     public void followScenic(String placeName, int placeFollow) {
-        String phone = ACache.getDefault().getAsString("account");
-        phone = "18323954590";
+        String phone = ACache.getDefault().getAsString(C.ACCOUNT);
         if (phone != null) {
             ApiSubscriber<Integer> apiSubscriber = new ApiSubscriber<Integer>(mContext, false, false) {
                 @Override
@@ -52,12 +60,4 @@ public class ScenicPresenterImp implements IScenicPresenter {
         }
     }
 
-    private void initData() {
-        for (int i = 0; i <= 5; i++) {
-            ScenicCommentUser user = new ScenicCommentUser();
-            user.name = "One user" + i;
-            user.star = i;
-            mUsers.add(user);
-        }
-    }
 }

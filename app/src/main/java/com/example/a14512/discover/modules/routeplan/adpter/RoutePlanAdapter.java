@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 public class RoutePlanAdapter extends RecyclerView.Adapter {
     private Context mContext;
+    private int type = 0;
     private ArrayList<Scenic> mScenics = new ArrayList<>();
 
     private OnItemClickListener mOnItemClickListener;
@@ -33,9 +34,17 @@ public class RoutePlanAdapter extends RecyclerView.Adapter {
         this.mOnItemClickListener = onItemClickListener1;
     }
 
-    public RoutePlanAdapter(Context context, ArrayList<Scenic> list) {
+    public RoutePlanAdapter(Context context) {
         this.mContext = context;
+    }
+
+    public void setRoutePlanAdapter(ArrayList<Scenic> list) {
         this.mScenics = list;
+    }
+
+    public void setMyFollowAdapter(ArrayList<Scenic> list, int type) {
+        this.mScenics = list;
+        this.type = type;
     }
 
     @Override
@@ -75,6 +84,7 @@ public class RoutePlanAdapter extends RecyclerView.Adapter {
         Bundle bundle = new Bundle();
         bundle.putSerializable(C.SCENIC_DETAIL, scenic);
         intent.putExtra(C.SCENIC_DETAIL, bundle);
+        intent.putExtra("type", type);
         mContext.startActivity(intent);
     }
 

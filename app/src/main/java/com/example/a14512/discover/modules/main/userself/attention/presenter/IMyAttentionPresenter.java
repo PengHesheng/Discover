@@ -5,4 +5,15 @@ package com.example.a14512.discover.modules.main.userself.attention.presenter;
  */
 
 public interface IMyAttentionPresenter {
+
+    /**
+     * 获取我的关注
+     */
+    void getMyFollow();
+
+    /**
+     * 判断是否有缓存
+     * @return
+     */
+    boolean getMyFollowFromACache();
 }

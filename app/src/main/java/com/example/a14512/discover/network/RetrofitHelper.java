@@ -2,7 +2,9 @@ package com.example.a14512.discover.network;
 
 import com.example.a14512.discover.BuildConfig;
 import com.example.a14512.discover.DiscoverApplication;
+import com.example.a14512.discover.modules.main.userself.myroute.mode.entity.MyRoute;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
+import com.example.a14512.discover.modules.routeplan.mode.entity.ScenicCommentUser;
 import com.example.a14512.discover.network.RxUtil.SchedulerTransformer;
 import com.example.a14512.discover.network.RxUtil.interceptor.HttpResponseFunc;
 import com.example.a14512.discover.network.RxUtil.interceptor.ServiceResponseFun;
@@ -117,7 +119,7 @@ public class RetrofitHelper {
      * 网络请求统一处理
      * */
 
-    public Observable<Boolean> isLogin(String phone, String pwd) {
+    public Observable<String> isLogin(String phone, String pwd) {
         return apiService.isLogin(phone, pwd)
                 .compose(SchedulerTransformer.transformer())
                 .onErrorResumeNext(new HttpResponseFunc<>())
@@ -163,6 +165,62 @@ public class RetrofitHelper {
                .compose(SchedulerTransformer.transformer())
                .onErrorResumeNext(new HttpResponseFunc<>())
                .map(new ServiceResponseFun<>());
+   }
+
+   public Observable<Integer> changeUserData(String phone, String photo, String name, String sex,
+                                             String birth, String school, String sign, String email) {
+        return apiService.changeUserData(phone, photo, name, sex, birth, school, sign, email)
+                .compose(SchedulerTransformer.transformer())
+                .onErrorResumeNext(new HttpResponseFunc<>())
+                .map(new ServiceResponseFun<>());
+   }
+
+   public Observable<ArrayList<Scenic>> getMyFollow(String phone) {
+        return apiService.getMyFollow(phone)
+                .compose(SchedulerTransformer.transformer())
+                .onErrorResumeNext(new HttpResponseFunc<>())
+                .map(new ServiceResponseFun<>());
+   }
+
+   public Observable<ArrayList<MyRoute>> getMyRoute(String phone) {
+        return apiService.getMyRoute(phone)
+                .compose(SchedulerTransformer.transformer())
+                .onErrorResumeNext(new HttpResponseFunc<>())
+                .map(new ServiceResponseFun<>());
+   }
+
+   public Observable<Integer> setCommentScore(String phone, String placeName, int score) {
+        return apiService.setCommentStar(phone, placeName, score)
+                .compose(SchedulerTransformer.transformer())
+                .onErrorResumeNext(new HttpResponseFunc<>())
+                .map(new ServiceResponseFun<>());
+   }
+
+   public Observable<ArrayList<ScenicCommentUser>> getCommentUser(String placeName) {
+        return apiService.getCommentScore(placeName)
+                .compose(SchedulerTransformer.transformer())
+                .onErrorResumeNext(new HttpResponseFunc<>())
+                .map(new ServiceResponseFun<>());
+   }
+
+   public Observable<Scenic> getSharkeScenic() {
+        return apiService.getShakeScenic().compose(SchedulerTransformer.transformer())
+                .onErrorResumeNext(new HttpResponseFunc<>())
+                .map(new ServiceResponseFun<>());
+   }
+
+   public Observable<Object> setPersonality(String phone, String found) {
+        return apiService.setPersonality(phone, found)
+                .compose(SchedulerTransformer.transformer())
+                .onErrorResumeNext(new HttpResponseFunc<>())
+                .map(new ServiceResponseFun<>());
+   }
+
+   public Observable<Integer> addHistoricRoute(String phone, String routePlace) {
+        return apiService.addHistoricRoute(phone, routePlace)
+                .compose(SchedulerTransformer.transformer())
+                .onErrorResumeNext(new HttpResponseFunc<>())
+                .map(new ServiceResponseFun<>());
    }
 
 }

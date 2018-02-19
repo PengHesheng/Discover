@@ -1,11 +1,15 @@
 package com.example.a14512.discover.modules.routeplan.view.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -40,7 +44,6 @@ import com.baidu.mapapi.utils.SpatialRelationUtil;
 import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
-import com.example.a14512.discover.modules.main.view.MainActivity;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.utils.LocationUtil;
 import com.example.a14512.discover.utils.PLog;
@@ -57,11 +60,10 @@ import java.util.ArrayList;
 
 public class GoGuideActivity extends BaseActivity implements View.OnClickListener {
 
-    private Button pre;
-    private Button back;
-    private Button next;
-    private Button mStart;
-    private Button mAllRoute;
+    private ImageView mLeft;
+    private Toolbar toolbar;
+    private LinearLayout mGoGuide;
+
     private RoutePlanSearch mSearch;
     private TextureMapView mMapView;
     private BaiduMap mBaiduMap;
@@ -77,16 +79,25 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
     BikeNaviLaunchParam param;
     private LatLng startPt, locationPt;
 
-
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_go_guide);
         getData();
         initView();
+        initToolbar();
         getLocation();
         searchResult();
         guideInit();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    private void initToolbar() {
+        setStatusBarColor(R.color.mainToolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setBackground(null);
+        mLeft.setOnClickListener(v -> finish());
     }
 
     private void getLocation() {
@@ -98,6 +109,23 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
                 locationPt = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
                 LatLng latLng = SpatialRelationUtil.getNearestPointFromLine(mLatLngs, locationPt);
                 location = mLatLngs.indexOf(latLng);
+                locationUtil.unRegisterListener(listener);
+
+                switch (type) {
+                    case 1:
+                        routePlanBus();
+                        mGoGuide.setEnabled(false);
+                        break;
+                    case 2:
+                        routePlanCar();
+                        mGoGuide.setEnabled(false);
+                        break;
+                    case 3:
+                        routePlanBike();
+                        break;
+                    default:
+                        break;
+                }
             }
         };
         locationUtil.getLocation(this, listener);
@@ -114,7 +142,6 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
             mLatLngs.add(latLng);
         }
     }
-
 
     /**
      * 路线规划结果回调
@@ -212,47 +239,30 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
         };
 
         mSearch.setOnGetRoutePlanResultListener(routeListener);
-
-        switch (type) {
-            case 1:
-                routePlanBus();
-                mStart.setEnabled(false);
-                break;
-            case 2:
-                routePlanCar();
-                mStart.setEnabled(false);
-                break;
-            case 3:
-                routePlanBike();
-                break;
-            default:
-                break;
-        }
     }
 
     private void initView() {
-        pre = findViewById(R.id.btn_pre_scenic);
-        back = findViewById(R.id.btn_back_home);
-        next = findViewById(R.id.btn_next_scenic);
-        mAllRoute = findViewById(R.id.btn_all_route);
-        Button finish = findViewById(R.id.btn_finish_route);
-        mStart = findViewById(R.id.btn_start_guide);
+        mLeft = findViewById(R.id.img_toolbar_left);
+        toolbar = findViewById(R.id.toolbar);
+        ImageView pre = findViewById(R.id.img_pre_scenic);
+        ImageView next = findViewById(R.id.img_next_scenic);
+        LinearLayout allRoute = findViewById(R.id.layout_all_route);
+        mGoGuide = findViewById(R.id.layout_go_guide);
+        LinearLayout finish = findViewById(R.id.layout_finish);
         mMapView = findViewById(R.id.texture_map_go_guide);
         mBaiduMap = mMapView.getMap();
 
         pre.setOnClickListener(this);
-        back.setOnClickListener(this);
         next.setOnClickListener(this);
+        allRoute.setOnClickListener(this);
+        mGoGuide.setOnClickListener(this);
         finish.setOnClickListener(this);
-        mAllRoute.setOnClickListener(this);
-        mStart.setOnClickListener(this);
     }
 
     /**
      * 导航初始化
      */
     private void guideInit() {
-
         try {
             mNaviHelper = BikeNavigateHelper.getInstance();
         } catch (Exception e) {
@@ -313,11 +323,10 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
         });
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_pre_scenic:
+            case R.id.img_pre_scenic:
                 if (position > 0) {
                     position--;
                     navigateTo();
@@ -325,11 +334,11 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
                     ToastUtil.show(this, "已经到头了！");
                 }
                 break;
-            case R.id.btn_back_home:
-                position = 0;
-                navigateTo();
-                break;
-            case R.id.btn_next_scenic:
+//            case R.id.btn_back_home:
+//                position = 0;
+//                navigateTo();
+//                break;
+            case R.id.img_next_scenic:
                 if (position < mLatLngs.size() - 1) {
                     position++;
                     navigateTo();
@@ -337,13 +346,13 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
                     ToastUtil.show(this, "已经到头了！");
                 }
                 break;
-            case R.id.btn_start_guide:
+            case R.id.layout_go_guide:
                 startBikeNavi();
                 break;
-            case R.id.btn_finish_route:
-                startIntentActivity(this, MainActivity.class);
+            case R.id.layout_finish:
+                startIntentActivity(this, CommentScoreActivity.class);
                 break;
-            case R.id.btn_all_route:
+            case R.id.layout_all_route:
                 startActivity();
                 break;
             default:
@@ -417,7 +426,6 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
     public void onDestroy() {
         super.onDestroy();
         mSearch.destroy();
-        locationUtil.unRegisterListener(listener);
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         mMapView.onDestroy();
     }
