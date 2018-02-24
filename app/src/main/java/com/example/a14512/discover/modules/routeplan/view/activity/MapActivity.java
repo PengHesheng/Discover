@@ -161,7 +161,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onGetWalkingRouteResult(WalkingRouteResult result) {
 
-        }
+            }
 
             @Override
             public void onGetTransitRouteResult(TransitRouteResult result) {
@@ -181,6 +181,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                     List<TransitRouteLine.TransitStep> steps = route.getAllStep();
                     mBusMap.put(mNodes.get(position), steps);
                     position++;
+                    PLog.e(""+position + "\t" + mNodes.size());
                     if (position == mNodes.size()) {
                         mBusMap.put(mNodes.get(position), new ArrayList<>());
                         adapter = new ExpandableListAdapter(MapActivity.this, mBusMap, mNodes);
