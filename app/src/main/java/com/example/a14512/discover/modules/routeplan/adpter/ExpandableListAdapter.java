@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.baidu.mapapi.search.core.RouteStep;
 import com.baidu.mapapi.search.route.TransitRouteLine.TransitStep.TransitRouteStepType;
 import com.example.a14512.discover.R;
+import com.example.a14512.discover.utils.DateFormatUtil;
 import com.example.a14512.discover.utils.DistanceUtil;
-import com.example.a14512.discover.utils.Time;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +28,6 @@ import static com.baidu.mapapi.search.route.TransitRouteLine.TransitStep;
  */
 
 public class ExpandableListAdapter<T extends RouteStep> extends BaseExpandableListAdapter {
-    private static final String TAG = "ExpandableListAdapter";
     private Context mContext;
     private Map<String, List<T>> mMap = new HashMap<>();
     private List<String> mNodes = new ArrayList<>();
@@ -139,19 +138,19 @@ public class ExpandableListAdapter<T extends RouteStep> extends BaseExpandableLi
         switch (type) {
             case BUSLINE:
                 holder.tvDistance.setText(String.valueOf(step.getVehicleInfo().getPassStationNum())
-                        + "站(" + Time.tranceSecondToTime(step.getDuration()) + ")");
+                        + "站(" + DateFormatUtil.tranceSecondToTime(step.getDuration()) + ")");
                 holder.tvTravel.setText(step.getVehicleInfo().getTitle());
                 holder.imgTravelCategory.setBackgroundResource(R.mipmap.bus);
                 break;
             case SUBWAY:
                 holder.tvDistance.setText(String.valueOf(step.getVehicleInfo().getPassStationNum())
-                        + "站(" + Time.tranceSecondToTime(step.getDuration()) + ")");
+                        + "站(" + DateFormatUtil.tranceSecondToTime(step.getDuration()) + ")");
                 holder.tvTravel.setText(step.getVehicleInfo().getTitle());
                 holder.imgTravelCategory.setBackgroundResource(R.mipmap.subway);
                 break;
             case WAKLING:
                 holder.tvDistance.setText(DistanceUtil.transformMtoKM(step.getDistance()) +
-                        Time.tranceSecondToTime(step.getDuration()));
+                        DateFormatUtil.tranceSecondToTime(step.getDuration()));
                 holder.tvTravel.setText("步行");
                 holder.imgTravelCategory.setBackgroundResource(R.mipmap.walk);
                 break;

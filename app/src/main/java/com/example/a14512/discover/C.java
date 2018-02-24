@@ -13,9 +13,12 @@ public class C {
      */
 
 
-    // 其他信息
-    // 日志文件的日期信息
+    /**
+     * 其他信息
+     * 日志文件的日期信息
+     */
     public static final String LOG_DATE = "log_date";
+
     /**
      * startActivityForResult 常量
      */
@@ -68,4 +71,8 @@ public class C {
      */
     public static final String PORTRAIT = "portrait";
 
+    /**
+     * 我的路线本地缓存，保存
+     */
+    public static final String MY_ROUTE = "my_route";
 }

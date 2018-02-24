@@ -31,18 +31,6 @@ public class DateFormatUtil {
         return "-1";
     }
 
-    public static String formatTime(String format, Long timestamp) {
-
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String date = sdf.format(new Date(timestamp));
-            return date;
-        }catch (Exception e){
-            PLog.e("formatDate?"+e.toString());
-        }
-        return "-1";
-    }
-
     /**
      * 将字符串转化成时间戳
      *
@@ -100,5 +88,86 @@ public class DateFormatUtil {
         String time = dateFormat.format(date);
         return time;
     }
+
+    /**
+     * 将秒转换为时-分-秒 此为时间长度，不为时间
+     * @param duration
+     * @return
+     */
+    public static String tranceSecondToTime(int duration) {
+        String str;
+        int hour = duration / 3600;
+        int minute = (duration - hour * 3600) / 60;
+        int second = duration - hour * 3600 - minute * 60;
+        if (hour == 0) {
+            if (minute == 0) {
+                str = second + "秒";
+            } else {
+                if (second == 0) {
+                    str = minute + "分";
+                } else {
+                    str = minute + "分" + second + "秒";
+                }
+            }
+        } else {
+            if (minute == 0) {
+                if (second == 0) {
+                    str = hour + "小时";
+                } else {
+                    str = hour + "小时" + second + "秒";
+                }
+            } else {
+                if (second == 0) {
+                    str = hour + "小时" + minute + "分";
+                } else {
+                    str = hour + "小时" + minute + "分" + second + "秒";
+                }
+            }
+        }
+        return str;
+    }
+
+    /**
+     * 计算时间差，并以分钟数返回
+     * @param startTime 2017/02/21 18:30
+     * @param endTime 2017/02/22 20:30
+     * @return minutes
+     */
+    public static int calculateMinute(String startTime, String endTime) {
+        int value;
+        String startDate = startTime.substring(0, startTime.length() - 6);
+        String startT = startTime.substring(startTime.length() - 5, startTime.length());
+        String endDate = endTime.substring(0, endTime.length() - 6);
+        String endT = endTime.substring(endTime.length() - 5, endTime.length());
+        int startDay = Integer.parseInt(startDate.substring(startDate.length() - 2, startDate.length()));
+        int startYear = Integer.parseInt(startDate.substring(0, 4));
+        int startMonth = Integer.parseInt(startDate.substring(5, 7));
+        int startH = Integer.parseInt(startT.substring(0, 2));
+        int startM = Integer.parseInt(startT.substring(startT.length() - 2, startT.length()));
+
+        int endDay = Integer.parseInt(endDate.substring(endDate.length() - 2, endDate.length()));
+        int endYear = Integer.parseInt(endDate.substring(0, 4));
+        int endMonth = Integer.parseInt(endDate.substring(5, 7));
+        int endH = Integer.parseInt(endT.substring(0, 2));
+        int endM = Integer.parseInt(endT.substring(endT.length() - 2, endT.length()));
+
+        if (startYear > endYear || startMonth > endMonth || startDay > endDay) {
+            return -1;
+        }
+        if (endDay - startDay >= 3) {
+            return -1;
+        }
+        if (endDay > startDay) {
+            endH += 24;
+        }
+        if (endM < startM) {
+            endH--;
+            endM += 60;
+        }
+        value = (endH - startH) * 60 + endM - startM;
+        return value;
+    }
+
+
 
 }

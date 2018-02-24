@@ -53,10 +53,11 @@ public interface ApiService {
      * 获取七牛云token
      * @return Result<String>
      * */
-    @POST("getToken.php")
+    @POST("CreateTokenServlet")
     Observable<Result<String>> getToken();
 
     /**
+     * 获取天气信息
      * @param location
      * @param key
      * @return
@@ -185,12 +186,43 @@ public interface ApiService {
     @GET("NearbyServlet")
     Observable<Result<Scenic>> getShakeScenic();
 
+    /**
+     * 个性化设置
+     * @param phone
+     * @param found
+     * @return
+     */
     @GET("PersonalServlet")
     Observable<Result<Object>> setPersonality(@Query("userPhone") String phone,
                                               @Query("personFound") String found);
 
+    /**
+     * 添加历史路线
+     * @param phone
+     * @param routePlace
+     * @return
+     */
     @GET("AddHistroyPlaceServlet")
     Observable<Result<Integer>> addHistoricRoute(@Query("userPhone") String phone,
                                                  @Query("routePlace") String routePlace);
+
+    /**
+     * 结束路线
+     * @param phone
+     * @return
+     */
+    @GET("EndRouteServlet")
+    Observable<Result<Integer>> endRoute(@Query("userPhone") String phone);
+
+    /**
+     * 添加已去景点
+     * @param phone
+     * @param historicPlace 多个地点用.链接
+     * @return
+     */
+    @GET("AddHistroyPlaceServlet")
+    Observable<Result<Integer>> addHistoricScenic(@Query("userPhone") String phone,
+                                                  @Query("routePlace") String historicPlace);
+
 
 }

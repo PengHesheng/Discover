@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.a14512.discover.R;
@@ -26,12 +27,12 @@ public class MyRouteAdapter extends RecyclerView.Adapter {
     }
 
     public void setAdapter(ArrayList<MyRoute> myRoutes) {
-        mMyRoutes = new ArrayList<>();
         this.mMyRoutes = myRoutes;
     }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_recycler_view_mt_route, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_recycler_view_my_route, parent, false);
         return new MyRouteViewHolder(view);
     }
 
@@ -43,7 +44,12 @@ public class MyRouteAdapter extends RecyclerView.Adapter {
             ((MyRouteViewHolder) holder).pay.setText(String.valueOf(myRoute.getAll_coast()) + "元");
             ((MyRouteViewHolder) holder).path.setText(String.valueOf(myRoute.getAll_distance()) + "km");
             ((MyRouteViewHolder) holder).saveTime.setText(myRoute.getRoute_time());
+            ((MyRouteViewHolder) holder).mLayout.setOnClickListener(v -> startActivity(myRoute));
         }
+    }
+
+    private void startActivity(MyRoute myRoute) {
+
     }
 
     @Override
@@ -53,6 +59,7 @@ public class MyRouteAdapter extends RecyclerView.Adapter {
 
     public class MyRouteViewHolder extends RecyclerView.ViewHolder {
         TextView start, end, passby, path, pay, saveTime;
+        LinearLayout mLayout;
 
         public MyRouteViewHolder(View itemView) {
             super(itemView);
@@ -62,6 +69,7 @@ public class MyRouteAdapter extends RecyclerView.Adapter {
             path = itemView.findViewById(R.id.tv_my_route_long_path);
             pay = itemView.findViewById(R.id.tv_my_route_pay);
             saveTime = itemView.findViewById(R.id.tv_my_route_save_time);
+            mLayout = itemView.findViewById(R.id.my_route_item);
         }
     }
 }

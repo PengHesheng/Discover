@@ -34,7 +34,7 @@ public class LoginPresenterImp implements ILoginPresenter {
             ToastUtil.show(mContext, "帐号或密码不能为空!");
         } else {
             ApiSubscriber<String> apiSubscriber = new ApiSubscriber<String>(
-                    mContext, true, false, "登录中...") {
+                    mContext, true, true, "登录中...") {
                 @Override
                 public void onNext(String value) {
                     if ("登录成功".equals(value)) {
@@ -47,7 +47,6 @@ public class LoginPresenterImp implements ILoginPresenter {
                     } else {
                         ToastUtil.show(mContext, "密码错误");
                         ACache.getDefault().put("account", account);
-                        mView.isLogin();
                     }
                 }
 

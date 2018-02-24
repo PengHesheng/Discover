@@ -13,6 +13,8 @@ import android.support.v7.app.AlertDialog;
 import com.example.a14512.discover.BuildConfig;
 import com.example.a14512.discover.C;
 import com.example.a14512.discover.DiscoverApplication;
+import com.example.a14512.discover.network.RetrofitHelper;
+import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
 
@@ -63,7 +65,7 @@ public class UploadPicture {
         imageUrl = "http://oyojokgx1.bkt.clouddn.com/" + fileName;
         final UploadManager uploadManager = new UploadManager();
 
-        /*RetrofitHelper.getInstance().getToken()
+        RetrofitHelper.getInstance().getToken()
                 .subscribe(new ApiSubscriber<String>(DiscoverApplication.getContext(), false, false) {
                     @Override
                     public void onNext(String value) {
@@ -74,7 +76,7 @@ public class UploadPicture {
                     public void onComplete() {
                         uploadManager.put(cropPath, fileName, UploadPicture.token, completionHandler, null);
                     }
-                });*/
+                });
     }
 
     public static void uploadPictureNoCrop(Uri uri, Context context, UpCompletionHandler completionHandler) {
@@ -83,7 +85,7 @@ public class UploadPicture {
         String fileName = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss:SSS").format(new Date());
         imageUrl = "http://oyojokgx1.bkt.clouddn.com/" + fileName;
         UploadManager uploadManager = new UploadManager();
-        /*RetrofitHelper.getInstance().getToken()
+        RetrofitHelper.getInstance().getToken()
                 .subscribe(new ApiSubscriber<String>(DiscoverApplication.getContext(), false, false) {
                     @Override
                     public void onNext(String value) {
@@ -94,7 +96,7 @@ public class UploadPicture {
                     public void onComplete() {
                         uploadManager.put(imageNoCrop, fileName, UploadPicture.token, completionHandler, null);
                     }
-                });*/
+                });
     }
 
     public static void uploadPictureNoCrop(byte[] bytes, UpCompletionHandler completionHandler) {
@@ -102,7 +104,7 @@ public class UploadPicture {
         String fileName = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss:SSS").format(new Date());
         imageUrl = "http://oyojokgx1.bkt.clouddn.com/" + fileName;
         UploadManager uploadManager = new UploadManager();
-        /*RetrofitHelper.getInstance().getToken()
+        RetrofitHelper.getInstance().getToken()
                 .subscribe(new ApiSubscriber<String>(DiscoverApplication.getContext(), false, false) {
                     @Override
                     public void onNext(String value) {
@@ -113,7 +115,7 @@ public class UploadPicture {
                     public void onComplete() {
                         uploadManager.put(imageNoCrop, fileName, UploadPicture.token, completionHandler, null);
                     }
-                });*/
+                });
     }
 
 

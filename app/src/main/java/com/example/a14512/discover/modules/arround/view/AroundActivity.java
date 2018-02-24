@@ -74,7 +74,7 @@ public class AroundActivity extends BaseActivity implements IAroundView {
             @Override
             public void onReceiveLocation(BDLocation location) {
 
-                mScenic.name = "我的位置";
+                mScenic.name = location.getStreet();
                 mScenic.latitude = location.getLatitude();
                 mScenic.longitude = location.getLongitude();
                 mScenic.location = location.getStreet();

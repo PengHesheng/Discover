@@ -98,11 +98,13 @@
 
         <activity android:name=".modules.routeplan.view.activity.GoGuideActivity" />
 
+        <activity android:name=".modules.routeplan.view.activity.NavGuideActivity" />
+
         <activity android:name=".modules.routeplan.view.activity.CommentScoreActivity" />
 
         <activity android:name=".modules.routeplan.view.activity.AllRouteActivity" />
 
-        <activity android:name=".modules.routeplan.view.activity.MapGuideActivity" />
+        <activity android:name=".modules.routeplan.view.activity.BikeGuideActivity" />
 
         <activity android:name=".modules.routeplan.view.activity.ScenicActivity" />
 

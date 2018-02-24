@@ -18,7 +18,7 @@ import com.example.a14512.discover.base.BaseActivity;
  * @author 14512 on 2018/2/3
  */
 
-public class MapGuideActivity extends BaseActivity {
+public class BikeGuideActivity extends BaseActivity {
     private BikeNavigateHelper mNaviHelper;
 
     BikeNaviLaunchParam param;

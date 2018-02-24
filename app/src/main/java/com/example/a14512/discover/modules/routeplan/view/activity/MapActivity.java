@@ -181,7 +181,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                     List<TransitRouteLine.TransitStep> steps = route.getAllStep();
                     mBusMap.put(mNodes.get(position), steps);
                     position++;
-                    if (position == mNodes.size() - 1) {
+                    if (position == mNodes.size()) {
                         mBusMap.put(mNodes.get(position), new ArrayList<>());
                         adapter = new ExpandableListAdapter(MapActivity.this, mBusMap, mNodes);
                         mListView.setAdapter(adapter);

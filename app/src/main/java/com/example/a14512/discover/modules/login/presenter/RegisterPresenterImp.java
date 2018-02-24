@@ -30,15 +30,19 @@ public class RegisterPresenterImp implements IRegisterPresenter {
     public void getCode() {
         String phone = mView.getPhoneNum();
         String pwd = mView.getPwd();
-        ApiSubscriber<String> apiSubscriber = new ApiSubscriber<String>(
-                mContext, false, false) {
-            @Override
-            public void onNext(String value) {
-                ToastUtil.show(mContext, value);
-            }
-        };
-        mMode.getCode(apiSubscriber, phone, pwd);
-        mView.showCodeTime();
+        if (phone != null && pwd != null) {
+            ApiSubscriber<String> apiSubscriber = new ApiSubscriber<String>(
+                    mContext, false, false) {
+                @Override
+                public void onNext(String value) {
+                    ToastUtil.show(mContext, value);
+                }
+            };
+            mMode.getCode(apiSubscriber, phone, pwd);
+            mView.showCodeTime();
+        } else {
+            ToastUtil.show(mContext, "电话号码或者密码为空！");
+        }
     }
 
     @Override
@@ -47,19 +51,22 @@ public class RegisterPresenterImp implements IRegisterPresenter {
         String pwd = mView.getPwd();
         String code = mView.getCode();
         PLog.e(phone + ":::" + code);
-        ApiSubscriber<String> apiSubscriber = new ApiSubscriber<String>(
-                mContext, true, false, "正在注册，请稍候!") {
-            @Override
-            public void onNext(String value) {
-                ToastUtil.show(mContext, value);
-                if ("注册成功".equals(value)) {
-                    mView.isRegister();
-                    ACache.getDefault().put(C.ACCOUNT, phone);
+        if (phone != null && pwd != null && code != null) {
+            ApiSubscriber<String> apiSubscriber = new ApiSubscriber<String>(
+                    mContext, true, true, "正在注册，请稍候!") {
+                @Override
+                public void onNext(String value) {
+                    ToastUtil.show(mContext, value);
+                    if ("注册成功".equals(value)) {
+                        mView.isRegister();
+                        ACache.getDefault().put(C.ACCOUNT, phone);
+                    }
                 }
-            }
-        };
-        mMode.register(apiSubscriber, phone, code);
-
+            };
+            mMode.register(apiSubscriber, phone, code);
+        } else {
+            ToastUtil.show(mContext, "电话号码或密码或验证码为空！");
+        }
     }
 
 }

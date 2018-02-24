@@ -140,8 +140,13 @@ public class RetrofitHelper {
                 .map(new ServiceResponseFun<>());
     }
 
+    public Observable<String> getToken() {
+        return apiService.getToken().compose(SchedulerTransformer.transformer())
+                .onErrorResumeNext(new HttpResponseFunc<>())
+                .map(new ServiceResponseFun<>());
+    }
 
-   public Observable<ArrayList<Scenic>> getScenic(double startLng, double startLat, double endLng,
+    public Observable<ArrayList<Scenic>> getScenic(double startLng, double startLat, double endLng,
                                                   double endLat, String startName, String endName,
                                                   String startTime, long time, int personSelect, int tfSelect,
                                                   int onePlace, String phone) {
@@ -150,9 +155,9 @@ public class RetrofitHelper {
                .compose(SchedulerTransformer.transformer())
                .onErrorResumeNext(new HttpResponseFunc<>())
                .map(new ServiceResponseFun<>());
-   }
+     }
 
-   public Observable<Scenic> chaneOneScenic(String changePlace, String lastPlace,
+    public Observable<Scenic> chaneOneScenic(String changePlace, String lastPlace,
                                             String nextPlace, int personSelect) {
        return apiService.changeOneScenic(changePlace, lastPlace, nextPlace, personSelect)
                .compose(SchedulerTransformer.transformer())
@@ -160,14 +165,14 @@ public class RetrofitHelper {
                .map(new ServiceResponseFun<>());
    }
 
-   public Observable<Integer> followScenic(int isFollow, String phone, String placeName) {
+    public Observable<Integer> followScenic(int isFollow, String phone, String placeName) {
        return apiService.followScenic(isFollow, phone, placeName)
                .compose(SchedulerTransformer.transformer())
                .onErrorResumeNext(new HttpResponseFunc<>())
                .map(new ServiceResponseFun<>());
    }
 
-   public Observable<Integer> changeUserData(String phone, String photo, String name, String sex,
+    public Observable<Integer> changeUserData(String phone, String photo, String name, String sex,
                                              String birth, String school, String sign, String email) {
         return apiService.changeUserData(phone, photo, name, sex, birth, school, sign, email)
                 .compose(SchedulerTransformer.transformer())
@@ -175,48 +180,48 @@ public class RetrofitHelper {
                 .map(new ServiceResponseFun<>());
    }
 
-   public Observable<ArrayList<Scenic>> getMyFollow(String phone) {
+    public Observable<ArrayList<Scenic>> getMyFollow(String phone) {
         return apiService.getMyFollow(phone)
                 .compose(SchedulerTransformer.transformer())
                 .onErrorResumeNext(new HttpResponseFunc<>())
                 .map(new ServiceResponseFun<>());
    }
 
-   public Observable<ArrayList<MyRoute>> getMyRoute(String phone) {
+    public Observable<ArrayList<MyRoute>> getMyRoute(String phone) {
         return apiService.getMyRoute(phone)
                 .compose(SchedulerTransformer.transformer())
                 .onErrorResumeNext(new HttpResponseFunc<>())
                 .map(new ServiceResponseFun<>());
    }
 
-   public Observable<Integer> setCommentScore(String phone, String placeName, int score) {
+    public Observable<Integer> setCommentScore(String phone, String placeName, int score) {
         return apiService.setCommentStar(phone, placeName, score)
                 .compose(SchedulerTransformer.transformer())
                 .onErrorResumeNext(new HttpResponseFunc<>())
                 .map(new ServiceResponseFun<>());
    }
 
-   public Observable<ArrayList<ScenicCommentUser>> getCommentUser(String placeName) {
+    public Observable<ArrayList<ScenicCommentUser>> getCommentUser(String placeName) {
         return apiService.getCommentScore(placeName)
                 .compose(SchedulerTransformer.transformer())
                 .onErrorResumeNext(new HttpResponseFunc<>())
                 .map(new ServiceResponseFun<>());
    }
 
-   public Observable<Scenic> getSharkeScenic() {
+    public Observable<Scenic> getSharkeScenic() {
         return apiService.getShakeScenic().compose(SchedulerTransformer.transformer())
                 .onErrorResumeNext(new HttpResponseFunc<>())
                 .map(new ServiceResponseFun<>());
    }
 
-   public Observable<Object> setPersonality(String phone, String found) {
+    public Observable<Object> setPersonality(String phone, String found) {
         return apiService.setPersonality(phone, found)
                 .compose(SchedulerTransformer.transformer())
                 .onErrorResumeNext(new HttpResponseFunc<>())
                 .map(new ServiceResponseFun<>());
    }
 
-   public Observable<Integer> addHistoricRoute(String phone, String routePlace) {
+    public Observable<Integer> addHistoricRoute(String phone, String routePlace) {
         return apiService.addHistoricRoute(phone, routePlace)
                 .compose(SchedulerTransformer.transformer())
                 .onErrorResumeNext(new HttpResponseFunc<>())

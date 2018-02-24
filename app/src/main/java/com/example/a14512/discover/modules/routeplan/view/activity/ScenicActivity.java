@@ -71,10 +71,10 @@ public class ScenicActivity extends BaseActivity implements IScenicView{
             adapter.setOnItemClickListener((view, position) -> {
                 attention = (LinearLayout) view;
                 if (!isFollow) {
-                    mPresenter.followScenic(mScenic.name, 1);
+                    mPresenter.followScenic(mScenic.name, 0);
                     ToastUtil.show(ScenicActivity.this, "以关注");
                 } else {
-                    mPresenter.followScenic(mScenic.name, 0);
+                    mPresenter.followScenic(mScenic.name, 1);
                     ToastUtil.show(ScenicActivity.this, "取消关注");
                 }
             });

@@ -12,11 +12,6 @@ public interface IChangeUserInfoView {
     void finishActivity();
 
     /**
-     *上传结束后调用
-     */
-    void dismissProgress();
-
-    /**
      * 获取用户名昵称
      * @return
      */

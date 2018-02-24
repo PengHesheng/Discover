@@ -18,9 +18,10 @@ import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.routeplan.adpter.AllRouteAdapter;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.utils.ACache;
+import com.example.a14512.discover.utils.DateFormatUtil;
 import com.example.a14512.discover.utils.DistanceUtil;
-import com.example.a14512.discover.utils.Time;
-import com.example.a14512.discover.utils.ToastUtil;
+import com.example.a14512.discover.utils.JsonUtil;
+import com.example.a14512.discover.utils.PLog;
 
 import java.util.ArrayList;
 
@@ -42,6 +43,8 @@ public class AllRouteActivity extends BaseActivity {
     private TextView mSumPay;
     private RecyclerView mRecyclerView;
     private FloatingActionButton mActionButton;
+    private int type, sumDistance = 0, sumPay = 0;
+    private ArrayList<Scenic> scenics;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,13 +68,9 @@ public class AllRouteActivity extends BaseActivity {
 
     @SuppressLint("SetTextI18n")
     private void getData() {
-        String date = ACache.getDefault().getAsString("date");
         String startTime = ACache.getDefault().getAsString("start_time");
         String endTime = ACache.getDefault().getAsString("end_time");
-        int staToEnd = Time.calculateMinute(startTime, endTime);
-        int sumPay = 0;
-
-        ArrayList<Scenic> scenics = (ArrayList<Scenic>) getIntent().getBundleExtra(C.SCENIC_DETAIL).getSerializable(C.SCENIC_DETAIL);
+        scenics = (ArrayList<Scenic>) getIntent().getBundleExtra(C.SCENIC_DETAIL).getSerializable(C.SCENIC_DETAIL);
         ArrayList<String> names = new ArrayList<>();
         assert scenics != null;
         for (Scenic scenic : scenics) {
@@ -80,10 +79,13 @@ public class AllRouteActivity extends BaseActivity {
         }
         ArrayList<Integer> stepTimes = getIntent().getIntegerArrayListExtra("time");
         int location = getIntent().getIntExtra("location", 0);
-        int sumDistance = getIntent().getIntExtra("sum_distance", 0);
+        sumDistance = getIntent().getIntExtra("sum_distance", 0);
+        type = getIntent().getIntExtra("type", 1);
 
+        String date = startTime.substring(0, startTime.length() - 6) + "——"
+                + endTime.substring(0, endTime.length() - 6);
         mDate.setText(date);
-        int time = Time.calculateMinute(startTime, endTime) - calculatePatTime(stepTimes);
+        int time = DateFormatUtil.calculateMinute(startTime, endTime) - calculatePatTime(stepTimes);
         calculateNervous(time, mImgNervous);
         mTime.setText(startTime + "——" + endTime);
         mSumDistance.setText(DistanceUtil.transformMtoKM(sumDistance));
@@ -155,7 +157,7 @@ public class AllRouteActivity extends BaseActivity {
         for (Integer dis : second) {
             sum += dis;
         }
-        return Time.tranceSecondToTime(sum);
+        return DateFormatUtil.tranceSecondToTime(sum);
     }
 
     private void initView() {
@@ -177,8 +179,8 @@ public class AllRouteActivity extends BaseActivity {
             builder.setMessage("保存路线")
                     .setCancelable(false)
                     .setPositiveButton("是", (dialog, id) -> {
-                        //TODO 保存路线逻辑
-                        ToastUtil.show(this, "保存成功！");
+                        //TODO  保存逻辑
+                        PLog.e(JsonUtil.toJSONString(scenics));
                     })
                     .setNegativeButton("否", (dialog, id) -> dialog.cancel());
             AlertDialog alert = builder.create();

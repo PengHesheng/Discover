@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
@@ -32,6 +34,8 @@ import com.example.a14512.discover.modules.main.userself.travel.view.TravelKnowl
 import com.example.a14512.discover.modules.routeplan.view.activity.ChooseActivity;
 import com.example.a14512.discover.modules.shake.view.ShakeActivity;
 import com.example.a14512.discover.utils.LocationUtil;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * @author 14512 on 2018/1/27
@@ -54,8 +58,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private boolean mIsLogin = false;
     private MainPresenterImp mPresenter;
-
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -163,11 +165,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 }
                 break;
             case R.id.layout_my_share:
-//                if (mIsLogin) {
-//                    startIntentActivity(this, MyShareActivity.class);
-//                } else {
-//                    startActivityForResult(new Intent(this, LoginActivity.class), C.LOGIN);
-//                }
                 startIntentActivity(this, MyShareActivity.class);
                 break;
             case R.id.layout_travel:
@@ -261,7 +258,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void setUserInfo(UserInfo userInfo) {
-        Glide.with(this).load(userInfo.portrait).into(mPortrait);
+        Glide.with(this).load(userInfo.portrait)
+                .bitmapTransform(new CropCircleTransformation(this), new FitCenter(this))
+                .priority(Priority.HIGH)
+                .error(R.mipmap.default_portrait).into(mPortrait);
+        /*Glide.with(this)
+                .load(R.mipmap.center_bg)
+                .into(new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        userLoginLayout.setBackgroundResource(R.mipmap.center_bg);
+                    }
+                });*/
         mName.setText(userInfo.name);
         mSigned.setText(userInfo.signed);
     }

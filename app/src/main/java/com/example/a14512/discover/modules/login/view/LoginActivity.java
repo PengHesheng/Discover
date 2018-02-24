@@ -1,5 +1,6 @@
 package com.example.a14512.discover.modules.login.view;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,7 +18,9 @@ import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.login.presenter.LoginPresenterImp;
 import com.example.a14512.discover.modules.login.view.imp.ILoginView;
+import com.example.a14512.discover.modules.main.view.MainActivity;
 import com.example.a14512.discover.utils.KeyBoardUtil;
+import com.example.a14512.discover.utils.VersionUtil;
 
 /**
  * @author 14512 on 2018/2/1
@@ -55,7 +58,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         setSupportActionBar(mToolbar);
         mToolbar.setBackground(null);
         mTitle.setText(R.string.tv_login);
-        mLeft.setOnClickListener(v -> finish());
+        mLeft.setOnClickListener(v -> justVersion());
+    }
+
+    private void justVersion() {
+        float nowVersionCode = VersionUtil.getVersionCode(this);
+        SharedPreferences sp = getSharedPreferences("welcomeInfo", MODE_PRIVATE);
+        float spVersionCode = sp.getFloat("spVersionCode", 0);
+        if (nowVersionCode > spVersionCode) {
+            startIntentActivity(this, MainActivity.class);
+            finish();
+        } else {
+            //非首次启动
+            finish();
+        }
     }
 
     private void initView() {
@@ -77,6 +93,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         rememberPwd.setOnClickListener(this);
         forgetPwd.setOnClickListener(this);
         mPresenter = new LoginPresenterImp(this, this);
+        mPresenter.getPortrait();
     }
 
     @Override
@@ -134,7 +151,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void isLogin() {
-        setResult(RESULT_OK);
+        startIntentActivity(this, MainActivity.class);
         finish();
     }
 

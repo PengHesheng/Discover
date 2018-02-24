@@ -1,14 +1,13 @@
 package com.example.a14512.discover.modules.welcome;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.main.view.MainActivity;
+import com.example.a14512.discover.utils.VersionUtil;
 
 /**
  * @author 14512
@@ -25,7 +24,7 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     private void justVersion() {
-        float nowVersionCode = getVersionCode(WelcomeActivity.this);
+        float nowVersionCode = VersionUtil.getVersionCode(this);
         SharedPreferences sp = getSharedPreferences("welcomeInfo", MODE_PRIVATE);
         float spVersionCode = sp.getFloat("spVersionCode", 0);
         if (nowVersionCode > spVersionCode) {
@@ -39,24 +38,6 @@ public class WelcomeActivity extends BaseActivity {
             startIntentActivity(this, MainActivity.class);
             finish();
         }
-    }
-
-
-    /**
-     * 获取软件版本号
-     *
-     * @param context
-     * @return
-     */
-    private float getVersionCode(Context context) {
-        float versionCode = 0;
-        try {
-            versionCode = context.getPackageManager()
-                    .getPackageInfo(context.getPackageName(), 0).versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return versionCode;
     }
 
 }

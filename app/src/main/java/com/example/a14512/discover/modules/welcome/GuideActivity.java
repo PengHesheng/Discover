@@ -1,21 +1,17 @@
 package com.example.a14512.discover.modules.welcome;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.a14512.discover.C;
+import com.bumptech.glide.Glide;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.login.view.LoginActivity;
-import com.example.a14512.discover.modules.main.userself.personality.view.PersonalityAdviceActivity;
-import com.example.a14512.discover.modules.main.view.MainActivity;
-import com.example.a14512.discover.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,33 +22,12 @@ import java.util.List;
 
 public class GuideActivity extends BaseActivity implements ViewPager.OnPageChangeListener{
 
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
         setDecorView();
         initView();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case C.LOGIN:
-                    ToastUtil.show("login success");
-                    startActivityForResult(new Intent(this, PersonalityAdviceActivity.class), C.COMPLETED);
-                    break;
-                case C.COMPLETED:
-                    startIntentActivity(this, MainActivity.class);
-                    finish();
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 
     private void initView() {
@@ -64,10 +39,18 @@ public class GuideActivity extends BaseActivity implements ViewPager.OnPageChang
         viewList.add(inflater.inflate(R.layout.view_pager_guide_third, null));
         GuideViewPagerAdapter adapter = new GuideViewPagerAdapter(this, viewList);
         viewPager.setAdapter(adapter);
+        ImageView img1 = viewList.get(0).findViewById(R.id.img_view_pager1);
+        Glide.with(this).load(R.drawable.view_pager1).into(img1);
+        ImageView img2 = viewList.get(1).findViewById(R.id.img_view_pager2);
+        Glide.with(this).load(R.drawable.view_pager2).into(img2);
+        ImageView img3 = viewList.get(2).findViewById(R.id.img_view_pager3);
+        Glide.with(this).load(R.drawable.view_pager3).into(img3);
         TextView tvGo = viewList.get(2).findViewById(R.id.tv_view_pager_go);
-        tvGo.setOnClickListener(v -> startActivityForResult(new Intent(this, LoginActivity.class), C.LOGIN));
+        tvGo.setOnClickListener(v -> {
+            startIntentActivity(this, LoginActivity.class);
+            finish();
+        });
         viewPager.setOnPageChangeListener(this);
-
     }
 
     @Override
@@ -77,7 +60,14 @@ public class GuideActivity extends BaseActivity implements ViewPager.OnPageChang
 
     @Override
     public void onPageSelected(int position) {
-
+        switch (position) {
+            case 3:
+                startIntentActivity(this, LoginActivity.class);
+                finish();
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

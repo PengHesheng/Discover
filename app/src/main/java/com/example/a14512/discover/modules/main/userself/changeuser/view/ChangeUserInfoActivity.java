@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -83,9 +82,8 @@ public class ChangeUserInfoActivity extends BaseActivity implements View.OnClick
         //TODO 判断逻辑问题
         String email = mAutoEmail.getText().toString();
         PLog.e(""+ isEmail(email));
-        if (email.isEmpty() && isEmail(email)) {
+        if (!email.isEmpty() && isEmail(email)) {
             mPresenter.setUserInfo();
-            showProgressDialog();
         } else {
             ToastUtil.show(this, "请检查你的邮箱格式");
         }
@@ -151,22 +149,7 @@ public class ChangeUserInfoActivity extends BaseActivity implements View.OnClick
                 break;
             case R.id.layout_change_info_portrait:
                 KeyBoardUtil.hideInputFromWindow(this, mainLayout);
-                new AlertDialog.Builder(this).setItems(new String[]{"相册", "照相机", "取消"}, (dialog, which) -> {
-                    switch (which) {
-                        case 0:
-                            startActivityForResult(UploadPicture.getUploadIntent(C
-                                    .PICK_FROM_FILE), C.PICK_FROM_FILE);
-                            break;
-                        case 1:
-                            startActivityForResult(UploadPicture.getUploadIntent(C
-                                    .PICK_FROM_CAMERA), C.PICK_FROM_CAMERA);
-                            break;
-                        case 2:
-                            break;
-                        default:
-                            break;
-                    }
-                }).create().show();
+                UploadPicture.showPictureSelectDialog(this, this);
                 break;
             case R.id.tv_change_info_sex:
                 KeyBoardUtil.hideInputFromWindow(this, mainLayout);
@@ -227,6 +210,7 @@ public class ChangeUserInfoActivity extends BaseActivity implements View.OnClick
                     break;
                 case C.CHOOSE_CROPED_PICTURE:
                     showPortrait();
+                    PLog.e(data.getData()+"");
                     break;
                 default:
                     break;
@@ -235,28 +219,17 @@ public class ChangeUserInfoActivity extends BaseActivity implements View.OnClick
     }
 
     private void showPortrait() {
-        Glide.with(this).load(UploadPicture.cameraUri).into(mImgPortrait);
-    }
-
-    private void showProgressDialog() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setMessage("上传中...");
-        progressDialog.setIcon(android.R.drawable.btn_star);
-        progressDialog.setIndeterminate(false);
-        progressDialog.setCancelable(true);
-        progressDialog.show();
+        if (UploadPicture.cropUri == null) {
+            Glide.with(this).load(UploadPicture.cameraUri).into(mImgPortrait);
+        } else {
+            Glide.with(this).load(UploadPicture.cropUri).into(mImgPortrait);
+        }
     }
 
     @Override
     public void finishActivity() {
         setResult(RESULT_OK);
         finish();
-    }
-
-    @Override
-    public void dismissProgress() {
-        progressDialog.dismiss();
     }
 
     @Override
@@ -317,7 +290,7 @@ public class ChangeUserInfoActivity extends BaseActivity implements View.OnClick
     private void ifComplete() {
         if (!(TextUtils.isEmpty(mEdtName.getText())
                 || TextUtils.isEmpty(mTvSex.getText()))) {
-            mRight.setTextColor(Color.parseColor("#ffffff"));
+            mRight.setTextColor(getResources().getColor(R.color.titleBlack));
             mRight.setEnabled(true);
         } else {
             mRight.setTextColor(Color.parseColor("#cbf0e8"));

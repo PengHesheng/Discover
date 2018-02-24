@@ -17,8 +17,9 @@ import com.example.a14512.discover.modules.routeplan.presenter.imp.IChoosePresen
 import com.example.a14512.discover.modules.routeplan.view.imp.IChooseView;
 import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 import com.example.a14512.discover.utils.ACache;
+import com.example.a14512.discover.utils.DateFormatUtil;
 import com.example.a14512.discover.utils.PLog;
-import com.example.a14512.discover.utils.Time;
+import com.example.a14512.discover.utils.ToastUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -60,18 +61,17 @@ public class ChoosePresenterImp implements IChoosePresenter {
         endPlace = mView.getEndPlace();
         String startTime = mView.getStartTime();
         String endTime = mView.getEndTime();
-        String date = startTime.substring(0, startTime.length() - 6);
         startT = startTime.substring(startTime.length() - 5, startTime.length());
-        String endT = endTime.substring(endTime.length() - 5, endTime.length());
-        time = Time.calculateMinute(startT, endT);
-        PLog.e("" + time);
-        ACache.getDefault().put("start_time", startT);
-        ACache.getDefault().put("end_time", endT);
-        ACache.getDefault().put("date", date);
+        time = DateFormatUtil.calculateMinute(startTime, endTime);
+        if (time > 0) {
+            ACache.getDefault().put("start_time", startTime);
+            ACache.getDefault().put("end_time", endTime);
 
-        poiSearch(startPlace, 1);
-        poiSearch(endPlace, 2);
-
+            poiSearch(startPlace, 1);
+            poiSearch(endPlace, 2);
+        } else {
+            ToastUtil.show(mContext, "时间选取为三天内！");
+        }
     }
 
     private void poiSearch(String startPlace, int type) {
@@ -85,7 +85,7 @@ public class ChoosePresenterImp implements IChoosePresenter {
                         PoiInfo poiInfo = poiResult.getAllPoi().get(0);
                         startScenic.latitude = poiInfo.location.latitude;
                         startScenic.longitude = poiInfo.location.longitude;
-                        startScenic.name = "我的位置";
+                        startScenic.name = poiInfo.address;
                         startScenic.times = "-2";
                     } else {
                         endScenic = new Scenic();
@@ -130,7 +130,7 @@ public class ChoosePresenterImp implements IChoosePresenter {
         double endLng = endScenic.longitude;
         double endLat = endScenic.latitude;
 
-        String phone = "18323954590";
+        String phone = ACache.getDefault().getAsString(C.ACCOUNT);
 
         //TODO 数据测试
         startLng = 106.575662;
@@ -143,7 +143,7 @@ public class ChoosePresenterImp implements IChoosePresenter {
         tfSelect = 1;
 
         ApiSubscriber<ArrayList<Scenic>> apiSubscriber = new ApiSubscriber<ArrayList<Scenic>>(
-                mContext, true, false) {
+                mContext, true, true) {
             @Override
             public void onNext(ArrayList<Scenic> value) {
                 PLog.e(value.size()+"");

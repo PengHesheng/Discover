@@ -1,8 +1,12 @@
 package com.example.a14512.discover.modules.routeplan.view.activity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -41,6 +46,11 @@ import com.baidu.mapapi.search.route.TransitRoutePlanOption;
 import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.baidu.mapapi.utils.SpatialRelationUtil;
+import com.baidu.navisdk.adapter.BNCommonSettingParam;
+import com.baidu.navisdk.adapter.BNOuterLogUtil;
+import com.baidu.navisdk.adapter.BNRoutePlanNode;
+import com.baidu.navisdk.adapter.BNaviSettingManager;
+import com.baidu.navisdk.adapter.BaiduNaviManager;
 import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
@@ -52,7 +62,10 @@ import com.example.a14512.discover.utils.mapapi.overlayutil.BikingRouteOverlay;
 import com.example.a14512.discover.utils.mapapi.overlayutil.DrivingRouteOverlay;
 import com.example.a14512.discover.utils.mapapi.overlayutil.TransitRouteOverlay;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author 14512 on 2018/2/3
@@ -74,10 +87,31 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
     private ArrayList<LatLng> mLatLngs;
     private ArrayList<Integer> mTimes = new ArrayList<>();
     private int position = 1, type, location = 0, sumDistance = 0;
-    //导航
+    //骑行导航
     private BikeNavigateHelper mNaviHelper;
     BikeNaviLaunchParam param;
     private LatLng startPt, locationPt;
+
+    //导航
+    public static List<Activity> activityList = new LinkedList<>();
+
+    public static final String ROUTE_PLAN_NODE = "routePlanNode";
+
+    private static final String APP_FOLDER_NAME = "Discover";
+
+    private String mSDCardPath = null;
+
+    private final static String authBaseArr[] =
+            { Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION };
+    private final static String authComArr[] = { Manifest.permission.READ_PHONE_STATE };
+    private final static int authBaseRequestCode = 1;
+    private final static int authComRequestCode = 2;
+
+    private boolean hasInitSuccess = false;
+    private boolean hasRequestComAuth = false;
+    String authinfo = null;
+
+    private BNRoutePlanNode.CoordinateType mCoordinateType = null;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -90,6 +124,216 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
         getLocation();
         searchResult();
         guideInit();
+        bikeGuideInit();
+    }
+
+    private void guideInit() {
+        activityList.add(this);
+        BNOuterLogUtil.setLogSwitcher(true);
+        if (initDirs()) {
+            initNavi();
+        }
+    }
+
+    private void initNavi() {
+        // 申请权限
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            if (!hasBasePhoneAuth()) {
+                this.requestPermissions(authBaseArr, authBaseRequestCode);
+                return;
+            }
+        }
+
+        BaiduNaviManager.getInstance().init(this, mSDCardPath, APP_FOLDER_NAME, new BaiduNaviManager.NaviInitListener() {
+            @Override
+            public void onAuthResult(int status, String msg) {
+                if (0 == status) {
+                    authinfo = "key校验成功!";
+                } else {
+                    authinfo = "key校验失败, " + msg;
+                }
+                GoGuideActivity.this.runOnUiThread(() -> ToastUtil.show(GoGuideActivity.this, authinfo));
+            }
+
+            @Override
+            public void initSuccess() {
+                ToastUtil.show(GoGuideActivity.this, "百度导航引擎初始化成功");
+                hasInitSuccess = true;
+                initSetting();
+            }
+
+            @Override
+            public void initStart() {
+                ToastUtil.show(GoGuideActivity.this, "百度导航引擎初始化开始");
+            }
+
+            @Override
+            public void initFailed() {
+                ToastUtil.show(GoGuideActivity.this, "百度导航引擎初始化失败");
+            }
+
+        }, null, null, null);
+
+    }
+
+    private void initSetting() {
+        // BNaviSettingManager.setDayNightMode(BNaviSettingManager.DayNightMode.DAY_NIGHT_MODE_DAY);
+        BNaviSettingManager
+                .setShowTotalRoadConditionBar(BNaviSettingManager.PreViewRoadCondition.ROAD_CONDITION_BAR_SHOW_ON);
+        BNaviSettingManager.setVoiceMode(BNaviSettingManager.VoiceMode.Veteran);
+        // BNaviSettingManager.setPowerSaveMode(BNaviSettingManager.PowerSaveMode.DISABLE_MODE);
+        BNaviSettingManager.setRealRoadCondition(BNaviSettingManager.RealRoadCondition.NAVI_ITS_ON);
+        BNaviSettingManager.setIsAutoQuitWhenArrived(true);
+        Bundle bundle = new Bundle();
+        // 必须设置APPID，否则会静音
+        bundle.putString(BNCommonSettingParam.TTS_APP_ID, "9354030");
+        BNaviSettingManager.setNaviSdkParam(bundle);
+    }
+
+    private boolean hasBasePhoneAuth() {
+        // TODO Auto-generated method stub
+
+        PackageManager pm = this.getPackageManager();
+        for (String auth : authBaseArr) {
+            if (pm.checkPermission(auth, this.getPackageName()) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean initDirs() {
+        mSDCardPath = getSdcardDir();
+        if (mSDCardPath == null) {
+            return false;
+        }
+        File f = new File(mSDCardPath, APP_FOLDER_NAME);
+        if (!f.exists()) {
+            try {
+                f.mkdir();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private String getSdcardDir() {
+        if (Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED)) {
+            return Environment.getExternalStorageDirectory().toString();
+        }
+        return null;
+    }
+
+    private void routeplanToNavi(BNRoutePlanNode.CoordinateType coType) {
+        mCoordinateType = coType;
+        if (!hasInitSuccess) {
+            Toast.makeText(this, "还未初始化!", Toast.LENGTH_SHORT).show();
+        }
+        // 权限申请
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            // 保证导航功能完备
+            if (!hasCompletePhoneAuth()) {
+                if (!hasRequestComAuth) {
+                    hasRequestComAuth = true;
+                    this.requestPermissions(authComArr, authComRequestCode);
+                    return;
+                } else {
+                    Toast.makeText(this, "没有完备的权限!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }
+        List<BNRoutePlanNode> list = new ArrayList<>();
+        switch (coType) {
+            case GCJ02: {
+                break;
+            }
+            case WGS84: {
+                break;
+            }
+            case BD09_MC: {
+                break;
+            }
+            case BD09LL: {
+                list = initNode(coType);
+                break;
+            }
+            default:
+                break;
+        }
+
+        if (list != null) {
+            // 开发者可以使用旧的算路接口，也可以使用新的算路接口,可以接收诱导信息等
+            // BaiduNaviManager.getInstance().launchNavigator(this, list, 1, true, new DemoRoutePlanListener(sNode));
+            BaiduNaviManager.getInstance().launchNavigator(this, list, 1,
+                    true, new DemoRoutePlanListener(list.get(0)),
+                    eventListerner);
+        }
+    }
+
+    private List<BNRoutePlanNode> initNode(BNRoutePlanNode.CoordinateType coType) {
+        List<BNRoutePlanNode> planNodes = new ArrayList<>();
+        for (Scenic scenic : mScenics) {
+            BNRoutePlanNode node = new BNRoutePlanNode(scenic.longitude, scenic.latitude,
+                    scenic.name, null, coType);
+            planNodes.add(node);
+        }
+        return planNodes;
+    }
+
+    BaiduNaviManager.NavEventListener eventListerner = new BaiduNaviManager.NavEventListener() {
+
+        @Override
+        public void onCommonEventCall(int what, int arg1, int arg2, Bundle bundle) {
+
+        }
+    };
+
+    private boolean hasCompletePhoneAuth() {
+        // TODO Auto-generated method stub
+
+        PackageManager pm = this.getPackageManager();
+        for (String auth : authComArr) {
+            if (pm.checkPermission(auth, this.getPackageName()) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public class DemoRoutePlanListener implements BaiduNaviManager.RoutePlanListener {
+
+        private BNRoutePlanNode mBNRoutePlanNode = null;
+
+        public DemoRoutePlanListener(BNRoutePlanNode node) {
+            mBNRoutePlanNode = node;
+        }
+
+        @Override
+        public void onJumpToNavigator() {
+            /*
+             * 设置途径点以及resetEndNode会回调该接口
+             */
+
+            for (Activity ac : activityList) {
+                if (ac.getClass().getName().endsWith("NavGuideActivity")) {
+                    return;
+                }
+            }
+            Intent intent = new Intent(GoGuideActivity.this, NavGuideActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(ROUTE_PLAN_NODE, mBNRoutePlanNode);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
+
+        @Override
+        public void onRoutePlanFailed() {
+            // TODO Auto-generated method stub
+            Toast.makeText(GoGuideActivity.this, "算路失败", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -114,14 +358,19 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
                 switch (type) {
                     case 1:
                         routePlanBus();
-                        mGoGuide.setEnabled(false);
                         break;
                     case 2:
                         routePlanCar();
-                        mGoGuide.setEnabled(false);
+                        mGoGuide.setOnClickListener(v -> {
+                            if (BaiduNaviManager.isNaviInited()) {
+                                PLog.e("inited");
+                                routeplanToNavi(BNRoutePlanNode.CoordinateType.BD09LL);
+                            }
+                        });
                         break;
                     case 3:
                         routePlanBike();
+                        mGoGuide.setOnClickListener(v -> startBikeNavi());
                         break;
                     default:
                         break;
@@ -251,18 +500,19 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
         LinearLayout finish = findViewById(R.id.layout_finish);
         mMapView = findViewById(R.id.texture_map_go_guide);
         mBaiduMap = mMapView.getMap();
+        mMapView.showScaleControl(false);
+        mMapView.showZoomControls(false);
 
         pre.setOnClickListener(this);
         next.setOnClickListener(this);
         allRoute.setOnClickListener(this);
-        mGoGuide.setOnClickListener(this);
         finish.setOnClickListener(this);
     }
 
     /**
      * 导航初始化
      */
-    private void guideInit() {
+    private void bikeGuideInit() {
         try {
             mNaviHelper = BikeNavigateHelper.getInstance();
         } catch (Exception e) {
@@ -310,9 +560,9 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
             public void onRoutePlanSuccess() {
                 Log.d("View", "onRoutePlanSuccess");
 //                Intent intent = new Intent();
-//                intent.setClass(MapActivity.this, MapGuideActivity.class);
+//                intent.setClass(MapActivity.this, BikeGuideActivity.class);
 //                startActivity(intent);
-                startIntentActivity(GoGuideActivity.this, MapGuideActivity.class);
+                startIntentActivity(GoGuideActivity.this, BikeGuideActivity.class);
             }
 
             @Override
@@ -346,9 +596,6 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
                     ToastUtil.show(this, "已经到头了！");
                 }
                 break;
-            case R.id.layout_go_guide:
-                startBikeNavi();
-                break;
             case R.id.layout_finish:
                 startIntentActivity(this, CommentScoreActivity.class);
                 break;
@@ -368,9 +615,9 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
         bundle.putSerializable(C.SCENIC_DETAIL, mScenics);
         intent.putExtra(C.SCENIC_DETAIL, bundle);
         intent.putExtra("location", location);
+        intent.putExtra("type", type);
         startActivity(intent);
     }
-
 
     /**
      * 地图移动到指定的位置
@@ -442,5 +689,30 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
         super.onPause();
         //在activity执行onPause时执行mMapView. onPause ()，实现地图生命周期管理
         mMapView.onPause();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        // TODO Auto-generated method stub
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == authBaseRequestCode) {
+            for (int ret : grantResults) {
+                if (ret == 0) {
+                    continue;
+                } else {
+                    Toast.makeText(this, "缺少导航基本的权限!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            initNavi();
+        } else if (requestCode == authComRequestCode) {
+            for (int ret : grantResults) {
+                if (ret == 0) {
+                    continue;
+                }
+            }
+            routeplanToNavi(mCoordinateType);
+        }
+
     }
 }
