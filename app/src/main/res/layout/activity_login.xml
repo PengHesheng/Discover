@@ -11,12 +11,18 @@
 
     <include layout="@layout/toolbar" />
 
-    <ImageView
-        android:id="@+id/img_login_portrait"
+    <FrameLayout
         android:layout_width="128dp"
         android:layout_height="128dp"
         android:layout_marginTop="30dp"
-        android:src="@mipmap/portrait_bg" />
+        android:background="@mipmap/portrait_bg" >
+        <ImageView
+            android:id="@+id/img_login_portrait"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/default_portrait"/>
+    </FrameLayout>
 
     <EditText
         android:id="@+id/edt_login_account"

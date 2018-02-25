@@ -45,7 +45,7 @@ public class ShakePresenterImp implements IShakePresenter {
                             scenic.name = bdLocation.getStreet();
                             scenic.latitude = bdLocation.getLatitude();
                             scenic.longitude = bdLocation.getLongitude();
-                            scenic.location = bdLocation.getStreet();
+                            scenic.location = bdLocation.getAddrStr();
                             scenics.add(scenic);
                             scenics.add(value);
                             mView.showScenic(scenics);

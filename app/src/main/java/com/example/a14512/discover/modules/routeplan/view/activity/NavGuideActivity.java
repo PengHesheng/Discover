@@ -3,7 +3,6 @@ package com.example.a14512.discover.modules.routeplan.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 
 import com.baidu.navisdk.adapter.BNRouteGuideManager;
@@ -152,8 +151,7 @@ public class NavGuideActivity extends BaseActivity {
             BNRouteGuideManager.getInstance().onConfigurationChanged(newConfig);
         }
 
-    };
-
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
@@ -187,6 +185,7 @@ public class NavGuideActivity extends BaseActivity {
             BNRouteGuideManager.getInstance().onStart();
         }
     }
+
     private void addCustomizedLayerItems() {
         List<BNRouteGuideManager.CustomizedLayerItem> items = new ArrayList<BNRouteGuideManager.CustomizedLayerItem>();
         BNRouteGuideManager.CustomizedLayerItem item1 = null;
@@ -235,10 +234,9 @@ public class NavGuideActivity extends BaseActivity {
         @Override
         public void notifyOtherAction(int actionType, int arg1, int arg2, Object obj) {
             if (actionType == 0) {
-                //导航到达目的地 自动退出
-                Log.i(TAG, "notifyOtherAction actionType = " + actionType + ",导航到达目的地！");
+                //导航到达目的地 自动退出 TODO 有问题
+                NavGuideActivity.this.setResult(RESULT_OK);
             }
-            Log.i(TAG, "actionType:" + actionType + "arg1:" + arg1 + "arg2:" + arg2 + "obj:" + obj.toString());
         }
     };
 

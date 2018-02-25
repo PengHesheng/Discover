@@ -10,4 +10,5 @@ public interface IChoosePresenter {
      *
      */
     void putData();
+
 }

@@ -1,210 +1,333 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="#ececec"
-    android:id="@+id/choose_layout"
-    android:orientation="vertical">
+    android:background="#ffffff"
+    android:id="@+id/choose_layout">
 
-    <include layout="@layout/toolbar"/>
-
-    <LinearLayout
-        android:layout_marginLeft="18dp"
-        android:layout_marginRight="18dp"
-        android:layout_marginTop="63dp"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:background="#ffffff"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <android.support.v7.widget.AppCompatAutoCompleteTextView
-                android:id="@+id/edt_start_place"
-                android:layout_width="117dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:maxWidth="117dp"
-                android:singleLine="true"
-                android:hint="@string/search_hint_left"
-                android:textColor="#b0abab"
-                android:textSize="24sp"/>
+            android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/img_exchange_place"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:src="@mipmap/exchange"/>
+                android:id="@+id/img_choose_bg"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:scaleType="fitXY"/>
 
-            <android.support.v7.widget.AppCompatAutoCompleteTextView
-                android:id="@+id/edt_end_place"
-                android:layout_width="117dp"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="21dp"
+                android:background="#d4d4d4"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/search_hint_right"
-                android:gravity="center"
-                android:maxWidth="117dp"
-                android:singleLine="true"
-                android:textColor="#b0abab"
-                android:textSize="24sp"/>
+                android:gravity="center_vertical"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <android.support.v7.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/edt_start_place"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp"
+                    android:maxWidth="117dp"
+                    android:singleLine="true"
+                    android:hint="@string/search_hint_left"
+                    android:textColor="#a5a5a5"
+                    android:textSize="24sp"
+                    android:layout_marginStart="22dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/img_exchange_place"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@mipmap/exchange"/>
 
-            <TextView
-                android:id="@+id/edt_start_time"
-                android:layout_width="117dp"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_when"
-                android:gravity="center"
-                android:maxWidth="117dp"
-                android:lines="2"
-                android:textColor="#b0abab"
-                android:textSize="24sp"/>
+                <android.support.v7.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/edt_end_place"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/search_hint_right"
+                    android:layout_marginRight="22dp"
+                    android:gravity="right"
+                    android:maxWidth="117dp"
+                    android:singleLine="true"
+                    android:textColor="#a5a5a5"
+                    android:textSize="24sp"
+                    android:layout_marginEnd="22dp" />
 
-            <ImageView
-                android:id="@+id/img_exchange_Time"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:src="@mipmap/exchange_time"/>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/edt_end_time"
-                android:layout_width="117dp"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_when"
-                android:gravity="center"
-                android:maxWidth="117dp"
-                android:lines="2"
-                android:textColor="#b0abab"
-                android:textSize="24sp"/>
-
-        </LinearLayout>
-
-        <!--<LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="18sp"
-                android:background="#f60"
-                android:textColor="#535351"
-                android:text="@string/tv_choose"/>
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
-        </LinearLayout>-->
+                <TextView
+                    android:id="@+id/edt_start_time"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_when"
+                    android:paddingLeft="22dp"
+                    android:maxWidth="117dp"
+                    android:gravity="center_vertical"
+                    android:lines="2"
+                    android:textColor="#a5a5a5"
+                    android:textSize="24sp"
+                    android:paddingStart="22dp"
+                    tools:ignore="RtlSymmetry" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/img_exchange_Time"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@mipmap/exchange_time"/>
+
+                <TextView
+                    android:id="@+id/edt_end_time"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:paddingRight="22dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_over"
+                    android:gravity="right|center_vertical"
+                    android:maxWidth="117dp"
+                    android:lines="2"
+                    android:textColor="#a5a5a5"
+                    android:textSize="24sp"
+                    tools:ignore="RtlHardcoded,RtlSymmetry" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="9"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="22dp"
+                    android:textSize="18sp"
+                    android:textColor="#757575"
+                    android:text="@string/tv_choose"
+                    android:paddingStart="22dp"
+                    tools:ignore="RtlSymmetry" />
+
+                <ImageView
+                    android:id="@+id/img_choose_priority"
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_weight="1"
+                    android:src="@mipmap/down"
+                    android:layout_marginEnd="22dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_choose_priority"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_sort_distance"
+                        android:layout_width="145dp"
+                        android:layout_height="40dp"
+                        android:textSize="17sp"
+                        android:textColor="#3c3c3c"
+                        android:text="@string/btn_sort_distance"
+                        android:background="@drawable/btn_bg_un_select"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp" />
+
+                    <Button
+                        android:id="@+id/btn_less_pay"
+                        android:layout_width="145dp"
+                        android:layout_height="40dp"
+                        android:textSize="17sp"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="#3c3c3c"
+                        android:background="@drawable/btn_bg_un_select"
+                        android:text="@string/btn_less_pay"
+                        android:layout_marginStart="10dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_long_play"
+                        android:layout_width="145dp"
+                        android:layout_height="40dp"
+                        android:textSize="17sp"
+                        android:textColor="#3c3c3c"
+                        android:background="@drawable/btn_bg_un_select"
+                        android:text="@string/btn_play_long"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp" />
+
+                    <Button
+                        android:id="@+id/btn_high_comment"
+                        android:layout_width="145dp"
+                        android:layout_height="40dp"
+                        android:textSize="17sp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/btn_bg_un_select"
+                        android:textColor="#3c3c3c"
+                        android:text="@string/btn_high_grade"
+                        android:layout_marginStart="10dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="21dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_is_recommend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="#757575"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="22dp"
+                    android:text="@string/btn_is_recommend"
+                    android:layout_marginStart="22dp" />
+
+                <ImageView
+                    android:id="@+id/img_is_recommend"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tv_is_recommend"
+                    android:src="@mipmap/uncheck"
+                    android:layout_toEndOf="@+id/tv_is_recommend"
+                    android:layout_marginStart="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@+id/img_is_recommend2"
+                    android:textColor="#757575"
+                    android:text="@string/tv_choose_open_exercise"
+                    android:layout_toStartOf="@+id/img_is_recommend2"
+                    android:layout_marginEnd="5dp" />
+
+                <ImageView
+                    android:id="@+id/img_is_recommend2"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="22dp"
+                    android:src="@mipmap/uncheck"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="22dp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:layout_marginTop="23dp"
+                android:layout_marginBottom="20dp"
+                android:background="#e5e5e5"/>
 
             <Button
-                android:id="@+id/btn_sort_distance"
-                android:layout_width="145dp"
-                android:layout_height="40dp"
-                android:textSize="16sp"
-                android:textColor="#3c3c3c"
-                android:text="@string/btn_sort_distance"
-                android:background="@drawable/btn_bg_un_select"
-                android:layout_marginRight="10dp"
-                android:layout_marginEnd="10dp" />
+                android:id="@+id/btn_build"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="21dp"
+                android:layout_marginRight="21dp"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/choose_btn_bg"
+                android:textSize="22sp"
+                android:textColor="#faffff"
+                android:text="@string/btn_route_plan" />
 
-            <Button
-                android:id="@+id/btn_less_pay"
-                android:layout_width="145dp"
-                android:layout_height="40dp"
-                android:textSize="16sp"
-                android:textColor="#3c3c3c"
-                android:background="@drawable/btn_bg_un_select"
-                android:text="@string/btn_less_pay" />
         </LinearLayout>
+    </ScrollView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_long_play"
-                android:layout_width="145dp"
-                android:layout_height="40dp"
-                android:textSize="16sp"
-                android:textColor="#3c3c3c"
-                android:background="@drawable/btn_bg_un_select"
-                android:text="@string/btn_play_long"
-                android:layout_marginRight="10dp"
-                android:layout_marginEnd="10dp" />
-
-            <Button
-                android:id="@+id/btn_high_comment"
-                android:layout_width="145dp"
-                android:layout_height="40dp"
-                android:textSize="16sp"
-                android:background="@drawable/btn_bg_un_select"
-                android:textColor="#3c3c3c"
-                android:text="@string/btn_high_grade" />
-        </LinearLayout>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
 
         <RelativeLayout
-            android:layout_marginTop="21dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="#535351"
-                android:text="@string/btn_is_recommend"/>
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
 
             <ImageView
-                android:id="@+id/img_is_recommend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/img_toolbar_left"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/back_circle"
+                android:layout_alignParentStart="true" />
+
+            <ImageView
+                android:id="@+id/img_toolbar_right"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:src="@mipmap/uncheck"
+                android:layout_marginRight="17dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/share_circle"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp" />
+                android:layout_marginEnd="17dp" />
+
         </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
 
-        <Button
-            android:id="@+id/btn_build"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/btn_bg_select"
-            android:textSize="20sp"
-            android:textColor="#3c3b3a"
-            android:text="@string/btn_route_plan" />
-    </LinearLayout>
-
-
-
-
-
-</LinearLayout>
+</FrameLayout>

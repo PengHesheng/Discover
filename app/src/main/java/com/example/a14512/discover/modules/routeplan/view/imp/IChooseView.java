@@ -6,7 +6,6 @@ package com.example.a14512.discover.modules.routeplan.view.imp;
 
 public interface IChooseView {
 
-
     /**
      * @return string
      */
@@ -58,4 +57,8 @@ public interface IChooseView {
      */
     void startActivity(boolean isHaveData, int personSelect);
 
+    /**
+     *
+     */
+    void dismissDialog();
 }

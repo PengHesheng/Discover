@@ -77,7 +77,7 @@ public class ShakeActivity extends BaseActivity implements SensorEventListener, 
         float[] values = event.values;
         if (sensorType == Sensor.TYPE_ACCELEROMETER)
         {
-            if ((Math.abs(values[0]) > 17 || Math.abs(values[1]) > 17))
+            if ((Math.abs(values[0]) > 10 || Math.abs(values[1]) > 10))
             {
                 PLog.e("sensor x ", "============ values[0] = " + values[0]);
                 PLog.e("sensor y ", "============ values[1] = " + values[1]);

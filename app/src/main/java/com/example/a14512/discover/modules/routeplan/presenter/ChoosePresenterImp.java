@@ -2,6 +2,8 @@ package com.example.a14512.discover.modules.routeplan.presenter;
 
 import android.content.Context;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
@@ -18,10 +20,10 @@ import com.example.a14512.discover.modules.routeplan.view.imp.IChooseView;
 import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 import com.example.a14512.discover.utils.ACache;
 import com.example.a14512.discover.utils.DateFormatUtil;
+import com.example.a14512.discover.utils.LocationUtil;
 import com.example.a14512.discover.utils.PLog;
 import com.example.a14512.discover.utils.ToastUtil;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 /**
@@ -29,7 +31,6 @@ import java.util.ArrayList;
  */
 
 public class ChoosePresenterImp implements IChoosePresenter {
-    private static final String TAG = "ChoosePresenterImp";
 
     private Context mContext;
     private IChooseView mView;
@@ -42,15 +43,43 @@ public class ChoosePresenterImp implements IChoosePresenter {
     private Scenic endScenic;
 
     private PoiSearch poiSearch;
-    private OnGetPoiSearchResultListener listener;
+
+    private LocationUtil locationUtil;
+    private BDAbstractLocationListener listener;
+    private String myLocation = "我的位置";
 
     public ChoosePresenterImp(IChooseView chooseView, Context context) {
         this.mContext = context;
         this.mView = chooseView;
         mModel = new ModeImp();
+        poiSearch = PoiSearch.newInstance();
     }
 
-
+    private void getLocation() {
+        locationUtil = LocationUtil.getInstance();
+        listener = new BDAbstractLocationListener() {
+            @Override
+            public void onReceiveLocation(BDLocation location) {
+                PLog.e(location.getStreet());
+                if (startPlace.equals(myLocation)) {
+                    startScenic = new Scenic();
+                    startScenic.latitude = location.getLatitude();
+                    startScenic.longitude = location.getLongitude();
+                    if (location.getStreet() != null) {
+                        startScenic.name = location.getStreet();
+                    } else {
+                        startScenic.name = myLocation;
+                    }
+                    startScenic.times = "-2";
+                } else {
+                    poiSearch(startPlace, 1);
+                }
+                poiSearch(endPlace, 2);
+                locationUtil.unRegisterListener(listener);
+            }
+        };
+        locationUtil.getLocation(mContext, listener);
+    }
 
     @Override
     public void putData() {
@@ -59,24 +88,26 @@ public class ChoosePresenterImp implements IChoosePresenter {
                 + isTrue(mView.isLongPlay()) + isTrue(mView.isHighComment());
         startPlace = mView.getStartPlace();
         endPlace = mView.getEndPlace();
+
         String startTime = mView.getStartTime();
         String endTime = mView.getEndTime();
-        startT = startTime.substring(startTime.length() - 5, startTime.length());
-        time = DateFormatUtil.calculateMinute(startTime, endTime);
-        if (time > 0) {
-            ACache.getDefault().put("start_time", startTime);
-            ACache.getDefault().put("end_time", endTime);
+        ACache.getDefault().put("start_time", startTime);
+        ACache.getDefault().put("end_time", endTime);
+        String sT = ACache.getDefault().getAsString("start_time");
+        String eT = ACache.getDefault().getAsString("end_time");
 
-            poiSearch(startPlace, 1);
-            poiSearch(endPlace, 2);
+        startT = startTime.substring(startTime.length() - 5, startTime.length());
+        time = DateFormatUtil.calculateMinute(sT, eT);
+        PLog.e(""+time);
+        if (time > 0) {
+            getLocation();
         } else {
             ToastUtil.show(mContext, "时间选取为三天内！");
         }
     }
 
     private void poiSearch(String startPlace, int type) {
-        poiSearch = PoiSearch.newInstance();
-        listener = new OnGetPoiSearchResultListener() {
+        OnGetPoiSearchResultListener listener = new OnGetPoiSearchResultListener() {
             @Override
             public void onGetPoiResult(PoiResult poiResult) {
                 if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {
@@ -85,7 +116,7 @@ public class ChoosePresenterImp implements IChoosePresenter {
                         PoiInfo poiInfo = poiResult.getAllPoi().get(0);
                         startScenic.latitude = poiInfo.location.latitude;
                         startScenic.longitude = poiInfo.location.longitude;
-                        startScenic.name = poiInfo.address;
+                        startScenic.name = poiInfo.name;
                         startScenic.times = "-2";
                     } else {
                         endScenic = new Scenic();
@@ -98,12 +129,8 @@ public class ChoosePresenterImp implements IChoosePresenter {
                     if (startScenic != null && endScenic != null) {
                         PLog.e(startScenic.longitude + "  " + startScenic.latitude + "\n"
                                 + endScenic.longitude + "  " + endScenic.latitude);
+                        putRoute(startScenic, endScenic);
                         poiSearch.destroy();
-                        try {
-                            putRoute(startScenic, endScenic);
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        }
                     }
                 }
             }
@@ -118,18 +145,17 @@ public class ChoosePresenterImp implements IChoosePresenter {
 
             }
         };
-
         poiSearch.setOnGetPoiSearchResultListener(listener);
-        poiSearch.searchInCity(new PoiCitySearchOption().city("重庆市").keyword(startPlace));
+        poiSearch.searchInCity(new PoiCitySearchOption().city(C.CHONG_QING).keyword(startPlace).pageNum(1));
     }
 
-    private void putRoute(Scenic startScenic, Scenic endScenic) throws UnsupportedEncodingException {
-        poiSearch.destroy();
+    private void putRoute(Scenic startScenic, Scenic endScenic) {
         double startLng = startScenic.longitude;
         double startLat = startScenic.latitude;
         double endLng = endScenic.longitude;
         double endLat = endScenic.latitude;
 
+//        double startLng , startLat ,endLng ,endLat;
         String phone = ACache.getDefault().getAsString(C.ACCOUNT);
 
         //TODO 数据测试
@@ -143,7 +169,7 @@ public class ChoosePresenterImp implements IChoosePresenter {
         tfSelect = 1;
 
         ApiSubscriber<ArrayList<Scenic>> apiSubscriber = new ApiSubscriber<ArrayList<Scenic>>(
-                mContext, true, true) {
+                mContext, false, false) {
             @Override
             public void onNext(ArrayList<Scenic> value) {
                 PLog.e(value.size()+"");
@@ -157,6 +183,12 @@ public class ChoosePresenterImp implements IChoosePresenter {
                     mView.startActivity(false, personSelect);
                     PLog.e("null");
                 }
+            }
+
+            @Override
+            public void onComplete() {
+                super.onComplete();
+                mView.dismissDialog();
             }
         };
         mModel.getScenic(apiSubscriber, startLng, startLat, endLng, endLat, startPlace, endPlace,

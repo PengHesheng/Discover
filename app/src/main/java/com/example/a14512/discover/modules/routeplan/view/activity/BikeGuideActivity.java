@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.baidu.mapapi.bikenavi.BikeNavigateHelper;
 import com.baidu.mapapi.bikenavi.adapter.IBRouteGuidanceListener;
-import com.baidu.mapapi.bikenavi.adapter.IBTTSPlayer;
 import com.baidu.mapapi.bikenavi.model.BikeRouteDetailInfo;
 import com.baidu.mapapi.bikenavi.model.RouteGuideKind;
 import com.baidu.mapapi.bikenavi.params.BikeNaviLaunchParam;
@@ -39,12 +38,9 @@ public class BikeGuideActivity extends BaseActivity {
 
         mNaviHelper.startBikeNavi(this);
 
-        mNaviHelper.setTTsPlayer(new IBTTSPlayer() {
-            @Override
-            public int playTTSText(String s, boolean b) {
-                Log.d("tts", s);
-                return 0;
-            }
+        mNaviHelper.setTTsPlayer((s, b) -> {
+            Log.d("tts", s);
+            return 0;
         });
 
         mNaviHelper.setRouteGuidanceListener(this, new IBRouteGuidanceListener() {
@@ -95,7 +91,8 @@ public class BikeGuideActivity extends BaseActivity {
 
             @Override
             public void onArriveDest() {
-
+                setResult(RESULT_OK);
+                BikeGuideActivity.this.finish();
             }
 
             @Override

@@ -47,6 +47,17 @@ public class Time {
     }
 
     /**
+     * HH:mm:ss
+     * @return
+     */
+    public static String getNowHMSTime() {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat mDateFormat = new SimpleDateFormat(
+                "HH:mm:ss");
+        String date = mDateFormat.format(new Date());
+        return date;
+    }
+
+    /**
      * MM-dd
      *
      * @return

@@ -22,6 +22,7 @@ import com.example.a14512.discover.utils.DateFormatUtil;
 import com.example.a14512.discover.utils.DistanceUtil;
 import com.example.a14512.discover.utils.JsonUtil;
 import com.example.a14512.discover.utils.PLog;
+import com.example.a14512.discover.utils.Time;
 
 import java.util.ArrayList;
 
@@ -82,12 +83,18 @@ public class AllRouteActivity extends BaseActivity {
         sumDistance = getIntent().getIntExtra("sum_distance", 0);
         type = getIntent().getIntExtra("type", 1);
 
-        String date = startTime.substring(0, startTime.length() - 6) + "——"
-                + endTime.substring(0, endTime.length() - 6);
-        mDate.setText(date);
         int time = DateFormatUtil.calculateMinute(startTime, endTime) - calculatePatTime(stepTimes);
+        String date = startTime.substring(0, startTime.length() - 5) + "——"
+                + endTime.substring(0, endTime.length() - 5);
+        String timeHMS = startTime.substring(startTime.length() - 5, startTime.length()) + "——" +
+                endTime.substring(endTime.length() - 5, endTime.length());
+        if (scenics.size() <= 2) {
+            date = Time.getNowYMD();
+            timeHMS = Time.getNowHMSTime();
+        }
+        mDate.setText(date);
         calculateNervous(time, mImgNervous);
-        mTime.setText(startTime + "——" + endTime);
+        mTime.setText(timeHMS);
         mSumDistance.setText(DistanceUtil.transformMtoKM(sumDistance));
         mSumTime.setText(sumTime(stepTimes));
         mSumPay.setText(sumPay + "元");

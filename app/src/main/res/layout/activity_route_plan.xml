@@ -16,10 +16,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:orientation="vertical">
 
-            <LinearLayout
+           <!-- <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -46,18 +47,14 @@
                     android:layout_height="1dp"
                     android:background="#2f2f2f" />
 
-            </LinearLayout>
+            </LinearLayout>-->
 
             <TextView
                 android:id="@+id/tv_morning"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:background="#f19149"
-                android:gravity="center"
-                android:text="@string/tv_morning"
-                android:textColor="#f9f7f6"
-                android:textSize="20sp" />
+                android:layout_height="50dp"
+                android:layout_marginTop="19dp"
+                android:background="@drawable/morning_bg" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/morning_recycler_view"
@@ -67,13 +64,9 @@
             <TextView
                 android:id="@+id/tv_afternoon"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:background="#f19149"
-                android:gravity="center"
-                android:text="@string/tv_afternoon"
-                android:textColor="#f9f7f6"
-                android:textSize="20sp" />
+                android:layout_height="50dp"
+                android:layout_marginTop="27dp"
+                android:background="@drawable/afternoon_bg" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/afternoon_recycler_view"
@@ -83,33 +76,30 @@
             <TextView
                 android:id="@+id/tv_evening"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:background="#f19149"
-                android:gravity="center"
-                android:text="@string/tv_evening"
-                android:textColor="#f9f7f6"
-                android:textSize="20sp" />
+                android:layout_height="50dp"
+                android:layout_marginTop="27dp"
+                android:background="@drawable/evening_bg" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/evening_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:gravity="center_vertical">
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center_vertical|right">
 
                 <Button
                     android:id="@+id/btn_build"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:text="@string/btn_path_plan" />
-            </RelativeLayout>
+                    android:layout_marginRight="15dp"
+                    android:text="@string/btn_path_plan"
+                    android:layout_marginEnd="15dp" />
+            </LinearLayout>
         </LinearLayout>
 
     </ScrollView>

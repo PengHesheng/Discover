@@ -18,7 +18,7 @@
             android:id="@+id/img_head_portrait"
             android:layout_width="93dp"
             android:layout_height="93dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/default_portrait" />
 
         <TextView
             android:id="@+id/tv_head_name"

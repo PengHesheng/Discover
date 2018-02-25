@@ -1,39 +1,36 @@
 package com.example.a14512.discover.modules.routeplan.view.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Paint;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.baidu.location.BDAbstractLocationListener;
-import com.baidu.location.BDLocation;
 import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.mapapi.search.sug.SuggestionSearch;
 import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.routeplan.presenter.ChoosePresenterImp;
 import com.example.a14512.discover.modules.routeplan.view.imp.IChooseView;
 import com.example.a14512.discover.utils.DateTimePicker;
 import com.example.a14512.discover.utils.KeyBoardUtil;
-import com.example.a14512.discover.utils.LocationUtil;
-import com.example.a14512.discover.utils.PLog;
 import com.example.a14512.discover.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -45,12 +42,12 @@ import java.util.List;
 
 public class ChooseActivity extends BaseActivity implements View.OnClickListener,
         IChooseView {
-    private static final String TAG = "ChooseActivity";
-
+    private ProgressDialog mProgressDialog;
     private SuggestionSearch mSuggestionSearch;
-    private String city = null, street = null, myLocation = "我的位置";
+    private String myLocation = "我的位置";
 
-    private LinearLayout mainLayout;
+    private FrameLayout mainLayout;
+    private ImageView imgBg;
     private ImageView mBack;
     private TextView mTitle;
     private ImageView mRight;
@@ -62,59 +59,36 @@ public class ChooseActivity extends BaseActivity implements View.OnClickListener
     private Button mBtnLongPlay;
     private Button mBtnHighComment;
     private ImageView mImgIsRecommend;
+    private ImageView mImgIsOpen;
+    private LinearLayout mLayoutPriority;
 
-    private LocationUtil locationUtil;
-    private BDAbstractLocationListener listener;
 
     private ChoosePresenterImp mPresenter;
     private boolean isSortDistance = false, isLessPay = false, isLognPlay = false,
-            isHighComment = false, isRecommend = false;
+            isHighComment = false, isRecommend = false, isRecommend2 = false, isOpen = true;
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose);
-        getLocation();
         initView();
         initToolbar();
     }
 
-    private void getLocation() {
-        locationUtil = LocationUtil.getInstance();
-        listener = new BDAbstractLocationListener() {
-            @Override
-            public void onReceiveLocation(BDLocation location) {
-                //获取详细地址信息
-//                String addr = location.getAddrStr();
-                //获取国家
-//                String country = location.getCountry();
-                //获取省份
-//                String province = location.getProvince();
-                //获取城市
-                city = location.getCity();
-                PLog.e(city);
-                //获取区县
-//                String district = location.getDistrict();
-                //获取街道信息
-                street = location.getStreet();
-                locationUtil.unRegisterListener(listener);
-            }
-        };
-        locationUtil.getLocation(this, listener);
-    }
-
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void initToolbar() {
+        setDecorView();
         setSupportActionBar(toolbar);
         setStatusBarColor(R.color.mainToolbar);
-        mRight.setImageResource(R.mipmap.share);
-        mTitle.setText("生成计划表");
         mBack.setOnClickListener(v -> finish());
+        mRight.setOnClickListener(v -> ToastUtil.show(this, "share"));
     }
 
     private void initView() {
         mainLayout = findViewById(R.id.choose_layout);
+        imgBg = findViewById(R.id.img_choose_bg);
         mBack = findViewById(R.id.img_toolbar_left);
-        mTitle = findViewById(R.id.tv_toolbar_title);
         mRight = findViewById(R.id.img_toolbar_right);
         mEdtStartPlace = findViewById(R.id.edt_start_place);
         ImageView imgExchangePlace = findViewById(R.id.img_exchange_place);
@@ -124,28 +98,21 @@ public class ChooseActivity extends BaseActivity implements View.OnClickListener
         mEdtEndTime = findViewById(R.id.edt_end_time);
         mBtnSortDistance = findViewById(R.id.btn_sort_distance);
         toolbar = findViewById(R.id.toolbar);
+        ImageView imgPriority = findViewById(R.id.img_choose_priority);
+        mLayoutPriority = findViewById(R.id.layout_choose_priority);
         mBtnLessPay = findViewById(R.id.btn_less_pay);
         mBtnLongPlay = findViewById(R.id.btn_long_play);
         mBtnHighComment = findViewById(R.id.btn_high_comment);
         mImgIsRecommend = findViewById(R.id.img_is_recommend);
+        mImgIsOpen = findViewById(R.id.img_is_recommend2);
         Button btnBuild = findViewById(R.id.btn_build);
 
-        //初始化背景
-        Glide.with(this)
-                .load(R.mipmap.choose_bg)
-                .into(new SimpleTarget<GlideDrawable>() {
-                    @Override
-                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                    mainLayout.setBackgroundResource(R.mipmap.choose_bg);
-                }
-            });
         mEdtStartTime.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         mEdtEndTime.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         mEdtStartPlace.setText(myLocation);
 
         mainLayout.setOnClickListener(this);
         mBack.setOnClickListener(this);
-        mTitle.setOnClickListener(this);
         toolbar.setOnClickListener(this);
         mEdtStartPlace.setOnClickListener(this);
         imgExchangePlace.setOnClickListener(this);
@@ -161,7 +128,10 @@ public class ChooseActivity extends BaseActivity implements View.OnClickListener
         btnBuild.setOnClickListener(this);
         mEdtStartTime.setOnClickListener(this);
         mEdtEndTime.setOnClickListener(this);
+        imgPriority.setOnClickListener(this);
+        mImgIsOpen.setOnClickListener(this);
 
+        Glide.with(this).load(R.drawable.choose_bg).into(imgBg);
         mPresenter = new ChoosePresenterImp(this, this);
         mSuggestionSearch = SuggestionSearch.newInstance();
     }
@@ -186,6 +156,16 @@ public class ChooseActivity extends BaseActivity implements View.OnClickListener
                 KeyBoardUtil.hideInputFromWindow(this, mainLayout);
                 selectTime(mEdtEndTime);
                 break;
+            case R.id.img_choose_priority:
+                KeyBoardUtil.hideInputFromWindow(this, mainLayout);
+                if (isOpen) {
+                    mLayoutPriority.setVisibility(View.GONE);
+                    isOpen = false;
+                } else {
+                    mLayoutPriority.setVisibility(View.VISIBLE);
+                    isOpen = true;
+                }
+                break;
             case R.id.btn_sort_distance:
                 KeyBoardUtil.hideInputFromWindow(this, mainLayout);
                 isSortDistance = changeButton(mBtnSortDistance, isSortDistance);
@@ -204,6 +184,7 @@ public class ChooseActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.btn_build:
                 mPresenter.putData();
+                showDialog();
                 break;
             case R.id.img_exchange_place:
                 KeyBoardUtil.hideInputFromWindow(this, mainLayout);
@@ -215,11 +196,20 @@ public class ChooseActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.img_is_recommend:
                 KeyBoardUtil.hideInputFromWindow(this, mainLayout);
-                isRecommend = changeImg(isRecommend);
+                isRecommend = changeImg(mImgIsRecommend, isRecommend);
+                break;
+            case R.id.img_is_recommend2:
+                isRecommend2 = changeImg(mImgIsOpen, isRecommend2);
                 break;
             default:
                 break;
         }
+    }
+
+    private void showDialog() {
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage("加载中...");
+        mProgressDialog.show();
     }
 
     private void searchListener(AppCompatAutoCompleteTextView textView) {
@@ -234,7 +224,6 @@ public class ChooseActivity extends BaseActivity implements View.OnClickListener
             List<SuggestionResult.SuggestionInfo> list = res.getAllSuggestions();
             for (SuggestionResult.SuggestionInfo info : list) {
                 if (info.key != null) {
-                    Log.e(TAG, info.key);
                     infos.add(info.key);
                 }
             }
@@ -260,10 +249,9 @@ public class ChooseActivity extends BaseActivity implements View.OnClickListener
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.e(TAG, s.toString());
                 mSuggestionSearch.requestSuggestion((new SuggestionSearchOption())
                         .keyword(s.toString())
-                        .city(city));
+                        .city(C.CHONG_QING));
             }
 
             @Override
@@ -278,12 +266,12 @@ public class ChooseActivity extends BaseActivity implements View.OnClickListener
         dateTimePicker.setDatePicker(textView);
     }
 
-    private boolean changeImg(boolean isRecommend) {
+    private boolean changeImg(ImageView imageView, boolean isRecommend) {
         if (!isRecommend) {
-            mImgIsRecommend.setBackgroundResource(R.mipmap.check);
+            Glide.with(this).load(R.mipmap.check).into(imageView);
             isRecommend = true;
         } else {
-            mImgIsRecommend.setBackgroundResource(R.mipmap.uncheck);
+            Glide.with(this).load(R.mipmap.uncheck).into(imageView);
             isRecommend = false;
         }
         return isRecommend;
@@ -302,9 +290,11 @@ public class ChooseActivity extends BaseActivity implements View.OnClickListener
     private boolean changeButton(Button button, boolean isChoosed) {
         if (!isChoosed) {
             button.setBackgroundResource(R.drawable.btn_bg_select);
+            button.setTextColor(getResources().getColor(R.color.white));
             isChoosed = true;
         } else {
             button.setBackgroundResource(R.drawable.btn_bg_un_select);
+            button.setTextColor(getResources().getColor(R.color.unchooseColor));
             isChoosed = false;
         }
         return isChoosed;
@@ -318,8 +308,8 @@ public class ChooseActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public String getStartPlace() {
-        if (myLocation.equals(mEdtStartPlace.getText().toString()) && street != null) {
-            return street;
+        if (myLocation.equals(mEdtStartPlace.getText().toString())) {
+            return myLocation;
         } else {
             return mEdtStartPlace.getText().toString();
         }
@@ -372,6 +362,11 @@ public class ChooseActivity extends BaseActivity implements View.OnClickListener
         } else {
             ToastUtil.show(this, "没有找到规划的数据！");
         }
+    }
+
+    @Override
+    public void dismissDialog() {
+        mProgressDialog.dismiss();
     }
 
 }

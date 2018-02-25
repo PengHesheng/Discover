@@ -36,12 +36,14 @@
             android:src="@mipmap/next" />
 
         <View
-            android:layout_width="343dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginLeft="15dp"
             android:layout_alignParentRight="true"
-            android:background="#eeeeee" />
+            android:background="#eeeeee"
+            android:layout_marginStart="15dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -71,10 +73,12 @@
             android:src="@mipmap/next" />
 
         <View
-            android:layout_width="343dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:layout_alignParentRight="true"
             android:background="#eeeeee" />
     </RelativeLayout>
@@ -106,8 +110,10 @@
             android:src="@mipmap/next" />
 
         <View
-            android:layout_width="343dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"

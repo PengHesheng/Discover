@@ -31,7 +31,7 @@ public class MainPresenterImp implements IMainPresenter {
                 false, false) {
             @Override
             public void onNext(WeatherData value) {
-                if (value.heWeather != null) {
+                if (value.heWeather != null && value.heWeather.get(0) != null) {
                     mView.setWeather(value.heWeather.get(0));
                 }
             }

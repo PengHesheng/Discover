@@ -1,7 +1,9 @@
 package com.example.a14512.discover.modules.routeplan.view.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -9,6 +11,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
@@ -66,11 +72,41 @@ public class RoutePlanActivity extends BaseActivity implements IRoutePlanView, V
         mMorningRecyclerView.setLayoutManager(layoutManager1);
         mAfternoonRecyclerView.setLayoutManager(layoutManager2);
         mEveningRecyclerView.setLayoutManager(layoutManager3);
+        Glide.with(this)
+                .load(R.drawable.route_plan_bg)
+                .into(new SimpleTarget<GlideDrawable>() {
+                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        mMorningRecyclerView.setBackground(resource);
+                    }
+                });
+        Glide.with(this)
+                .load(R.drawable.route_plan_bg)
+                .into(new SimpleTarget<GlideDrawable>() {
+                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        mAfternoonRecyclerView.setBackground(resource);
+                    }
+                });
+        Glide.with(this)
+                .load(R.drawable.route_plan_bg)
+                .into(new SimpleTarget<GlideDrawable>() {
+                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        mEveningRecyclerView.setBackground(resource);
+                    }
+                });
     }
 
     private void initToolbar() {
         setSupportActionBar(toolbar);
         setStatusBarColor(R.color.mainToolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.loginSelect));
+        mTitle.setText(R.string.tv_route);
+        mRight.setImageResource(R.mipmap.share_detail);
         mBack.setOnClickListener(v -> finish());
     }
 

@@ -71,6 +71,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
     private ArrayList<TransitRouteOverlay> mTransitOverlays = new ArrayList<>();
     private ArrayList<DrivingRouteOverlay> mDriveOverlays = new ArrayList<>();
 
+    private TransitRoutePlanOption mTransitRoutePlanOption;
+
     private ArrayList<Scenic> mScenics;
     private ArrayList<PlanNode> mPlanNodes;
 
@@ -80,7 +82,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
     private List<String> mNodes;
     private ExpandableListAdapter adapter;
     private int position = 0, type = 1;
-    private String city;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,12 +100,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
         listener = new BDAbstractLocationListener() {
             @Override
             public void onReceiveLocation(BDLocation location) {
-
-                PLog.e(location.getStreet());
-                //获取城市
-                city = location.getCity();
                 toastError(location.getLocType());
-
+                routePlanBus();
                 MyLocationData locData = new MyLocationData.Builder()
                         .accuracy(location.getRadius())
                         // 此处设置开发者获取到的方向信息，顺时针0-360
@@ -141,7 +138,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
         mPlanNodes = new ArrayList<>();
         mScenics = (ArrayList<Scenic>) getIntent()
                 .getBundleExtra(C.SCENIC_DETAIL).getSerializable(C.SCENIC_DETAIL);
-
         if (mScenics != null) {
             mPlace.setText(mScenics.get(0).name + "——" + mScenics.get(mScenics.size() - 1).name);
             for (Scenic scenic : mScenics) {
@@ -152,10 +148,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-
     private void searchResult() {
         mSearch = RoutePlanSearch.newInstance();
-
         OnGetRoutePlanResultListener routeListener = new OnGetRoutePlanResultListener(){
 
             @Override
@@ -168,6 +162,17 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                 //在公交线路规划回调方法中添加TransitRouteOverlay用于展示换乘信息
                 if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
                     //未找到结果
+                    mBusMap.put(mNodes.get(position), new ArrayList<>());
+                    position++;
+                    if (position == mNodes.size() - 1) {
+                        PLog.e("" + position);
+                        mBusMap.put(mNodes.get(position), new ArrayList<>());
+                        adapter = new ExpandableListAdapter(MapActivity.this, mBusMap, mNodes);
+                        mListView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        mSearch.transitSearch(mTransitRoutePlanOption.from(mPlanNodes.get(position)).city(C.CHONG_QING).to(mPlanNodes.get(position + 1)));
+                    }
                     return;
                 }
                 if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
@@ -181,12 +186,13 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                     List<TransitRouteLine.TransitStep> steps = route.getAllStep();
                     mBusMap.put(mNodes.get(position), steps);
                     position++;
-                    PLog.e(""+position + "\t" + mNodes.size());
-                    if (position == mNodes.size()) {
+                    if (position == mNodes.size() - 1) {
                         mBusMap.put(mNodes.get(position), new ArrayList<>());
                         adapter = new ExpandableListAdapter(MapActivity.this, mBusMap, mNodes);
                         mListView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
+                    } else {
+                        mSearch.transitSearch(mTransitRoutePlanOption.from(mPlanNodes.get(position)).city(C.CHONG_QING).to(mPlanNodes.get(position+1)));
                     }
                     TransitRouteOverlay overlay = new TransitRouteOverlay(mBaiduMap);
                     mTransitOverlays.add(overlay);
@@ -253,7 +259,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                 }
             }
         };
-
         mSearch.setOnGetRoutePlanResultListener(routeListener);
     }
 
@@ -266,7 +271,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
         setStatusBarColor(R.color.mainToolbar);
         btnConfirm.setOnClickListener(this);
         mPlace.setOnClickListener(this);
-
     }
 
     @Override
@@ -362,11 +366,9 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
     private void routePlanBus() {
         position = 0;
         mBusMap = new HashMap<>(mNodes.size());
-        TransitRoutePlanOption planOption = new TransitRoutePlanOption();
-        for (int i = 0; i < mPlanNodes.size()-1; i++) {
-            mSearch.transitSearch(planOption.from(mPlanNodes.get(i)).city(C.CHONG_QING).to(mPlanNodes.get(i+1)));
-        }
-//        mSearch.transitSearch(planOption.from(mPlanNodes.get(mPlanNodes.size() - 1)).to(mPlanNodes.get(0)));
+        mTransitRoutePlanOption = new TransitRoutePlanOption();
+        mSearch.transitSearch(mTransitRoutePlanOption.from(mPlanNodes.get(position)).city(C.CHONG_QING).to(mPlanNodes.get(position+1)));
+//        mSearch.transitSearch(mTransitRoutePlanOption.from(mPlanNodes.get(mPlanNodes.size() - 1)).to(mPlanNodes.get(0)));
     }
 
     private void popupWindow() {
@@ -391,8 +393,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
         btnBus.setOnClickListener(this);
         btnDriver.setOnClickListener(this);
         btnBike.setOnClickListener(this);
-
-        routePlanBus();
     }
 
     @Override

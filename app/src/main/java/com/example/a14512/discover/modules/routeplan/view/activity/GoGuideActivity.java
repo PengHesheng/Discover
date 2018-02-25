@@ -86,7 +86,7 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
     private ArrayList<Scenic> mScenics;
     private ArrayList<LatLng> mLatLngs;
     private ArrayList<Integer> mTimes = new ArrayList<>();
-    private int position = 1, type, location = 0, sumDistance = 0;
+    private int position = 1, type, location = 0, sumDistance = 0, guideType = 0;
     //骑行导航
     private BikeNavigateHelper mNaviHelper;
     BikeNaviLaunchParam param;
@@ -265,11 +265,13 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
         }
 
         if (list != null) {
+            List<BNRoutePlanNode> startAndEnd = new ArrayList<>();
+            startAndEnd.add(list.get(guideType));
+            startAndEnd.add(list.get(guideType+1));
             // 开发者可以使用旧的算路接口，也可以使用新的算路接口,可以接收诱导信息等
             // BaiduNaviManager.getInstance().launchNavigator(this, list, 1, true, new DemoRoutePlanListener(sNode));
-            BaiduNaviManager.getInstance().launchNavigator(this, list, 1,
-                    true, new DemoRoutePlanListener(list.get(0)),
-                    eventListerner);
+            BaiduNaviManager.getInstance().launchNavigator(this, startAndEnd, 1,
+                    false, new DemoRoutePlanListener(startAndEnd.get(0)), eventListerner);
         }
     }
 
@@ -283,12 +285,8 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
         return planNodes;
     }
 
-    BaiduNaviManager.NavEventListener eventListerner = new BaiduNaviManager.NavEventListener() {
+    BaiduNaviManager.NavEventListener eventListerner = (what, arg1, arg2, bundle) -> {
 
-        @Override
-        public void onCommonEventCall(int what, int arg1, int arg2, Bundle bundle) {
-
-        }
     };
 
     private boolean hasCompletePhoneAuth() {
@@ -316,7 +314,6 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
             /*
              * 设置途径点以及resetEndNode会回调该接口
              */
-
             for (Activity ac : activityList) {
                 if (ac.getClass().getName().endsWith("NavGuideActivity")) {
                     return;
@@ -326,7 +323,7 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
             Bundle bundle = new Bundle();
             bundle.putSerializable(ROUTE_PLAN_NODE, mBNRoutePlanNode);
             intent.putExtras(bundle);
-            startActivity(intent);
+            startActivityForResult(intent, C.COMPLETED);
         }
 
         @Override
@@ -358,12 +355,12 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
                 switch (type) {
                     case 1:
                         routePlanBus();
+                        mGoGuide.setOnClickListener(v -> ToastUtil.show(GoGuideActivity.this, "暂时没有导航！"));
                         break;
                     case 2:
                         routePlanCar();
                         mGoGuide.setOnClickListener(v -> {
                             if (BaiduNaviManager.isNaviInited()) {
-                                PLog.e("inited");
                                 routeplanToNavi(BNRoutePlanNode.CoordinateType.BD09LL);
                             }
                         });
@@ -526,7 +523,6 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
      * 开始骑行导航
      */
     private void startBikeNavi() {
-        Log.d("View", "startBikeNavi");
         try {
             mNaviHelper.initNaviEngine(this, new IBEngineInitListener() {
                 @Override
@@ -550,19 +546,16 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
      * 导航回调接口，进入诱导界面
      */
     private void routePlanWithParam() {
+        param = new BikeNaviLaunchParam().stPt(mLatLngs.get(guideType)).endPt(mLatLngs.get(guideType+1));
         mNaviHelper.routePlanWithParams(param, new IBRoutePlanListener() {
             @Override
             public void onRoutePlanStart() {
-                Log.d("View", "onRoutePlanStart");
             }
 
             @Override
             public void onRoutePlanSuccess() {
                 Log.d("View", "onRoutePlanSuccess");
-//                Intent intent = new Intent();
-//                intent.setClass(MapActivity.this, BikeGuideActivity.class);
-//                startActivity(intent);
-                startIntentActivity(GoGuideActivity.this, BikeGuideActivity.class);
+                startActivityForResult(new Intent(GoGuideActivity.this, BikeGuideActivity.class), C.COMPLETED);
             }
 
             @Override
@@ -630,9 +623,6 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
                 .build();
         MapStatusUpdate update = MapStatusUpdateFactory.newMapStatus(mapStatus);
         mBaiduMap.setMapStatus(update);
-        startPt = new LatLng(40.047416, 116.312143);
-
-        param = new BikeNaviLaunchParam().stPt(mLatLngs.get(0)).endPt(chooseScenic);
     }
 
     /**
@@ -655,7 +645,7 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
         for (int i = 1; i < mPlanNodes.size() - 1; i++) {
             planNodes.add(mPlanNodes.get(i));
         }
-        mSearch.drivingSearch(planOption.from(mPlanNodes.get(0)).to(mPlanNodes.get(mPlanNodes.size() - 1)));
+        mSearch.drivingSearch(planOption.from(mPlanNodes.get(0)).to(mPlanNodes.get(mPlanNodes.size() - 1)).passBy(planNodes));
     }
 
     /**
@@ -714,5 +704,23 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
             routeplanToNavi(mCoordinateType);
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case C.COMPLETED:
+                    if (guideType < mScenics.size() - 1) {
+                        guideType++;
+                        ToastUtil.show(this, "点击出去进入下一个导航");
+                        //TODO 评分
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

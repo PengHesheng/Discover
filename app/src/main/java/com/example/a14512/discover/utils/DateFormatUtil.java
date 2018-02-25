@@ -129,15 +129,15 @@ public class DateFormatUtil {
 
     /**
      * 计算时间差，并以分钟数返回
-     * @param startTime 2017/02/21 18:30
-     * @param endTime 2017/02/22 20:30
+     * @param startTime 2017/02/2118:30
+     * @param endTime 2017/02/2220:30
      * @return minutes
      */
     public static int calculateMinute(String startTime, String endTime) {
         int value;
-        String startDate = startTime.substring(0, startTime.length() - 6);
+        String startDate = startTime.substring(0, startTime.length() - 5);
         String startT = startTime.substring(startTime.length() - 5, startTime.length());
-        String endDate = endTime.substring(0, endTime.length() - 6);
+        String endDate = endTime.substring(0, endTime.length() - 5);
         String endT = endTime.substring(endTime.length() - 5, endTime.length());
         int startDay = Integer.parseInt(startDate.substring(startDate.length() - 2, startDate.length()));
         int startYear = Integer.parseInt(startDate.substring(0, 4));
