@@ -18,11 +18,13 @@ public class MainPresenterImp implements IMainPresenter {
     private IMainView mView;
     private Mode mMode;
     private Context mContext;
+    private String account;
 
     public MainPresenterImp(IMainView view, Context context) {
         this.mContext = context;
         this.mView = view;
         mMode = new Mode();
+        account = ACache.getDefault().getAsString(C.ACCOUNT);
     }
 
     @Override
@@ -41,7 +43,6 @@ public class MainPresenterImp implements IMainPresenter {
 
     @Override
     public void isLogin() {
-        String account = ACache.getDefault().getAsString(C.ACCOUNT);
         if (!C.ACCOUNT.equals(account)) {
             mView.isLogin(true);
         } else {
@@ -51,7 +52,15 @@ public class MainPresenterImp implements IMainPresenter {
 
     @Override
     public void getUserInfo() {
-        UserInfo userInfo = new UserInfo();
-        ACache.getDefault().put("user_info", userInfo);
+        ApiSubscriber<UserInfo> apiSubscriber = new ApiSubscriber<UserInfo>(mContext, false, false) {
+            @Override
+            public void onNext(UserInfo value) {
+                if (value != null) {
+                    mView.setUserInfo(value);
+                    ACache.getDefault().put("user_info", value);
+                }
+            }
+        };
+        mMode.getUserInfo(apiSubscriber, account);
     }
 }

@@ -66,7 +66,8 @@ public class UploadPicture {
         final UploadManager uploadManager = new UploadManager();
 
         RetrofitHelper.getInstance().getToken()
-                .subscribe(new ApiSubscriber<String>(DiscoverApplication.getContext(), false, false) {
+                .subscribe(new ApiSubscriber<String>(DiscoverApplication.getContext(), true,
+                        true, "上传图片中...") {
                     @Override
                     public void onNext(String value) {
                         UploadPicture.token = value;
@@ -140,7 +141,6 @@ public class UploadPicture {
         return intent;
     }
 
-
     // 弹出选择弹框 相册，照相机，取消 并自动调用startActivityForResult得到相应intent进行跳转
     public static void showPictureSelectDialog(Context context, Activity activity) {
         new AlertDialog.Builder(context).setItems(new String[]{"相册", "照相机", "取消"}, (dialog, which) -> {
@@ -157,6 +157,7 @@ public class UploadPicture {
             }
         }).create().show();
     }
+
     // 弹出选择弹框 相册，照相机，取消 并自动调用startActivityForResult得到相应intent进行跳转
     public static void showPictureSelectDialog(Context context, Activity activity, int request) {
         new AlertDialog.Builder(context).setItems(new String[]{"相册", "照相机", "取消"}, (dialog, which) -> {

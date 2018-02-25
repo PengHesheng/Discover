@@ -8,7 +8,6 @@ import com.example.a14512.discover.modules.main.userself.changeuser.mode.Mode;
 import com.example.a14512.discover.modules.main.userself.changeuser.view.IChangeUserInfoView;
 import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 import com.example.a14512.discover.utils.ACache;
-import com.example.a14512.discover.utils.PLog;
 import com.example.a14512.discover.utils.ToastUtil;
 import com.example.a14512.discover.utils.UploadPicture;
 
@@ -27,25 +26,19 @@ public class ChangeInfoPresenterImp implements IChangeInfoPrensenter {
         mMode = new Mode();
     }
 
+    @Override
+    public void sendPicture() {
+        UploadPicture.uploadPicture((key, info, response) -> {
+            if (info.isOK()) {
+                mView.setPortrait(UploadPicture.imageUrl);
+            } else {
+                ToastUtil.show(mContext, "头像上传失败");
+            }
+        });
+    }
 
     @Override
     public void setUserInfo() {
-        if (UploadPicture.cameraUri == null || UploadPicture.cropUri == null) {
-            sendData();
-        } else {
-            UploadPicture.uploadPicture((key, info, response) -> {
-                PLog.e(info.error);
-                if (info.isOK()) {
-                    ToastUtil.show(mContext, "头像上传成功");
-                    sendData();
-                } else {
-                    ToastUtil.show(mContext, "头像上传失败");
-                }
-            });
-        }
-    }
-
-    private void sendData() {
         String phone = ACache.getDefault().getAsString(C.ACCOUNT);
         String name = mView.getName();
         String sex = mView.getSex();
@@ -64,7 +57,7 @@ public class ChangeInfoPresenterImp implements IChangeInfoPrensenter {
                 }
             }
         };
-        mMode.setUserInfo(apiSubscriber, phone, null, name, sex, null, null, signed, email);
+        mMode.setUserInfo(apiSubscriber, phone, UploadPicture.imageUrl, name, sex, "", "", signed, email);
     }
 
     @Override

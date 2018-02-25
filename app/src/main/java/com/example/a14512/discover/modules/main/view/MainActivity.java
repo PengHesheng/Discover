@@ -1,5 +1,6 @@
 package com.example.a14512.discover.modules.main.view;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -34,6 +35,10 @@ import com.example.a14512.discover.modules.main.userself.travel.view.TravelKnowl
 import com.example.a14512.discover.modules.routeplan.view.activity.ChooseActivity;
 import com.example.a14512.discover.modules.shake.view.ShakeActivity;
 import com.example.a14512.discover.utils.LocationUtil;
+import com.example.a14512.discover.utils.ToastUtil;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -42,6 +47,12 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, IMainView {
+
+    private static final int CAMERA = 1;
+    private static final int ACCESS_COARSE_LOCATION = 2;
+    private static final int ACCESS_FINE_LOCATION = 3;
+    private static final int READ_PHONE_STATE = 4;
+    private static final int WRITE_EXTERNAL_STORAGE = 5;
 
     private LinearLayout mLogin;
     private LinearLayout mLoginOut;
@@ -63,10 +74,34 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getPermission();
         setDecorView();
         initView();
         isLogin();
         getWeather();
+    }
+
+    private void getPermission() {
+        MPermissions.requestPermissions(this, CAMERA, Manifest.permission.CAMERA);
+        MPermissions.requestPermissions(this, ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION);
+        MPermissions.requestPermissions(this, ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION);
+        MPermissions.requestPermissions(this, READ_PHONE_STATE, Manifest.permission.READ_PHONE_STATE);
+        MPermissions.requestPermissions(this, WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @PermissionGrant(CAMERA)
+    public void requestSdcardSuccess() {
+    }
+
+    @PermissionDenied(CAMERA)
+    public void requestSdcardFailed() {
+        ToastUtil.show(this, "获取权限失败!");
     }
 
     private void isLogin() {
@@ -270,7 +305,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         userLoginLayout.setBackgroundResource(R.mipmap.center_bg);
                     }
                 });*/
-        mName.setText(userInfo.name);
+        if (userInfo.name == null) {
+            mName.setText("用户");
+        } else {
+            mName.setText(userInfo.name);
+        }
         mSigned.setText(userInfo.signed);
     }
+
 }

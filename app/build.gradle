@@ -61,4 +61,7 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.2'
     //百度地图SDK
     implementation files('libs/BaiduLBS_Android.jar')
+    //一键申请权限
+    annotationProcessor 'com.zhy:mpermission-compiler:1.0.0'
+    implementation 'com.zhy:mpermission-api:1.0.0'
 }

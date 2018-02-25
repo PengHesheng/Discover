@@ -71,6 +71,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         Button btnRegister = findViewById(R.id.btn_register);
         TextView toLogin = findViewById(R.id.tv_register_login);
 
+        mainLayout.setOnClickListener(this);
         btnGetCode.setOnClickListener(this);
         showPwd.setOnClickListener(this);
         btnRegister.setOnClickListener(this);

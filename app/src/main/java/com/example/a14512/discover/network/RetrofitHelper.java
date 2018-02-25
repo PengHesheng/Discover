@@ -2,6 +2,7 @@ package com.example.a14512.discover.network;
 
 import com.example.a14512.discover.BuildConfig;
 import com.example.a14512.discover.DiscoverApplication;
+import com.example.a14512.discover.modules.main.mode.entity.UserInfo;
 import com.example.a14512.discover.modules.main.userself.myroute.mode.entity.MyRoute;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.modules.routeplan.mode.entity.ScenicCommentUser;
@@ -194,8 +195,9 @@ public class RetrofitHelper {
                 .map(new ServiceResponseFun<>());
    }
 
-    public Observable<Integer> setCommentScore(String phone, String placeName, int score) {
-        return apiService.setCommentStar(phone, placeName, score)
+    public Observable<Integer> setCommentScore(String phone, String placeName,int firstScore,
+                                               int secondScore, int thirdScore, int fourthScore) {
+        return apiService.setCommentStar(phone, placeName, firstScore, secondScore, thirdScore, fourthScore)
                 .compose(SchedulerTransformer.transformer())
                 .onErrorResumeNext(new HttpResponseFunc<>())
                 .map(new ServiceResponseFun<>());
@@ -224,6 +226,27 @@ public class RetrofitHelper {
     public Observable<Integer> addHistoricRoute(String phone, String routePlace) {
         return apiService.addHistoricRoute(phone, routePlace)
                 .compose(SchedulerTransformer.transformer())
+                .onErrorResumeNext(new HttpResponseFunc<>())
+                .map(new ServiceResponseFun<>());
+   }
+
+   public Observable<UserInfo> getUserInfo(String phone) {
+        return apiService.getUserInfo(phone).compose(SchedulerTransformer.transformer())
+                .onErrorResumeNext(new HttpResponseFunc<>())
+                .map(new ServiceResponseFun<>());
+   }
+
+   public Observable<String> setMyRoute(String routeName, int placeNumber, int allDistance,
+                                        int allCoast, int routeTime, String phone,
+                                        String routeInformation) {
+        return apiService.setMyRoute(routeName, placeNumber, allDistance, allCoast, routeTime,
+                phone, routeInformation).compose(SchedulerTransformer.transformer())
+                .onErrorResumeNext(new HttpResponseFunc<>())
+                .map(new ServiceResponseFun<>());
+   }
+
+   public Observable<Integer> endRoute(String phone) {
+        return apiService.endRoute(phone).compose(SchedulerTransformer.transformer())
                 .onErrorResumeNext(new HttpResponseFunc<>())
                 .map(new ServiceResponseFun<>());
    }

@@ -52,7 +52,7 @@
     <string name="tv_help">帮助</string>
     <string name="tv_about">关于</string>
     <string name="tab_historic_route">历史路线</string>
-    <string name="tab_collect_route">收藏路线</string>
+    <string name="tab_collect_route">我的路线</string>
     <string name="tv_my_route_item">路线</string>
     <string name="tv_my_route_pass_by">中转站</string>
     <string name="tv_my_route_long_path">路程</string>

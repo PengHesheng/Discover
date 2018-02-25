@@ -53,10 +53,10 @@ public class MyRouteActivity extends BaseActivity implements IMyRouteView{
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0:
-                        mPresenter.getHistoricRouteFromACache();
+                        mPresenter.getMyCollectFromACache();
                         break;
                     case 1:
-                        mPresenter.getMyCollectFromACache();
+                        mPresenter.getHistoricRouteFromACache();
                         break;
                     default:
                         break;
@@ -101,14 +101,14 @@ public class MyRouteActivity extends BaseActivity implements IMyRouteView{
 
     @Override
     public void setHistoricRoute(ArrayList<MyRoute> routes) {
-        mAdapter.setAdapter(routes);
+        mAdapter.setAdapter(routes, 1);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void setMyCollect(ArrayList<MyRoute> routes) {
-        mAdapter.setAdapter(routes);
+        mAdapter.setAdapter(routes, 0);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }

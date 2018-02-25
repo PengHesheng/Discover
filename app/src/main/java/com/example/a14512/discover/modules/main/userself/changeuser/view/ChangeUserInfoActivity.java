@@ -209,8 +209,7 @@ public class ChangeUserInfoActivity extends BaseActivity implements View.OnClick
                             200, 200), C.CHOOSE_CROPED_PICTURE);
                     break;
                 case C.CHOOSE_CROPED_PICTURE:
-                    showPortrait();
-                    PLog.e(data.getData()+"");
+                    mPresenter.sendPicture();
                     break;
                 default:
                     break;
@@ -218,13 +217,6 @@ public class ChangeUserInfoActivity extends BaseActivity implements View.OnClick
         }
     }
 
-    private void showPortrait() {
-        if (UploadPicture.cropUri == null) {
-            Glide.with(this).load(UploadPicture.cameraUri).into(mImgPortrait);
-        } else {
-            Glide.with(this).load(UploadPicture.cropUri).into(mImgPortrait);
-        }
-    }
 
     @Override
     public void finishActivity() {
@@ -284,7 +276,7 @@ public class ChangeUserInfoActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void setPortrait(String url) {
-        Glide.with(this).load(url).error(R.mipmap.ic_launcher).into(mImgPortrait);
+        Glide.with(this).load(url).error(R.mipmap.default_portrait).into(mImgPortrait);
     }
 
     private void ifComplete() {

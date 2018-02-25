@@ -1,6 +1,7 @@
 package com.example.a14512.discover.network;
 
 
+import com.example.a14512.discover.modules.main.mode.entity.UserInfo;
 import com.example.a14512.discover.modules.main.mode.entity.WeatherData;
 import com.example.a14512.discover.modules.main.userself.myroute.mode.entity.MyRoute;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
@@ -163,13 +164,19 @@ public interface ApiService {
      * 评分
      * @param userPhone
      * @param placeName
-     * @param score
+     * @param firstScore
+     * @param secondScore
+     * @param thirdScore
+     * @param fourthScore
      * @return
      */
     @GET("ScoreServlet")
     Observable<Result<Integer>> setCommentStar(@Query("userPhone") String userPhone,
                                                @Query("placeName") String placeName,
-                                               @Query("placeScore") int score);
+                                               @Query("firstScore") int firstScore,
+                                               @Query("secondScore") int secondScore,
+                                               @Query("thirdScore") int thirdScore,
+                                               @Query("fourthScore") int fourthScore);
 
     /**
      * 获取评论评分
@@ -224,5 +231,21 @@ public interface ApiService {
     Observable<Result<Integer>> addHistoricScenic(@Query("userPhone") String phone,
                                                   @Query("routePlace") String historicPlace);
 
+    /**
+     * 获取用户信息
+     * @param phone
+     * @return
+     */
+    @GET("UserInformationServlet")
+    Observable<Result<UserInfo>> getUserInfo(@Query("userPhone") String phone);
+
+    @GET("RouteResultServlet")
+    Observable<Result<String>> setMyRoute(@Query("routeName") String routeName,
+                                          @Query("placeNumber") int placeNumber,
+                                          @Query("allDistance") int allDistance,
+                                          @Query("allCoast") int allCoast,
+                                          @Query("routeTime") int routeTime,
+                                          @Query("userPhone") String phone,
+                                          @Query("routeInformation") String routeInformation);
 
 }

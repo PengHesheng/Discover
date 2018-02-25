@@ -88,6 +88,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         Button login = findViewById(R.id.btn_login);
         TextView goingRegister = findViewById(R.id.tv_going_register);
 
+        mainLayout.setOnClickListener(this);
         login.setOnClickListener(this);
         goingRegister.setOnClickListener(this);
         rememberPwd.setOnClickListener(this);

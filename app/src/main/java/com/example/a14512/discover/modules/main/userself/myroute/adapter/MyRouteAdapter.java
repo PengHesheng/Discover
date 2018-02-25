@@ -2,6 +2,8 @@ package com.example.a14512.discover.modules.main.userself.myroute.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.modules.main.userself.myroute.mode.entity.MyRoute;
+import com.example.a14512.discover.modules.main.userself.myroute.view.CommentScenicActivity;
 
 import java.util.ArrayList;
 
@@ -21,13 +24,15 @@ import java.util.ArrayList;
 public class MyRouteAdapter extends RecyclerView.Adapter {
     private Context mContext;
     private ArrayList<MyRoute> mMyRoutes;
+    private int type;
 
     public MyRouteAdapter(Context context) {
         this.mContext = context;
     }
 
-    public void setAdapter(ArrayList<MyRoute> myRoutes) {
+    public void setAdapter(ArrayList<MyRoute> myRoutes, int type) {
         this.mMyRoutes = myRoutes;
+        this.type = type;
     }
 
     @Override
@@ -49,7 +54,16 @@ public class MyRouteAdapter extends RecyclerView.Adapter {
     }
 
     private void startActivity(MyRoute myRoute) {
-
+        if (type == 0) {
+            //我的路线
+        } else {
+            //历史路线
+            Intent intent = new Intent(mContext, CommentScenicActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("my_historic_route", myRoute);
+            intent.putExtra("my_historic_route", bundle);
+            mContext.startActivity(intent);
+        }
     }
 
     @Override

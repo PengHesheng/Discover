@@ -15,4 +15,9 @@ public interface IChangeInfoPrensenter {
      * 获取数据
      */
     void getUserInfo();
+
+    /**
+     * 上传头像
+     */
+    void sendPicture();
 }
