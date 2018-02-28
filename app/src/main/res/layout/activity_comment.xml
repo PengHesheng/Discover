@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@android:color/darker_gray"
+    android:background="#ebeaea"
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -44,8 +44,8 @@
 
                     <ImageView
                         android:id="@+id/img_toolbar_left"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:src="@mipmap/back"
@@ -64,10 +64,10 @@
                         android:id="@+id/img_toolbar_right"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="17dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:layout_centerVertical="true"
-                        tools:src="@mipmap/share"
+                        android:src="@mipmap/save"
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="17dp" />
 
@@ -79,7 +79,6 @@
 
     <ScrollView
         android:id="@+id/comment_scroll_view"
-        android:background="#ffffff"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -93,142 +92,182 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:background="#ffffff"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="29dp"
-                    android:layout_marginRight="7dp"
-                    android:src="@mipmap/comment_particularly"
-                    android:layout_marginEnd="7dp"
-                    android:layout_marginStart="29dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="#414141"
-                    android:text="景区特色"/>
-
-                <ImageView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:src="@drawable/nervous0" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="29dp"
-                    android:layout_marginRight="7dp"
-                    android:src="@mipmap/comment_trafic"
-                    android:layout_marginEnd="7dp"
-                    android:layout_marginStart="29dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="#414141"
-                    android:text="周边交通"/>
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <ImageView
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="29dp"
+                        android:layout_marginRight="7dp"
+                        android:src="@mipmap/comment_particularly"
+                        android:layout_marginEnd="7dp"
+                        android:layout_marginStart="29dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#414141"
+                        android:text="@string/tv_scenic"/>
+
+                    <RatingBar
+                        android:id="@+id/rating_bar_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:rating="0"
+                        android:layout_marginLeft="110dp"
+                        style="@style/myRatingBar"
+                        android:numStars="5"
+                        android:stepSize="1.0"
+                        android:layout_marginStart="110dp" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:src="@drawable/nervous0" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="29dp"
-                    android:layout_marginRight="7dp"
-                    android:src="@mipmap/comment_service"
-                    android:layout_marginEnd="7dp"
-                    android:layout_marginStart="29dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="#414141"
-                    android:text="综合服务"/>
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <ImageView
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="29dp"
+                        android:layout_marginRight="7dp"
+                        android:src="@mipmap/comment_traffic"
+                        android:layout_marginEnd="7dp"
+                        android:layout_marginStart="29dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#414141"
+                        android:text="@string/tv_around_traffic"/>
+
+                    <RatingBar
+                        android:id="@+id/rating_bar_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:rating="0"
+                        android:layout_marginLeft="110dp"
+                        style="@style/myRatingBar"
+                        android:numStars="5"
+                        android:stepSize="1.0"
+                        android:layout_marginStart="110dp" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:src="@drawable/nervous0" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="29dp"
-                    android:layout_marginRight="7dp"
-                    android:src="@mipmap/comment_history"
-                    android:layout_marginEnd="7dp"
-                    android:layout_marginStart="29dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="#414141"
-                    android:text="历史底蕴"/>
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <ImageView
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="29dp"
+                        android:layout_marginRight="7dp"
+                        android:src="@mipmap/comment_service"
+                        android:layout_marginEnd="7dp"
+                        android:layout_marginStart="29dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#414141"
+                        android:text="@string/tv_all_service"/>
+
+                    <RatingBar
+                        android:id="@+id/rating_bar_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:rating="0"
+                        android:layout_marginLeft="110dp"
+                        style="@style/myRatingBar"
+                        android:numStars="5"
+                        android:stepSize="1.0"
+                        android:layout_marginStart="110dp" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:src="@drawable/nervous0" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="29dp"
-                    android:layout_marginRight="7dp"
-                    android:src="@mipmap/comment_play"
-                    android:layout_marginEnd="7dp"
-                    android:layout_marginStart="29dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="#414141"
-                    android:text="可玩度"/>
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <ImageView
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="29dp"
+                        android:layout_marginRight="7dp"
+                        android:src="@mipmap/comment_history"
+                        android:layout_marginEnd="7dp"
+                        android:layout_marginStart="29dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#414141"
+                        android:text="@string/tv_historic"/>
+
+                    <RatingBar
+                        android:id="@+id/rating_bar_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:rating="0"
+                        android:layout_marginLeft="110dp"
+                        style="@style/myRatingBar"
+                        android:numStars="5"
+                        android:stepSize="1.0"
+                        android:layout_marginStart="110dp" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:src="@drawable/nervous0"/>
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="29dp"
+                        android:layout_marginRight="7dp"
+                        android:src="@mipmap/comment_play"
+                        android:layout_marginEnd="7dp"
+                        android:layout_marginStart="29dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#414141"
+                        android:text="@string/tv_play"/>
+
+                    <RatingBar
+                        android:id="@+id/rating_bar_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:rating="0"
+                        android:layout_marginLeft="125dp"
+                        style="@style/myRatingBar"
+                        android:numStars="5"
+                        android:stepSize="1.0"
+                        android:layout_marginStart="125dp" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

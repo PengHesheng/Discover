@@ -2,6 +2,7 @@ package com.example.a14512.discover.modules.main.view;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.example.a14512.discover.modules.main.userself.attention.view.MyAttent
 import com.example.a14512.discover.modules.main.userself.changeuser.view.ChangeUserInfoActivity;
 import com.example.a14512.discover.modules.main.userself.myroute.view.MyRouteActivity;
 import com.example.a14512.discover.modules.main.userself.personality.view.PersonalityActivity;
+import com.example.a14512.discover.modules.main.userself.personality.view.PersonalityAdviceActivity;
 import com.example.a14512.discover.modules.main.userself.settings.view.SettingsActivity;
 import com.example.a14512.discover.modules.main.userself.share.view.MyShareActivity;
 import com.example.a14512.discover.modules.main.userself.travel.view.TravelKnowledgeActivity;
@@ -36,6 +38,7 @@ import com.example.a14512.discover.modules.routeplan.view.activity.ChooseActivit
 import com.example.a14512.discover.modules.shake.view.ShakeActivity;
 import com.example.a14512.discover.utils.LocationUtil;
 import com.example.a14512.discover.utils.ToastUtil;
+import com.example.a14512.discover.utils.VersionUtil;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
@@ -74,11 +77,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        justVersion();
         getPermission();
         setDecorView();
         initView();
         isLogin();
         getWeather();
+    }
+
+    private void justVersion() {
+        float nowVersionCode = VersionUtil.getVersionCode(this);
+        SharedPreferences sp = getSharedPreferences("welcomeInfo", MODE_PRIVATE);
+        float spVersionCode = sp.getFloat("spVersionCode", 0);
+        if (nowVersionCode > spVersionCode) {
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putFloat("spVersionCode", nowVersionCode);
+            editor.apply();
+            startIntentActivity(this, PersonalityAdviceActivity.class);
+        } else {
+            //非首次启动
+        }
     }
 
     private void getPermission() {

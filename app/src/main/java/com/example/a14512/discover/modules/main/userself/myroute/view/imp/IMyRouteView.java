@@ -1,4 +1,4 @@
-package com.example.a14512.discover.modules.main.userself.myroute.view;
+package com.example.a14512.discover.modules.main.userself.myroute.view.imp;
 
 import com.example.a14512.discover.modules.main.userself.myroute.mode.entity.MyRoute;
 

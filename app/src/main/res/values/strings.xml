@@ -100,7 +100,7 @@
     <string name="cb_personality32">人文景观</string>
     <string name="cb_personality33">民族风情</string>
     <string name="cb_personality34">传统饮食</string>
-    <string name="cb_personality25">安静舒适</string>
+    <string name="cb_personality35">安静舒适</string>
     <string name="cb_personality36">热闹繁华</string>
     <string name="tv_personality4">4.游玩的地方我最关心的？</string>
     <string name="rb_personality41">花费合理</string>
@@ -109,4 +109,15 @@
     <string name="rb_personality44">可玩度高</string>
     <string name="hint_over">结束</string>
     <string name="tv_choose_open_exercise">打开经验推荐</string>
+    <string name="tv_play_members">游玩成员:</string>
+    <string name="tv_how_old">年龄：</string>
+    <string name="tv_recommend_way">路线推荐方式:</string>
+    <string name="tv_traffic_way">常用出行方式:</string>
+    <string name="tv_i_like">我喜欢去:</string>
+    <string name="tv_scenic">景区特色</string>
+    <string name="tv_around_traffic">周边交通</string>
+    <string name="tv_all_service">综合服务</string>
+    <string name="tv_historic">历史底蕴</string>
+    <string name="tv_play">可玩度</string>
+    <string name="tv_confirm_submit">确认提交信息</string>
 </resources>

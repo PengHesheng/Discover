@@ -6,8 +6,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
@@ -17,177 +15,56 @@ import com.example.a14512.discover.modules.main.userself.personality.presenter.P
  * @author 14512 on 2018/2/19
  */
 
-public class PersonalityAdviceActivity extends BaseActivity implements View.OnClickListener, IPersonalityView {
-
-    private RadioGroup mGroup1, mGroup2, mGroup4, mGroup5;
-    private RadioButton mRb11;
-    private RadioButton mRb12;
-    private RadioButton mRb13;
-    private RadioButton mRb14;
-    private RadioButton mRb21;
-    private RadioButton mRb22;
-    private RadioButton mRb23;
-    private RadioButton mRb24;
-    private CheckBox mCheckBox31;
-    private CheckBox mCheckBox32;
-    private CheckBox mCheckBox33;
-    private CheckBox mCheckBox34;
-    private CheckBox mCheckBox35;
-    private CheckBox mCheckBox36;
-    private RadioButton mRb41;
-    private RadioButton mRb42;
-    private RadioButton mRb43;
-    private RadioButton mRb44;
-    private RadioButton mRb51;
-    private RadioButton mRb52;
-    private RadioButton mRb53;
-    private RadioButton mRb54;
-    private RadioButton mRb55;
-    private RadioButton mRb56;
+public class PersonalityAdviceActivity extends BaseActivity implements IPersonalityView, View.OnClickListener {
 
     private PersonalityPresenterImp mPresenter;
     private String personality1, personality2, personality3, personality4, personality5;
+    private CheckBox mCheckBox31;
+    private CheckBox mCheckBox32;
+    private CheckBox mCheckBox35;
+    private CheckBox mCheckBox36;
+    private CheckBox mCheckBox33;
+    private CheckBox mCheckBox34;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personality_advice);
         initView();
-        groupOnChecked();
-    }
-
-    private void groupOnChecked() {
-        mGroup1.setOnCheckedChangeListener((group, checkedId) -> {
-            switch (checkedId) {
-                case R.id.rb_personality11:
-                    personality1 = mRb11.getText().toString();
-                    break;
-                case R.id.rb_personality12:
-                    personality1 = mRb12.getText().toString();
-                    break;
-                case R.id.rb_personality13:
-                    personality1 = mRb13.getText().toString();
-                    break;
-                case R.id.rb_personality14:
-                    personality1 = mRb14.getText().toString();
-                    break;
-                default:
-                    break;
-            }
-        });
-        mGroup2.setOnCheckedChangeListener((group, checkedId) -> {
-            switch (checkedId) {
-                case R.id.rb_personality21:
-                    personality2 = mRb21.getText().toString();
-                    break;
-                case R.id.rb_personality22:
-                    personality2 = mRb22.getText().toString();
-                    break;
-                case R.id.rb_personality23:
-                    personality2 = mRb23.getText().toString();
-                    break;
-                case R.id.rb_personality24:
-                    personality2 = mRb24.getText().toString();
-                    break;
-                default:
-                    break;
-            }
-        });
-        mGroup4.setOnCheckedChangeListener((group, checkedId) -> {
-            switch (checkedId) {
-                case R.id.rb_personality41:
-                    personality4 = mRb41.getText().toString();
-                    break;
-                case R.id.rb_personality42:
-                    personality4 = mRb42.getText().toString();
-                    break;
-                case R.id.rb_personality43:
-                    personality4 = mRb43.getText().toString();
-                    break;
-                case R.id.rb_personality44:
-                    personality4 = mRb44.getText().toString();
-                    break;
-                default:
-                    break;
-            }
-        });
-        mGroup5.setOnCheckedChangeListener((group, checkedId) -> {
-            switch (checkedId) {
-                case R.id.rb_personality51:
-                    personality5 = mRb51.getText().toString();
-                    break;
-                case R.id.rb_personality52:
-                    personality5 = mRb52.getText().toString();
-                    break;
-                case R.id.rb_personality53:
-                    personality5 = mRb53.getText().toString();
-                    break;
-                case R.id.rb_personality54:
-                    personality5 = mRb54.getText().toString();
-                    break;
-                case R.id.rb_personality55:
-                    personality5 = mRb55.getText().toString();
-                    break;
-                case R.id.rb_personality56:
-                    personality5 = mRb56.getText().toString();
-                    break;
-                default:
-                    break;
-            }
-        });
     }
 
     private void initView() {
-        Button next = findViewById(R.id.btn_personality_next);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        mGroup1 = findViewById(R.id.radio_group1);
-        mGroup2 = findViewById(R.id.radio_group2);
-        mGroup4 = findViewById(R.id.radio_group4);
-        mGroup5 = findViewById(R.id.radio_group5);
-        mRb11 = findViewById(R.id.rb_personality11);
-        mRb12 = findViewById(R.id.rb_personality12);
-        mRb13 = findViewById(R.id.rb_personality13);
-        mRb14 = findViewById(R.id.rb_personality14);
-        mRb21 = findViewById(R.id.rb_personality21);
-        mRb22 = findViewById(R.id.rb_personality22);
-        mRb23 = findViewById(R.id.rb_personality23);
-        mRb24 = findViewById(R.id.rb_personality24);
-        mCheckBox31 = findViewById(R.id.cbox_personality31);
-        mCheckBox32 = findViewById(R.id.cbox_personality32);
-        mCheckBox33 = findViewById(R.id.cbox_personality33);
-        mCheckBox34 = findViewById(R.id.cbox_personality34);
-        mCheckBox35 = findViewById(R.id.cbox_personality35);
-        mCheckBox36 = findViewById(R.id.cbox_personality36);
-        mRb41 = findViewById(R.id.rb_personality41);
-        mRb42 = findViewById(R.id.rb_personality42);
-        mRb43 = findViewById(R.id.rb_personality43);
-        mRb44 = findViewById(R.id.rb_personality44);
-        mRb51 = findViewById(R.id.rb_personality51);
-        mRb52 = findViewById(R.id.rb_personality52);
-        mRb53 = findViewById(R.id.rb_personality53);
-        mRb54 = findViewById(R.id.rb_personality54);
-        mRb55 = findViewById(R.id.rb_personality55);
-        mRb56 = findViewById(R.id.rb_personality56);
-        Button btnPersonality = findViewById(R.id.btn_personality);
+        Button btnNext = findViewById(R.id.btn_next);
+        btnNext.setOnClickListener(this);
+        mCheckBox31 = findViewById(R.id.cb_personality31);
+        mCheckBox31.setOnClickListener(this);
+        mCheckBox32 = findViewById(R.id.cb_personality32);
+        mCheckBox32.setOnClickListener(this);
+        mCheckBox35 = findViewById(R.id.cb_personality35);
+        mCheckBox35.setOnClickListener(this);
+        mCheckBox36 = findViewById(R.id.cb_personality36);
+        mCheckBox36.setOnClickListener(this);
+        mCheckBox33 = findViewById(R.id.cb_personality33);
+        mCheckBox33.setOnClickListener(this);
+        mCheckBox34 = findViewById(R.id.cb_personality34);
+        mCheckBox34.setOnClickListener(this);
+        Button btnSubmit = findViewById(R.id.btn_submit);
+        btnSubmit.setOnClickListener(this);
 
-        setStatusBarColor(R.color.mainToolbar);
         setSupportActionBar(toolbar);
-
-        next.setOnClickListener(this);
-        btnPersonality.setOnClickListener(this);
-
+        setStatusBarColor(R.color.mainToolbar);
         mPresenter = new PersonalityPresenterImp(this, this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_personality_next:
-                mPresenter.setPersonality(0);
-                finish();
-                break;
-            case R.id.btn_personality:
+            case R.id.btn_submit:
                 mPresenter.setPersonality(1);
+                break;
+            case R.id.btn_next:
+                finish();
                 break;
             default:
                 break;
@@ -264,7 +141,6 @@ public class PersonalityAdviceActivity extends BaseActivity implements View.OnCl
 
     @Override
     public void finishActivity() {
-        setResult(RESULT_OK);
         finish();
     }
 }

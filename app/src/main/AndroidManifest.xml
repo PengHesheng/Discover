@@ -63,7 +63,8 @@
         <activity android:name=".modules.main.userself.attention.view.MyAttentionActivity" />
 
         <activity android:name=".modules.main.userself.myroute.view.MyRouteActivity"/>
-        <activity android:name=".modules.main.userself.myroute.view.CommentScenicActivity" />
+        <activity android:name=".modules.main.userself.myroute.view.RouteScenicActivity" />
+        <activity android:name=".modules.main.userself.myroute.view.CommentActivity" />
 
         <activity android:name=".modules.main.userself.share.view.MyShareActivity" />
 

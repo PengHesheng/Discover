@@ -55,11 +55,6 @@ public class GuideActivity extends BaseActivity implements ViewPager.OnPageChang
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
         switch (position) {
             case 3:
                 startIntentActivity(this, LoginActivity.class);
@@ -68,6 +63,11 @@ public class GuideActivity extends BaseActivity implements ViewPager.OnPageChang
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
     }
 
     @Override

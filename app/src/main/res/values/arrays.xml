@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="playMembers">
+        <item>我是独行侠</item>
+        <item>和男/女朋友</item>
+        <item>一群朋友</item>
+        <item>其他</item>
+    </string-array>
+
+    <string-array name="routeRecommend">
+        <item>优先距离最近</item>
+        <item>优先话费最低</item>
+        <item>优先可玩度高</item>
+        <item>优先综合评分高</item>
+    </string-array>
+
+    <string-array name="trafficWay">
+        <item>步行</item>
+        <item>地铁</item>
+        <item>公交</item>
+        <item>骑行</item>
+        <item>自驾</item>
+        <item>其他</item>
+    </string-array>
+
+    <string-array name="like">
+        <item>自然景观</item>
+        <item>人文景观</item>
+        <item>民族风情</item>
+        <item>传统饮食</item>
+        <item>安静舒适</item>
+        <item>热闹繁华</item>
+    </string-array>
+</resources>

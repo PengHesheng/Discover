@@ -79,7 +79,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/scenic_details_recycler_view"
-        android:background="#ffffff"
+        android:background="#ebeaea"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

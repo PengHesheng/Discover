@@ -202,12 +202,44 @@ public class PersonalityActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void setPersonality1(String personality1) {
-
+//        mGroup1.clearCheck();
+//        switch (Integer.valueOf(personality1)) {
+//            case 1:
+//                mRb11.setChecked(true);
+//                break;
+//            case 2:
+//                mRb12.setChecked(true);
+//                break;
+//            case 3:
+//                mRb13.setChecked(true);
+//                break;
+//            case 4:
+//                mRb14.setChecked(true);
+//                break;
+//            default:
+//                break;
+//        }
     }
 
     @Override
     public void setPersonality2(String personality2) {
-
+//        mGroup1.clearCheck();
+//        switch (Integer.valueOf(personality2)) {
+//            case 1:
+//                mRb21.setChecked(true);
+//                break;
+//            case 2:
+//                mRb22.setChecked(true);
+//                break;
+//            case 3:
+//                mRb23.setChecked(true);
+//                break;
+//            case 4:
+//                mRb24.setChecked(true);
+//                break;
+//            default:
+//                break;
+//        }
     }
 
     @Override
@@ -217,12 +249,50 @@ public class PersonalityActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void setPersonality4(String personality4) {
-
+//        mGroup1.clearCheck();
+//        switch (Integer.valueOf(personality4)) {
+//            case 1:
+//                mRb41.setChecked(true);
+//                break;
+//            case 2:
+//                mRb42.setChecked(true);
+//                break;
+//            case 3:
+//                mRb43.setChecked(true);
+//                break;
+//            case 4:
+//                mRb44.setChecked(true);
+//                break;
+//            default:
+//                break;
+//        }
     }
 
     @Override
     public void setPersonality5(String personality5) {
-
+//        mGroup1.clearCheck();
+//        switch (Integer.valueOf(personality5)) {
+//            case 1:
+//                mRb51.setChecked(true);
+//                break;
+//            case 2:
+//                mRb52.setChecked(true);
+//                break;
+//            case 3:
+//                mRb53.setChecked(true);
+//                break;
+//            case 4:
+//                mRb54.setChecked(true);
+//                break;
+//            case 5:
+//                mRb55.setChecked(true);
+//                break;
+//            case 6:
+//                mRb56.setChecked(true);
+//                break;
+//            default:
+//                break;
+//        }
     }
 
     @Override

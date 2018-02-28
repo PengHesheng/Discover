@@ -1,5 +1,6 @@
 package com.example.a14512.discover.modules.login.view;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.login.presenter.LoginPresenterImp;
@@ -37,7 +39,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private EditText mPwd;
     private TextView rememberPwd;
     private TextView forgetPwd;
-
 
     private boolean isRemember = false, isForget = false;
 
@@ -113,10 +114,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 mPresenter.login(isRemember);
                 break;
             case R.id.tv_going_register:
-                startIntentActivity(this, RegisterActivity.class);
+                startActivityForResult(new Intent(this, RegisterActivity.class), C.COMPLETED);
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case C.COMPLETED:
+                    startIntentActivity(this, MainActivity.class);
+                    finish();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -152,6 +167,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void isLogin() {
+        setResult(RESULT_OK);
         startIntentActivity(this, MainActivity.class);
         finish();
     }

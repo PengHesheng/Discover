@@ -40,7 +40,7 @@ public class ScenicActivity extends BaseActivity implements IScenicView{
     private ScenicPresenterImp mPresenter;
     private LinearLayout attention;
 
-    private boolean isZan = false, isFollow = false;
+    private boolean isFollow = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +78,7 @@ public class ScenicActivity extends BaseActivity implements IScenicView{
                     ToastUtil.show(ScenicActivity.this, "取消关注");
                 }
             });
-            Glide.with(this).load(R.mipmap.ic_launcher_round).into(imgScenic);
+            Glide.with(this).load(mScenic.img).error(R.mipmap.ic_launcher_round).into(imgScenic);
         }
     }
 
@@ -104,15 +104,6 @@ public class ScenicActivity extends BaseActivity implements IScenicView{
         adapter.setCommentAdapter(users);
         mRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        adapter.setOnItemClickListener((view, position) -> {
-            if (!isZan) {
-                view.setBackgroundResource(R.drawable.btn_bus_bg);
-                isZan = true;
-            } else {
-                view.setBackgroundResource(R.drawable.layout_bg_white);
-                isZan = false;
-            }
-        });
     }
 
     @Override

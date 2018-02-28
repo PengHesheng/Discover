@@ -28,7 +28,7 @@ public class C {
     public static final int CROP_FROM_FILE = 3;
     public static final int PICK_FROM_FILE = 4;
     public static final int CHOOSE_CROPED_PICTURE = 5;
-    public static final int UPLOAD_PICTURE = 6;
+    public static final int PERSONALITY_ADVICE = 6;
     public static final int LOGIN = 7;
     public static final int LOGIN_OUT = 8;
     public static final int UPDATE_INFO = 9;

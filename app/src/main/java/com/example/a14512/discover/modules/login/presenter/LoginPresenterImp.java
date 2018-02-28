@@ -42,11 +42,10 @@ public class LoginPresenterImp implements ILoginPresenter {
                             ACache.getDefault().put("pwd", pwd);
                         }
                         ToastUtil.show(value);
-                        ACache.getDefault().put("account", account);
+                        ACache.getDefault().put(C.ACCOUNT, account);
                         mView.isLogin();
                     } else {
                         ToastUtil.show(mContext, "密码错误");
-                        ACache.getDefault().put("account", account);
                     }
                 }
 

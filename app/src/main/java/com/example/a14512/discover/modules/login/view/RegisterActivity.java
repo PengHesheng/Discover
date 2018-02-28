@@ -17,7 +17,6 @@ import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.login.presenter.RegisterPresenterImp;
 import com.example.a14512.discover.modules.login.view.imp.IRegisterView;
-import com.example.a14512.discover.modules.main.view.MainActivity;
 import com.example.a14512.discover.utils.KeyBoardUtil;
 import com.example.a14512.discover.utils.ObservableTimer;
 
@@ -96,7 +95,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 isShowPwd();
                 break;
             case R.id.tv_register_login:
-                startIntentActivity(this, LoginActivity.class);
                 finish();
                 break;
             default:
@@ -131,7 +129,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void isRegister() {
-        startIntentActivity(this, MainActivity.class);
+//        startIntentActivity(this, MainActivity.class);
+        setResult(RESULT_OK);
         finish();
     }
 

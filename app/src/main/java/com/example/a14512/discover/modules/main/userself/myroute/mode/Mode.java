@@ -15,4 +15,16 @@ public class Mode {
     public void getMyRoute(ApiSubscriber<ArrayList<MyRoute>> apiSubscriber, String phone) {
         RetrofitHelper.getInstance().getMyRoute(phone).subscribe(apiSubscriber);
     }
+
+    public void setScore(ApiSubscriber<Integer> apiSubscriber, String phone, String placeName,
+                         int firstScore, int secondScore, int thirdScore, int fourthScore) {
+        RetrofitHelper.getInstance().setCommentScore(phone, placeName, firstScore, secondScore,
+                thirdScore, fourthScore).subscribe(apiSubscriber);
+    }
+
+    public void followScenic(ApiSubscriber<Integer> apiSubscriber,
+                             int isFollow, String phone, String placeName) {
+        RetrofitHelper.getInstance().followScenic(isFollow, phone, placeName)
+                .subscribe(apiSubscriber);
+    }
 }

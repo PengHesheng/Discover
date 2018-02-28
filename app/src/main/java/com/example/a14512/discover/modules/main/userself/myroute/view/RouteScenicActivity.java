@@ -14,7 +14,7 @@ import com.example.a14512.discover.base.BaseActivity;
  * @author 14512 on 2018/2/26
  */
 
-public class CommentScenicActivity extends BaseActivity {
+public class RouteScenicActivity extends BaseActivity {
 
     private ImageView img_toolbar_left;
     private TextView tv_toolbar_title;

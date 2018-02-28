@@ -4,9 +4,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.main.view.MainActivity;
+import com.example.a14512.discover.utils.ACache;
 import com.example.a14512.discover.utils.VersionUtil;
 
 /**
@@ -28,9 +30,7 @@ public class WelcomeActivity extends BaseActivity {
         SharedPreferences sp = getSharedPreferences("welcomeInfo", MODE_PRIVATE);
         float spVersionCode = sp.getFloat("spVersionCode", 0);
         if (nowVersionCode > spVersionCode) {
-            SharedPreferences.Editor editor = sp.edit();
-            editor.putFloat("spVersionCode", nowVersionCode);
-            editor.apply();
+            ACache.getDefault().put(C.ACCOUNT, C.ACCOUNT);
             startIntentActivity(this, GuideActivity.class);
             finish();
         } else {

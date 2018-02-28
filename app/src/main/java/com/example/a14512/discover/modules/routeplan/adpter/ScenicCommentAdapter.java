@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.modules.routeplan.mode.entity.ScenicCommentUser;
-import com.example.a14512.discover.utils.PLog;
 
 import java.util.ArrayList;
 
@@ -73,13 +72,6 @@ public class ScenicCommentAdapter extends RecyclerView.Adapter {
                 } else {
                     setStar(Integer.parseInt(user.star), ((CommentViewHolder) holder).imgComment);
                 }
-            }
-            //如果设置了回调，则设置点击事件
-            if (mOnItemClickListener != null) {
-                ((CommentViewHolder) holder).zan.setOnClickListener(v ->{
-                    PLog.e("1");
-                    mOnItemClickListener.onOnePartyClick(((CommentViewHolder) holder).zan, position);
-                });
             }
         } else if (holder instanceof FirstScenicDetailViewHolder){
             ((FirstScenicDetailViewHolder) holder).scenicName.setText(mScenic.name);

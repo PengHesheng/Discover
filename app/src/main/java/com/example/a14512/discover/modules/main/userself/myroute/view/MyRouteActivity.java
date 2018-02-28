@@ -14,6 +14,7 @@ import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.main.userself.myroute.adapter.MyRouteAdapter;
 import com.example.a14512.discover.modules.main.userself.myroute.mode.entity.MyRoute;
 import com.example.a14512.discover.modules.main.userself.myroute.presenter.MyRoutePresenterImp;
+import com.example.a14512.discover.modules.main.userself.myroute.view.imp.IMyRouteView;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ import java.util.ArrayList;
  * @author 14512 on 2018/1/27
  */
 
-public class MyRouteActivity extends BaseActivity implements IMyRouteView{
+public class MyRouteActivity extends BaseActivity implements IMyRouteView {
     private ImageView mLeft;
     private TextView mTitle;
     private ImageView mRight;
@@ -45,9 +46,14 @@ public class MyRouteActivity extends BaseActivity implements IMyRouteView{
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-        mPresenter = new MyRoutePresenterImp(this, this);
-        mPresenter.getMtRoute();
         mAdapter = new MyRouteAdapter(this);
+        mPresenter = new MyRoutePresenterImp(this, this);
+        if (!mPresenter.isACache()) {
+            mPresenter.getMtRoute();
+        } else {
+            mPresenter.getMyCollectFromACache();
+        }
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -74,7 +80,7 @@ public class MyRouteActivity extends BaseActivity implements IMyRouteView{
             }
         });
         mRefreshLayout.setOnRefreshListener(() -> {
-//            mPresenter.getMtRoute();
+            mPresenter.getMtRoute();
             mRefreshLayout.setRefreshing(false);
         });
     }

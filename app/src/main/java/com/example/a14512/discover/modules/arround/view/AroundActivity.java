@@ -103,8 +103,8 @@ public class AroundActivity extends BaseActivity implements IAroundView {
     private void overlayDistrict(String city) {
         DistrictSearch mDistrictSearch = DistrictSearch.newInstance();
         DistrictSearchOption districtSearchOption = new DistrictSearchOption();
-        districtSearchOption.cityName(city);
-        districtSearchOption.districtName(city);
+        districtSearchOption.cityName(C.CHONG_QING);
+        districtSearchOption.districtName(C.CHONG_QING);
 
         OnGetDistricSearchResultListener listener = districtResult -> {
             if (districtResult == null) {

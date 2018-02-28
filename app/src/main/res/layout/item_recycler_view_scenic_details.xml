@@ -12,7 +12,7 @@
         android:layout_height="69dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="#ffffff"
+        android:background="#f9fefe"
         android:orientation="vertical">
 
         <TextView
@@ -102,7 +102,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
+        android:background="#f1f8f0"
         android:padding="3dp"
         android:layout_marginTop="12dp"
         android:layout_marginLeft="10dp"
@@ -130,7 +130,7 @@
         android:layout_height="27dp"
         android:orientation="horizontal"
         android:layout_marginTop="2dp"
-        android:background="#ffffff"
+        android:background="#f1f8f0"
         android:gravity="center_vertical"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp">
@@ -180,7 +180,7 @@
         android:id="@+id/tv_scenic_details_about"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
+        android:background="#f1f8f0"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:paddingLeft="5dp"
@@ -201,6 +201,7 @@
             android:background="@android:color/black"/>
 
         <TextView
+            android:id="@+id/tv_item_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"

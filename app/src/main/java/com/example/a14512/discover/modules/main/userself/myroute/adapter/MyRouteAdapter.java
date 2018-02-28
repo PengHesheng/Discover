@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.modules.main.userself.myroute.mode.entity.MyRoute;
-import com.example.a14512.discover.modules.main.userself.myroute.view.CommentScenicActivity;
+import com.example.a14512.discover.modules.main.userself.myroute.view.RouteScenicActivity;
 
 import java.util.ArrayList;
 
@@ -31,6 +31,7 @@ public class MyRouteAdapter extends RecyclerView.Adapter {
     }
 
     public void setAdapter(ArrayList<MyRoute> myRoutes, int type) {
+        mMyRoutes = new ArrayList<>();
         this.mMyRoutes = myRoutes;
         this.type = type;
     }
@@ -46,6 +47,11 @@ public class MyRouteAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyRouteViewHolder) {
             MyRoute myRoute = mMyRoutes.get(position);
+            String startToEnd = myRoute.getRoute_name();
+            String start = startToEnd.substring(0, startToEnd.indexOf("-"));
+            String end = startToEnd.substring(startToEnd.indexOf("-") + 1, startToEnd.length());
+            ((MyRouteViewHolder) holder).start.setText(start);
+            ((MyRouteViewHolder) holder).end.setText(end);
             ((MyRouteViewHolder) holder).pay.setText(String.valueOf(myRoute.getAll_coast()) + "元");
             ((MyRouteViewHolder) holder).path.setText(String.valueOf(myRoute.getAll_distance()) + "km");
             ((MyRouteViewHolder) holder).saveTime.setText(myRoute.getRoute_time());
@@ -54,11 +60,12 @@ public class MyRouteAdapter extends RecyclerView.Adapter {
     }
 
     private void startActivity(MyRoute myRoute) {
+        //TODO  跳转后的逻辑
         if (type == 0) {
             //我的路线
         } else {
             //历史路线
-            Intent intent = new Intent(mContext, CommentScenicActivity.class);
+            Intent intent = new Intent(mContext, RouteScenicActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("my_historic_route", myRoute);
             intent.putExtra("my_historic_route", bundle);
