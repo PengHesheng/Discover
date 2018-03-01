@@ -113,7 +113,8 @@ public class RoutePlanPresenterImp implements IRoutePlanPresenter{
     @Override
     public void deleteOneData(String category, String changePlace, int position,
                               String last, String next, int personSlect) {
-        ApiSubscriber<Scenic> apiSubscriber = new ApiSubscriber<Scenic>(mContext, false, false) {
+        ApiSubscriber<Scenic> apiSubscriber = new ApiSubscriber<Scenic>(mContext, true,
+                true, "更新数据中...") {
             @Override
             public void onNext(Scenic value) {
                 if (value != null) {

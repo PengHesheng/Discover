@@ -42,8 +42,8 @@
             tools:text="重庆邮电大学" />
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="20dp"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
             android:src="@mipmap/right_click_icon" />
 
         <TextView

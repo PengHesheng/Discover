@@ -8,14 +8,7 @@ public interface ICommentPresenter {
 
     /**
      * 保存评分
-     * @param placeName
      */
-    void setScore(String placeName);
+    void setScore();
 
-    /**
-     * 关注
-     * @param placeName
-     * @param placeFollow
-     */
-    void followScenic(String placeName, int placeFollow);
 }

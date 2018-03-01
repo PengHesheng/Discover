@@ -3,7 +3,9 @@ package com.example.a14512.discover.modules.main.view;
 import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageButton;
@@ -56,6 +58,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private static final int ACCESS_FINE_LOCATION = 3;
     private static final int READ_PHONE_STATE = 4;
     private static final int WRITE_EXTERNAL_STORAGE = 5;
+    private static final int BODY_SENSORS = 6;
 
     private LinearLayout mLogin;
     private LinearLayout mLoginOut;
@@ -100,11 +103,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void getPermission() {
-        MPermissions.requestPermissions(this, CAMERA, Manifest.permission.CAMERA);
-        MPermissions.requestPermissions(this, ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION);
-        MPermissions.requestPermissions(this, ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION);
-        MPermissions.requestPermissions(this, READ_PHONE_STATE, Manifest.permission.READ_PHONE_STATE);
-        MPermissions.requestPermissions(this, WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            MPermissions.requestPermissions(this, CAMERA, Manifest.permission.CAMERA);
+            MPermissions.requestPermissions(this, ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION);
+            MPermissions.requestPermissions(this, ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION);
+            MPermissions.requestPermissions(this, READ_PHONE_STATE, Manifest.permission.READ_PHONE_STATE);
+            MPermissions.requestPermissions(this, WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            MPermissions.requestPermissions(this, BODY_SENSORS, Manifest.permission.BODY_SENSORS);
+        }
     }
 
     @Override
@@ -113,13 +119,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    @PermissionGrant(CAMERA)
+    @PermissionGrant(BODY_SENSORS)
     public void requestSdcardSuccess() {
     }
 
-    @PermissionDenied(CAMERA)
+    @PermissionDenied(BODY_SENSORS)
     public void requestSdcardFailed() {
         ToastUtil.show(this, "获取权限失败!");
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
     }
 
     private void isLogin() {

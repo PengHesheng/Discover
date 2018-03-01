@@ -48,7 +48,7 @@ public class MyRoutePresenterImp implements IMyRoutePresenter {
     public void getMtRoute() {
         String phone = ACache.getDefault().getAsString(C.ACCOUNT);
         ApiSubscriber<ArrayList<MyRoute>> apiSubscriber = new ApiSubscriber<ArrayList<MyRoute>>(
-                mContext, true, false) {
+                mContext, true, true) {
             @Override
             public void onNext(ArrayList<MyRoute> value) {
                 if (value != null) {

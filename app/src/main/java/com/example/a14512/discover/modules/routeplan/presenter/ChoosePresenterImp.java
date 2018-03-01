@@ -65,7 +65,7 @@ public class ChoosePresenterImp implements IChoosePresenter {
                     startScenic = new Scenic();
                     startScenic.latitude = location.getLatitude();
                     startScenic.longitude = location.getLongitude();
-                    if (location.getStreet() != null) {
+                    if (!location.getStreet().isEmpty()) {
                         startScenic.name = location.getStreet();
                     } else {
                         startScenic.name = myLocation;
@@ -173,7 +173,7 @@ public class ChoosePresenterImp implements IChoosePresenter {
             @Override
             public void onNext(ArrayList<Scenic> value) {
                 PLog.e(value.size()+"");
-                if (value != null) {
+                if (!value.isEmpty()) {
                     value.add(0, startScenic);
                     value.add(endScenic);
                     ACache.getDefault().put(C.SCENIC_DETAIL, value);

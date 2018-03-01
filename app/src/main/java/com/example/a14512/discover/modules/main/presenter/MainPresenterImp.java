@@ -57,7 +57,7 @@ public class MainPresenterImp implements IMainPresenter {
             public void onNext(UserInfo value) {
                 if (value != null) {
                     mView.setUserInfo(value);
-                    ACache.getDefault().put("user_info", value);
+                    ACache.getDefault().put(C.USER_INFO, value);
                 }
             }
         };

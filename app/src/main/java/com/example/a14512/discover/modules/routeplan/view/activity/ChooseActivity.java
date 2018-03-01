@@ -65,7 +65,8 @@ public class ChooseActivity extends BaseActivity implements View.OnClickListener
 
     private ChoosePresenterImp mPresenter;
     private boolean isSortDistance = false, isLessPay = false, isLognPlay = false,
-            isHighComment = false, isRecommend = false, isRecommend2 = false, isOpen = true;
+            isHighComment = false, isRecommend = false, isRecommend2 = false,
+            isOpen = true, isFirst = true;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -143,6 +144,10 @@ public class ChooseActivity extends BaseActivity implements View.OnClickListener
                 KeyBoardUtil.hideInputFromWindow(this, mainLayout);
                 break;
             case R.id.edt_start_place:
+                if (isFirst) {
+                    mEdtStartPlace.setText("");
+                    isFirst = false;
+                }
                 searchListener(mEdtStartPlace);
                 break;
             case R.id.edt_end_place:

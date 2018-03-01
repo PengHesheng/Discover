@@ -69,7 +69,7 @@ public class C {
     /**
      * 缓存区的头像
      */
-    public static final String PORTRAIT = "portrait";
+    public static final String USER_INFO = "user_info";
 
     /**
      * 我的路线本地缓存，保存

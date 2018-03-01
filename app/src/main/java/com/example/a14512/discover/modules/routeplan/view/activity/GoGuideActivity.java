@@ -1,12 +1,15 @@
 package com.example.a14512.discover.modules.routeplan.view.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.Toolbar;
@@ -135,6 +138,62 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
+    private boolean initDirs() {
+        mSDCardPath = getSdcardDir();
+        if (mSDCardPath == null) {
+            return false;
+        }
+        File f = new File(mSDCardPath, APP_FOLDER_NAME);
+        if (!f.exists()) {
+            try {
+                f.mkdir();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 内部TTS播报状态回传handler
+     */
+    @SuppressLint("HandlerLeak")
+    private Handler ttsHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            int type = msg.what;
+            switch (type) {
+                case BaiduNaviManager.TTSPlayMsgType.PLAY_START_MSG: {
+                    // showToastMsg("Handler : TTS play start");
+                    break;
+                }
+                case BaiduNaviManager.TTSPlayMsgType.PLAY_END_MSG: {
+                    // showToastMsg("Handler : TTS play end");
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+    };
+
+    /**
+     * 内部TTS播报状态回调接口
+     */
+    private BaiduNaviManager.TTSPlayStateListener ttsPlayStateListener = new BaiduNaviManager.TTSPlayStateListener() {
+
+        @Override
+        public void playEnd() {
+            // showToastMsg("TTSPlayStateListener : TTS play end");
+        }
+
+        @Override
+        public void playStart() {
+            // showToastMsg("TTSPlayStateListener : TTS play start");
+        }
+    };
+
     private void initNavi() {
         // 申请权限
         if (android.os.Build.VERSION.SDK_INT >= 23) {
@@ -172,7 +231,7 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
                 ToastUtil.show(GoGuideActivity.this, "百度导航引擎初始化失败");
             }
 
-        }, null, null, null);
+        }, null, ttsHandler, ttsPlayStateListener);
 
     }
 
@@ -180,13 +239,13 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
         // BNaviSettingManager.setDayNightMode(BNaviSettingManager.DayNightMode.DAY_NIGHT_MODE_DAY);
         BNaviSettingManager
                 .setShowTotalRoadConditionBar(BNaviSettingManager.PreViewRoadCondition.ROAD_CONDITION_BAR_SHOW_ON);
-        BNaviSettingManager.setVoiceMode(BNaviSettingManager.VoiceMode.Veteran);
+        BNaviSettingManager.setVoiceMode(BNaviSettingManager.VoiceMode.Novice);
         // BNaviSettingManager.setPowerSaveMode(BNaviSettingManager.PowerSaveMode.DISABLE_MODE);
         BNaviSettingManager.setRealRoadCondition(BNaviSettingManager.RealRoadCondition.NAVI_ITS_ON);
         BNaviSettingManager.setIsAutoQuitWhenArrived(true);
         Bundle bundle = new Bundle();
         // 必须设置APPID，否则会静音
-        bundle.putString(BNCommonSettingParam.TTS_APP_ID, "9354030");
+        bundle.putString(BNCommonSettingParam.TTS_APP_ID, "10761172");
         BNaviSettingManager.setNaviSdkParam(bundle);
     }
 
@@ -196,23 +255,6 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
         PackageManager pm = this.getPackageManager();
         for (String auth : authBaseArr) {
             if (pm.checkPermission(auth, this.getPackageName()) != PackageManager.PERMISSION_GRANTED) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean initDirs() {
-        mSDCardPath = getSdcardDir();
-        if (mSDCardPath == null) {
-            return false;
-        }
-        File f = new File(mSDCardPath, APP_FOLDER_NAME);
-        if (!f.exists()) {
-            try {
-                f.mkdir();
-            } catch (Exception e) {
-                e.printStackTrace();
                 return false;
             }
         }
@@ -286,7 +328,7 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
     }
 
     BaiduNaviManager.NavEventListener eventListerner = (what, arg1, arg2, bundle) -> {
-
+        PLog.e(what+"");
     };
 
     private boolean hasCompletePhoneAuth() {

@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.a14512.discover.R;
-import com.example.a14512.discover.utils.PLog;
 
 import java.util.ArrayList;
 
@@ -57,7 +56,6 @@ public class AllRouteAdapter extends RecyclerView.Adapter {
 
     private void setProgress(ImageView progress, Integer dis) {
         int width = dis / 60;
-        PLog.e(width+"");
         if (width <= 10) {
             progress.setBackgroundColor(mContext.getResources().getColor(R.color.allRoute3));
         } else if (width > 10 && width <= 30) {

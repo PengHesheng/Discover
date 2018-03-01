@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:gravity="center_vertical"
+    android:background="#ffffff"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_scenic_name_comment"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:gravity="center"
+        tools:text="枫林景区"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="8"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="7dp"
+                android:src="@mipmap/comment_particularly"
+                android:layout_marginEnd="7dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#414141"
+                android:text="@string/tv_scenic"/>
+
+            <RatingBar
+                android:id="@+id/rating_bar_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rating="0"
+                android:layout_marginLeft="50dp"
+                style="@style/myRatingBar"
+                android:numStars="5"
+                android:stepSize="1.0"
+                android:layout_marginStart="50dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="7dp"
+                android:src="@mipmap/comment_traffic"
+                android:layout_marginEnd="7dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#414141"
+                android:text="@string/tv_around_traffic"/>
+
+            <RatingBar
+                android:id="@+id/rating_bar_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rating="0"
+                android:layout_marginLeft="50dp"
+                style="@style/myRatingBar"
+                android:numStars="5"
+                android:stepSize="1.0"
+                android:layout_marginStart="50dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="7dp"
+                android:src="@mipmap/comment_service"
+                android:layout_marginEnd="7dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#414141"
+                android:text="@string/tv_all_service"/>
+
+            <RatingBar
+                android:id="@+id/rating_bar_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rating="0"
+                android:layout_marginLeft="50dp"
+                style="@style/myRatingBar"
+                android:numStars="5"
+                android:stepSize="1.0"
+                android:layout_marginStart="50dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="7dp"
+                android:src="@mipmap/comment_history"
+                android:layout_marginEnd="7dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#414141"
+                android:text="@string/tv_historic"/>
+
+            <RatingBar
+                android:id="@+id/rating_bar_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rating="0"
+                android:layout_marginLeft="50dp"
+                style="@style/myRatingBar"
+                android:numStars="5"
+                android:stepSize="1.0"
+                android:layout_marginStart="50dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="7dp"
+                android:src="@mipmap/comment_play"
+                android:layout_marginEnd="7dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#414141"
+                android:text="@string/tv_play"/>
+
+            <RatingBar
+                android:id="@+id/rating_bar_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rating="0"
+                android:layout_marginLeft="64dp"
+                style="@style/myRatingBar"
+                android:numStars="5"
+                android:stepSize="1.0"
+                android:layout_marginStart="64dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

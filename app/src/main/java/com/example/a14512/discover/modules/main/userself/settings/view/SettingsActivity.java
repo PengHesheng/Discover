@@ -1,11 +1,15 @@
 package com.example.a14512.discover.modules.main.userself.settings.view;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,11 +28,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     private TextView mTitle;
     private ImageView mRight;
     private Toolbar toolbar;
-    private RelativeLayout mAdvice;
-    private RelativeLayout mAbout;
-    private RelativeLayout mHelp;
-    private RelativeLayout mJoinUs;
-    private TextView mLoginOut;
+
+    private PopupWindow mPopupWindow;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,33 +54,36 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         mTitle = findViewById(R.id.tv_toolbar_title);
         mRight = findViewById(R.id.img_toolbar_right);
         toolbar = findViewById(R.id.toolbar);
-        mAdvice = findViewById(R.id.layout_setting_advice);
-        mAbout = findViewById(R.id.layout_setting_about);
-        mHelp = findViewById(R.id.layout_setting_help);
-        mJoinUs = findViewById(R.id.layout_setting_join_us);
-        mLoginOut = findViewById(R.id.tv_setting_login_out);
+        RelativeLayout advice = findViewById(R.id.layout_setting_advice);
+        RelativeLayout about = findViewById(R.id.layout_setting_about);
+        RelativeLayout help = findViewById(R.id.layout_setting_help);
+        RelativeLayout joinUs = findViewById(R.id.layout_setting_join_us);
+        TextView loginOut = findViewById(R.id.tv_setting_login_out);
 
-        mAdvice.setOnClickListener(this);
-        mAbout.setOnClickListener(this);
-        mHelp.setOnClickListener(this);
-        mJoinUs.setOnClickListener(this);
-        mLoginOut.setOnClickListener(this);
+        advice.setOnClickListener(this);
+        about.setOnClickListener(this);
+        help.setOnClickListener(this);
+        joinUs.setOnClickListener(this);
+        loginOut.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.layout_setting_advice:
-                startIntentActivity(this, AdviceActivity.class);
+                popupWindowAdvice();
+                mPopupWindow.showAtLocation(v, Gravity.CENTER, 0 ,0);
                 break;
             case R.id.layout_setting_about:
-                startIntentActivity(this, AboutActivity.class);
+                popupWindowAbout();
+                mPopupWindow.showAtLocation(v, Gravity.CENTER, 0 ,0);
                 break;
             case R.id.layout_setting_help:
                 startIntentActivity(this, HelpActivity.class);
                 break;
             case R.id.layout_setting_join_us:
-                startIntentActivity(this, JoinUsActivity.class);
+                popupWindowJoinUs();
+                mPopupWindow.showAtLocation(v, Gravity.CENTER, 0 ,0);
                 break;
             case R.id.tv_setting_login_out:
                 loginOut();
@@ -87,6 +91,37 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             default:
                 break;
         }
+    }
+
+    private void popupWindowJoinUs() {
+        View joinUs = getLayoutInflater().inflate(R.layout.window_popup_join_us, null);
+        int height = getWindowManager().getDefaultDisplay().getHeight() / 3;
+        int width = getWindowManager().getDefaultDisplay().getWidth() * 5 / 8;
+        mPopupWindow = new PopupWindow(joinUs, width,
+                height, true);
+        popupWindow();
+    }
+
+    private void popupWindowAbout() {
+        View joinUs = getLayoutInflater().inflate(R.layout.window_popup_about, null);
+        int height = getWindowManager().getDefaultDisplay().getHeight() * 2 / 3;
+        int width = getWindowManager().getDefaultDisplay().getWidth() * 5 / 8;
+        mPopupWindow = new PopupWindow(joinUs, width, height, true);
+        popupWindow();
+    }
+
+    private void popupWindowAdvice() {
+        View joinUs = getLayoutInflater().inflate(R.layout.window_popup_advice, null);
+        int height = getWindowManager().getDefaultDisplay().getHeight() / 4;
+        int width = getWindowManager().getDefaultDisplay().getWidth() * 5 / 8;
+        mPopupWindow = new PopupWindow(joinUs, width, height, true);
+        popupWindow();
+    }
+
+    private void popupWindow() {
+        mPopupWindow.setTouchable(true);
+        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
     }
 
     private void loginOut() {

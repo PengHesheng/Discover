@@ -13,6 +13,8 @@ import com.baidu.navisdk.adapter.NaviModuleFactory;
 import com.baidu.navisdk.adapter.NaviModuleImpl;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
+import com.example.a14512.discover.utils.PLog;
+import com.example.a14512.discover.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -215,8 +217,8 @@ public class NavGuideActivity extends BaseActivity {
                     } else if (msg.what == MSG_HIDE) {
                         BNRouteGuideManager.getInstance().showCustomizedLayer(false);
                     } else if (msg.what == MSG_RESET_NODE) {
-                        BNRouteGuideManager.getInstance().resetEndNodeInNavi(
-                                new BNRoutePlanNode(116.21142, 40.85087, "百度大厦11", null, BNRoutePlanNode.CoordinateType.GCJ02));
+//                        BNRouteGuideManager.getInstance().resetEndNodeInNavi(
+//                                new BNRoutePlanNode(116.21142, 40.85087, "百度大厦11", null, BNRoutePlanNode.CoordinateType.GCJ02));
                     }
                 };
             };
@@ -233,9 +235,12 @@ public class NavGuideActivity extends BaseActivity {
 
         @Override
         public void notifyOtherAction(int actionType, int arg1, int arg2, Object obj) {
+            PLog.e(actionType +"\t"+ arg1 +"\t"+ arg2);
             if (actionType == 0) {
                 //导航到达目的地 自动退出 TODO 有问题
                 NavGuideActivity.this.setResult(RESULT_OK);
+                ToastUtil.show(NavGuideActivity.this, "123456");
+                finish();
             }
         }
     };

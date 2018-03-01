@@ -31,7 +31,7 @@ public class MyAttentionPresenterImp implements IMyAttentionPresenter {
         String phone = ACache.getDefault().getAsString(C.ACCOUNT);
         if (phone != null) {
             ApiSubscriber<ArrayList<Scenic>> apiSubscriber = new ApiSubscriber<ArrayList<Scenic>>(
-                    mContext, true, false) {
+                    mContext, true, true) {
                 @Override
                 public void onNext(ArrayList<Scenic> value) {
                     mView.setAdapter(value);

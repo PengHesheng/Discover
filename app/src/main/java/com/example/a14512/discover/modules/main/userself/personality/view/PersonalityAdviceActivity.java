@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
@@ -35,8 +36,8 @@ public class PersonalityAdviceActivity extends BaseActivity implements IPersonal
 
     private void initView() {
         Toolbar toolbar = findViewById(R.id.toolbar);
-        Button btnNext = findViewById(R.id.btn_next);
-        btnNext.setOnClickListener(this);
+        TextView tvNext = findViewById(R.id.btn_next);
+        tvNext.setOnClickListener(this);
         mCheckBox31 = findViewById(R.id.cb_personality31);
         mCheckBox31.setOnClickListener(this);
         mCheckBox32 = findViewById(R.id.cb_personality32);

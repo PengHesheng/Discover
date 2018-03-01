@@ -62,7 +62,7 @@ public class ChangeInfoPresenterImp implements IChangeInfoPrensenter {
 
     @Override
     public void getUserInfo() {
-        UserInfo userInfo = (UserInfo) ACache.getDefault().getAsObject("user_info");
+        UserInfo userInfo = (UserInfo) ACache.getDefault().getAsObject(C.USER_INFO);
         if (userInfo != null) {
             mView.setPortrait(userInfo.portrait);
             mView.setName(userInfo.name);

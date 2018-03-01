@@ -38,7 +38,7 @@ public class PersonalityPresenterImp implements IPersonalityPresenter {
 
         String phone = ACache.getDefault().getAsString(C.ACCOUNT);
         ApiSubscriber<Object> apiSubscriber = new ApiSubscriber<Object>(
-                mContext, true, false, "正在上传...") {
+                mContext, true, true, "正在上传...") {
             @Override
             public void onNext(Object value) {
                 mView.finishActivity();

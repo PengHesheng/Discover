@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baidu.location.BDAbstractLocationListener;
@@ -29,6 +29,18 @@ import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.district.DistrictSearch;
 import com.baidu.mapapi.search.district.DistrictSearchOption;
 import com.baidu.mapapi.search.district.OnGetDistricSearchResultListener;
+import com.baidu.mapapi.search.route.BikingRouteResult;
+import com.baidu.mapapi.search.route.DrivingRouteResult;
+import com.baidu.mapapi.search.route.IndoorRouteResult;
+import com.baidu.mapapi.search.route.MassTransitRouteResult;
+import com.baidu.mapapi.search.route.OnGetRoutePlanResultListener;
+import com.baidu.mapapi.search.route.PlanNode;
+import com.baidu.mapapi.search.route.RoutePlanSearch;
+import com.baidu.mapapi.search.route.TransitRouteResult;
+import com.baidu.mapapi.search.route.WalkingRouteLine;
+import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
+import com.baidu.mapapi.search.route.WalkingRouteResult;
+import com.bumptech.glide.Glide;
 import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
@@ -36,6 +48,7 @@ import com.example.a14512.discover.modules.arround.presenter.AroundPresenterImp;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.modules.routeplan.view.activity.MapActivity;
 import com.example.a14512.discover.utils.LocationUtil;
+import com.example.a14512.discover.utils.PLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,12 +64,15 @@ public class AroundActivity extends BaseActivity implements IAroundView {
     private Toolbar toolbar;
     private TextureMapView mMapView;
     private BaiduMap mBaiduMap;
+
+    private TextView walkTime, distance;
+
     private LocationUtil locationUtil;
     private BDAbstractLocationListener mListener;
 
-    private AroundPresenterImp mPresenter;
     private Scenic mScenic = new Scenic();
 
+    private RoutePlanSearch mSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +90,11 @@ public class AroundActivity extends BaseActivity implements IAroundView {
             @Override
             public void onReceiveLocation(BDLocation location) {
 
-                mScenic.name = location.getStreet();
+                if (location.getStreet() != null) {
+                    mScenic.name = location.getStreet();
+                } else {
+                    mScenic.name = "我的位置";
+                }
                 mScenic.latitude = location.getLatitude();
                 mScenic.longitude = location.getLongitude();
                 mScenic.location = location.getStreet();
@@ -151,14 +171,14 @@ public class AroundActivity extends BaseActivity implements IAroundView {
         mMapView = findViewById(R.id.texture_map_around);
 
         mBaiduMap = mMapView.getMap();
-//        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NONE);
-        mPresenter = new AroundPresenterImp(this, this);
-        mPresenter.getSecnics();
+        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NONE);
+
+        AroundPresenterImp presenter = new AroundPresenterImp(this, this);
+        presenter.getSecnics();
     }
 
     @Override
     public void setScenics(ArrayList<Scenic> scenics) {
-        ArrayList<LatLng> latLngs = new ArrayList<>();
         ArrayList<OverlayOptions> optionsArrayList = new ArrayList<>();
         for (Scenic scenic : scenics) {
             LatLng latLng = new LatLng(scenic.latitude, scenic.longitude);
@@ -174,21 +194,86 @@ public class AroundActivity extends BaseActivity implements IAroundView {
         mBaiduMap.setOnMarkerClickListener(marker -> {
             Scenic scenic = (Scenic) marker.getExtraInfo().get("scenic");
             popWindow(scenic);
+            getWalkDistance(scenic);
             return false;
         });
     }
 
+    private void getWalkDistance(Scenic scenic) {
+        PlanNode start = PlanNode.withLocation(new LatLng(mScenic.latitude, mScenic.longitude));
+        PlanNode end = PlanNode.withLocation(new LatLng(scenic.latitude, scenic.longitude));
+        mSearch = RoutePlanSearch.newInstance();
+        mSearch.walkingSearch(new WalkingRoutePlanOption().from(start).to(end));
+        OnGetRoutePlanResultListener routeListener = new OnGetRoutePlanResultListener(){
+
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onGetWalkingRouteResult(WalkingRouteResult result) {
+                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                    //未找到结果
+                    return;
+                }
+                if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+                    //起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+                    //result.getSuggestAddrInfo()
+                    return;
+                }
+                if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+                    WalkingRouteLine route = result.getRouteLines().get(0);
+                    PLog.e(route.getDistance()+" juli");
+                    walkTime.setText(String.valueOf(route.getDuration() / 60) + "min");
+                    distance.setText(String.valueOf(route.getDistance()) + "m");
+                }
+            }
+
+            @Override
+            public void onGetTransitRouteResult(TransitRouteResult result) {
+
+            }
+
+            @Override
+            public void onGetMassTransitRouteResult(MassTransitRouteResult result) {
+                //获取跨城综合公共交通线路规划结果
+
+            }
+
+            @Override
+            public void onGetDrivingRouteResult(DrivingRouteResult result) {
+            }
+
+            @Override
+            public void onGetIndoorRouteResult(IndoorRouteResult indoorRouteResult) {
+
+            }
+
+            @Override
+            public void onGetBikingRouteResult(BikingRouteResult result) {
+            }
+        };
+        mSearch.setOnGetRoutePlanResultListener(routeListener);
+    }
+
+    @SuppressLint("SetTextI18n")
     private void popWindow(Scenic scenic) {
         LatLng pt = new LatLng(scenic.latitude, scenic.longitude);
 
         View scenicView = LayoutInflater.from(this).inflate(R.layout.item_around_scenic, null);
+        LinearLayout go = scenicView.findViewById(R.id.layout_around);
+        ImageView imgScenic = scenicView.findViewById(R.id.img_scenic_around);
         TextView name = scenicView.findViewById(R.id.tv_scenic_name_around);
+        TextView scenicFlag = scenicView.findViewById(R.id.tv_flag_around);
+        TextView openTime = scenicView.findViewById(R.id.tv_open_time_around);
         TextView location = scenicView.findViewById(R.id.tv_location_around);
         TextView peopleAver = scenicView.findViewById(R.id.tv_people_aver_around);
         TextView monthAver = scenicView.findViewById(R.id.tv_month_aver_around);
-        Button go = scenicView.findViewById(R.id.btn_go_around);
+        distance = scenicView.findViewById(R.id.tv_distance_around);
+        walkTime = scenicView.findViewById(R.id.tv_walk_time_around);
+
+        Glide.with(this).load(scenic.img).error(R.drawable.ic_launcher_background).into(imgScenic);
         name.setText(scenic.name);
-        location.setText(scenic.location);
+        scenicFlag.setText("景点标签：" + scenic.content);
+        openTime.setText("开放时间：" + scenic.times);
+        location.setText("景点地址：" + scenic.location);
         peopleAver.setText(String.valueOf(scenic.peopleAver));
         monthAver.setText(String.valueOf(scenic.monthAver));
         go.setOnClickListener(v -> {
@@ -205,7 +290,7 @@ public class AroundActivity extends BaseActivity implements IAroundView {
         });
 
         //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
-        InfoWindow mInfoWindow = new InfoWindow(scenicView, pt, -47);
+        InfoWindow mInfoWindow = new InfoWindow(scenicView, pt, 0);
 
         //显示InfoWindow
         mBaiduMap.showInfoWindow(mInfoWindow);
@@ -236,6 +321,7 @@ public class AroundActivity extends BaseActivity implements IAroundView {
 
     @Override
     protected void onDestroy() {
+        mSearch.destroy();
         mMapView.onDestroy();
         super.onDestroy();
     }

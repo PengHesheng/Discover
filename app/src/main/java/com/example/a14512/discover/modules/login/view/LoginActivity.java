@@ -168,12 +168,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void isLogin() {
         setResult(RESULT_OK);
-        startIntentActivity(this, MainActivity.class);
-        finish();
+        justVersion();
     }
 
     @Override
     public void setPortrait(String portrait) {
         Glide.with(this).load(portrait).error(R.mipmap.default_portrait).into(mPortrait);
+    }
+
+    @Override
+    public void onBackPressed() {
+        justVersion();
+        super.onBackPressed();
     }
 }

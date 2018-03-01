@@ -7,6 +7,7 @@ import com.example.a14512.discover.C;
 import com.example.a14512.discover.modules.login.mode.Mode;
 import com.example.a14512.discover.modules.login.presenter.imp.ILoginPresenter;
 import com.example.a14512.discover.modules.login.view.imp.ILoginView;
+import com.example.a14512.discover.modules.main.mode.entity.UserInfo;
 import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 import com.example.a14512.discover.utils.ACache;
 import com.example.a14512.discover.utils.ToastUtil;
@@ -56,7 +57,11 @@ public class LoginPresenterImp implements ILoginPresenter {
 
     @Override
     public void getPortrait() {
-        String portrait = ACache.getDefault().getAsString(C.PORTRAIT);
-        mView.setPortrait(portrait);
+        UserInfo userInfo = (UserInfo) ACache.getDefault().getAsObject(C.USER_INFO);
+        if (userInfo != null) {
+            mView.setPortrait(userInfo.portrait);
+        } else {
+            mView.setPortrait("");
+        }
     }
 }

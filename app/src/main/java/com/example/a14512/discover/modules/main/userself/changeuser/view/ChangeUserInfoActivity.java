@@ -79,7 +79,6 @@ public class ChangeUserInfoActivity extends BaseActivity implements View.OnClick
     }
 
     private void checkInfo() {
-        //TODO 判断逻辑问题
         String email = mAutoEmail.getText().toString();
         PLog.e(""+ isEmail(email));
         if (!email.isEmpty() && isEmail(email)) {

@@ -3,8 +3,6 @@ package com.example.a14512.discover.modules.routeplan.view.activity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -34,7 +32,7 @@ public class AllRouteActivity extends BaseActivity {
 
     private ImageView mBack;
     private TextView mTitle;
-    private ImageView mShare;
+    private ImageView mRight;
     private Toolbar toolbar;
     private TextView mDate;
     private TextView mTime;
@@ -43,7 +41,6 @@ public class AllRouteActivity extends BaseActivity {
     private TextView mSumTime;
     private TextView mSumPay;
     private RecyclerView mRecyclerView;
-    private FloatingActionButton mActionButton;
     private int type, sumDistance = 0, sumPay = 0;
     private ArrayList<Scenic> scenics;
 
@@ -62,9 +59,12 @@ public class AllRouteActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         setStatusBarColor(R.color.mainToolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.white));
-        mShare.setImageResource(R.mipmap.exchange_direction);
+        mRight.setImageResource(R.mipmap.save);
         mBack.setImageResource(R.mipmap.left_back);
         mBack.setOnClickListener(v -> finish());
+        mRight.setOnClickListener(v ->
+                //TODO  保存逻辑
+                PLog.e(JsonUtil.toJSONString(scenics)));
     }
 
     @SuppressLint("SetTextI18n")
@@ -83,14 +83,18 @@ public class AllRouteActivity extends BaseActivity {
         sumDistance = getIntent().getIntExtra("sum_distance", 0);
         type = getIntent().getIntExtra("type", 1);
 
-        int time = DateFormatUtil.calculateMinute(startTime, endTime) - calculatePatTime(stepTimes);
-        String date = startTime.substring(0, startTime.length() - 5) + "——"
-                + endTime.substring(0, endTime.length() - 5);
-        String timeHMS = startTime.substring(startTime.length() - 5, startTime.length()) + "——" +
-                endTime.substring(endTime.length() - 5, endTime.length());
+        int time = 240;
+        String date;
+        String timeHMS;
         if (scenics.size() <= 2) {
             date = Time.getNowYMD();
             timeHMS = Time.getNowHMSTime();
+        } else {
+            time = DateFormatUtil.calculateMinute(startTime, endTime) - calculatePatTime(stepTimes);
+            date = startTime.substring(0, startTime.length() - 5) + "——"
+                    + endTime.substring(0, endTime.length() - 5);
+            timeHMS = startTime.substring(startTime.length() - 5, startTime.length()) + "——" +
+                    endTime.substring(endTime.length() - 5, endTime.length());
         }
         mDate.setText(date);
         calculateNervous(time, mImgNervous);
@@ -170,7 +174,7 @@ public class AllRouteActivity extends BaseActivity {
     private void initView() {
         mBack = findViewById(R.id.img_toolbar_left);
         mTitle = findViewById(R.id.tv_toolbar_title);
-        mShare = findViewById(R.id.img_toolbar_right);
+        mRight = findViewById(R.id.img_toolbar_right);
         toolbar = findViewById(R.id.toolbar);
         mDate = findViewById(R.id.tv_all_route_day);
         mTime = findViewById(R.id.tv_all_route_time);
@@ -179,19 +183,5 @@ public class AllRouteActivity extends BaseActivity {
         mSumTime = findViewById(R.id.tv_all_route_sum_time);
         mSumPay = findViewById(R.id.tv_all_route_sum_pay);
         mRecyclerView = findViewById(R.id.all_route_recycler_view);
-        mActionButton = findViewById(R.id.floating_btn_all_route);
-
-        mActionButton.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("保存路线")
-                    .setCancelable(false)
-                    .setPositiveButton("是", (dialog, id) -> {
-                        //TODO  保存逻辑
-                        PLog.e(JsonUtil.toJSONString(scenics));
-                    })
-                    .setNegativeButton("否", (dialog, id) -> dialog.cancel());
-            AlertDialog alert = builder.create();
-            alert.show();
-        });
     }
 }

@@ -33,7 +33,7 @@ public class ScenicPresenterImp implements IScenicPresenter {
         //TODO 测试数据
         place = "重庆动物园";
         ApiSubscriber<ArrayList<ScenicCommentUser>> apiSubscriber =
-                new ApiSubscriber<ArrayList<ScenicCommentUser>>(mContext, true, false) {
+                new ApiSubscriber<ArrayList<ScenicCommentUser>>(mContext, true, true) {
             @Override
             public void onNext(ArrayList<ScenicCommentUser> value) {
                 if (value != null) {

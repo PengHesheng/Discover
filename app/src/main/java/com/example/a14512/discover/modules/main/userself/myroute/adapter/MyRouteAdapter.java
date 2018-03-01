@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.modules.main.userself.myroute.mode.entity.MyRoute;
-import com.example.a14512.discover.modules.main.userself.myroute.view.RouteScenicActivity;
+import com.example.a14512.discover.modules.main.userself.myroute.view.CommentScenicActivity;
 
 import java.util.ArrayList;
 
@@ -65,7 +65,7 @@ public class MyRouteAdapter extends RecyclerView.Adapter {
             //我的路线
         } else {
             //历史路线
-            Intent intent = new Intent(mContext, RouteScenicActivity.class);
+            Intent intent = new Intent(mContext, CommentScenicActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("my_historic_route", myRoute);
             intent.putExtra("my_historic_route", bundle);
