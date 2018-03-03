@@ -130,7 +130,7 @@ public class RoutePlanPresenterImp implements IRoutePlanPresenter{
     private ArrayList<Scenic> getScenics(ArrayList<Scenic> scenics, int type) {
         ArrayList<Scenic> scenicArrayList = new ArrayList<>();
         for (Scenic scenic : scenics) {
-            if (Integer.valueOf(scenic.times) == type) {
+            if (Integer.valueOf(scenic.timeType) == type) {
                 scenicArrayList.add(scenic);
             }
         }

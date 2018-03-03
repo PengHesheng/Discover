@@ -123,4 +123,5 @@
     <string name="tv_walk_time">预计步行时间：</string>
     <string name="tv_distance">距您：</string>
     <string name="tv_where_you_want">你都喜欢去些什么地方呢...</string>
+    <string name="tv_register">注册</string>
 </resources>

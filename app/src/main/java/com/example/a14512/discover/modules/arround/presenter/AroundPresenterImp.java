@@ -47,4 +47,20 @@ public class AroundPresenterImp implements IAroundPresenter {
             mMode.getAroundScenic(apiSubscriber);
         }
     }
+
+    @Override
+    public void getTypeScenics(int type) {
+        ArrayList<Scenic> scenics = (ArrayList<Scenic>) ACache.getDefault().getAsObject("around_scenic");
+        if (scenics != null) {
+            ArrayList<Scenic> typeScenics = new ArrayList<>();
+            for (Scenic scenic : scenics) {
+                if (type == Integer.valueOf(scenic.type)) {
+                    typeScenics.add(scenic);
+                }
+            }
+            mView.setScenics(typeScenics);
+        }
+    }
+
+
 }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_personality31"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:background="@drawable/bg_around_menu"
+        android:text="@string/cb_personality31"/>
+
+    <TextView
+        android:id="@+id/tv_personality32"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_around_menu"
+        android:text="@string/cb_personality32"/>
+
+
+    <TextView
+        android:id="@+id/tv_personality35"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_around_menu"
+        android:text="@string/cb_personality35"/>
+
+    <TextView
+        android:id="@+id/tv_personality36"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:background="@drawable/bg_around_menu"
+        android:text="@string/cb_personality36"/>
+
+    <TextView
+        android:id="@+id/tv_personality33"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:background="@drawable/bg_around_menu"
+        android:text="@string/cb_personality33"/>
+
+    <TextView
+        android:id="@+id/tv_personality34"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:background="@drawable/bg_around_menu"
+        android:text="@string/cb_personality34"/>
+
+</LinearLayout>

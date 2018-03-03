@@ -2,6 +2,7 @@ package com.example.a14512.discover.network;
 
 import com.example.a14512.discover.BuildConfig;
 import com.example.a14512.discover.DiscoverApplication;
+import com.example.a14512.discover.modules.login.mode.RegisterData;
 import com.example.a14512.discover.modules.main.mode.entity.UserInfo;
 import com.example.a14512.discover.modules.main.userself.myroute.mode.entity.MyRoute;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
@@ -127,14 +128,14 @@ public class RetrofitHelper {
                 .map(new ServiceResponseFun<>());
     }
 
-    public Observable<String> register(String phone, String code) {
-        return apiService.register(phone, code)
+    public Observable<Integer> register(String phone, String pwd) {
+        return apiService.register(phone, pwd)
                 .compose(SchedulerTransformer.transformer())
                 .onErrorResumeNext(new HttpResponseFunc<>())
                 .map(new ServiceResponseFun<>());
     }
 
-    public Observable<String> getCode(String phone, String pwd) {
+    public Observable<RegisterData> getCode(String phone, String pwd) {
         return apiService.getCode(phone, pwd)
                 .compose(SchedulerTransformer.transformer())
                 .onErrorResumeNext(new HttpResponseFunc<>())

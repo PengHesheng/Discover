@@ -35,21 +35,21 @@ public class ShakePresenterImp implements IShakePresenter {
         listener = new BDAbstractLocationListener() {
             @Override
             public void onReceiveLocation(BDLocation bdLocation) {
+                Scenic scenic = new Scenic();
+                if (!bdLocation.getStreet().isEmpty()) {
+                    scenic.name = bdLocation.getStreet() + bdLocation.getStreetNumber();
+                } else {
+                    scenic.name = "我的位置";
+                }
+                scenic.latitude = bdLocation.getLatitude();
+                scenic.longitude = bdLocation.getLongitude();
+                scenic.location = bdLocation.getAddrStr();
                 ApiSubscriber<Scenic> apiSubscriber = new ApiSubscriber<Scenic>(mContext,
                         false, false) {
                     @Override
                     public void onNext(Scenic value) {
                         if (value != null) {
                             ArrayList<Scenic> scenics = new ArrayList<>();
-                            Scenic scenic = new Scenic();
-                            if (bdLocation.getStreet() != null) {
-                                scenic.name = bdLocation.getStreet() + bdLocation.getStreetNumber();
-                            } else {
-                                scenic.name = "我的位置";
-                            }
-                            scenic.latitude = bdLocation.getLatitude();
-                            scenic.longitude = bdLocation.getLongitude();
-                            scenic.location = bdLocation.getAddrStr();
                             scenics.add(scenic);
                             scenics.add(value);
                             mView.showScenic(scenics);

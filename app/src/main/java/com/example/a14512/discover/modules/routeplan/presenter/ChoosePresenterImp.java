@@ -70,7 +70,7 @@ public class ChoosePresenterImp implements IChoosePresenter {
                     } else {
                         startScenic.name = myLocation;
                     }
-                    startScenic.times = "-2";
+                    startScenic.timeType = "-2";
                 } else {
                     poiSearch(startPlace, 1);
                 }
@@ -117,14 +117,14 @@ public class ChoosePresenterImp implements IChoosePresenter {
                         startScenic.latitude = poiInfo.location.latitude;
                         startScenic.longitude = poiInfo.location.longitude;
                         startScenic.name = poiInfo.name;
-                        startScenic.times = "-2";
+                        startScenic.timeType = "-2";
                     } else {
                         endScenic = new Scenic();
                         PoiInfo poiInfo = poiResult.getAllPoi().get(0);
                         endScenic.name = endPlace;
                         endScenic.latitude = poiInfo.location.latitude;
                         endScenic.longitude = poiInfo.location.longitude;
-                        endScenic.times = "2";
+                        endScenic.timeType = "2";
                     }
                     if (startScenic != null && endScenic != null) {
                         PLog.e(startScenic.longitude + "  " + startScenic.latitude + "\n"

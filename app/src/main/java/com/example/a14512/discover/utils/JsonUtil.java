@@ -37,7 +37,7 @@ public class JsonUtil {
                 object.put("place_introduce", scenic.content);
                 object.put("place_lat", scenic.latitude);
                 object.put("place_lng", scenic.longitude);
-                object.put("times", scenic.times);
+                object.put("times", scenic.timeType);
                 jsonArray.put(object);
             }
 //            jsonObject.put(jsonArray);

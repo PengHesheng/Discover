@@ -15,12 +15,12 @@ public class Mode implements Imode {
     }
 
     @Override
-    public void register(ApiSubscriber<String> apiSubscriber, String phone, String code) {
-        RetrofitHelper.getInstance().register(phone, code).subscribe(apiSubscriber);
+    public void register(ApiSubscriber<Integer> apiSubscriber, String phone, String pwd) {
+        RetrofitHelper.getInstance().register(phone, pwd).subscribe(apiSubscriber);
     }
 
     @Override
-    public void getCode(ApiSubscriber<String> apiSubscriber, String phone, String pwd) {
+    public void getCode(ApiSubscriber<RegisterData> apiSubscriber, String phone, String pwd) {
         RetrofitHelper.getInstance().getCode(phone, pwd).subscribe(apiSubscriber);
     }
 

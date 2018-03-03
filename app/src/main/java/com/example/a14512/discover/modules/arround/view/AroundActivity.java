@@ -2,27 +2,30 @@ package com.example.a14512.discover.modules.arround.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.GroundOverlayOptions;
 import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.map.PolygonOptions;
-import com.baidu.mapapi.map.PolylineOptions;
-import com.baidu.mapapi.map.Stroke;
-import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.search.core.SearchResult;
@@ -62,17 +65,16 @@ public class AroundActivity extends BaseActivity implements IAroundView {
     private TextView mTitle;
     private ImageView mRight;
     private Toolbar toolbar;
-    private TextureMapView mMapView;
+    private MapView mMapView;
     private BaiduMap mBaiduMap;
-
     private TextView walkTime, distance;
 
     private LocationUtil locationUtil;
     private BDAbstractLocationListener mListener;
-
     private Scenic mScenic = new Scenic();
-
     private RoutePlanSearch mSearch;
+    private AroundPresenterImp presenter;
+    private PopupWindow popupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,9 +91,8 @@ public class AroundActivity extends BaseActivity implements IAroundView {
         mListener = new BDAbstractLocationListener() {
             @Override
             public void onReceiveLocation(BDLocation location) {
-
-                if (location.getStreet() != null) {
-                    mScenic.name = location.getStreet();
+                if (!location.getStreet().isEmpty()) {
+                    mScenic.name = location.getStreet() + location.getStreetNumber();
                 } else {
                     mScenic.name = "我的位置";
                 }
@@ -113,18 +114,18 @@ public class AroundActivity extends BaseActivity implements IAroundView {
 //                        .build();
 //                MapStatusUpdate update = MapStatusUpdateFactory.newMapStatus(mapStatus);
 //                mBaiduMap.setMapStatus(update);
-                overlayDistrict(location.getCity());
+                overlayDistrict(C.CHONG_QING);
                 locationUtil.unRegisterListener(mListener);
             }
         };
         locationUtil.getLocation(this, mListener);
     }
 
-    private void overlayDistrict(String city) {
+    private void overlayDistrict(String county) {
         DistrictSearch mDistrictSearch = DistrictSearch.newInstance();
         DistrictSearchOption districtSearchOption = new DistrictSearchOption();
         districtSearchOption.cityName(C.CHONG_QING);
-        districtSearchOption.districtName(C.CHONG_QING);
+        districtSearchOption.districtName(county);
 
         OnGetDistricSearchResultListener listener = districtResult -> {
             if (districtResult == null) {
@@ -137,18 +138,30 @@ public class AroundActivity extends BaseActivity implements IAroundView {
                 }
                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
                 for (List<LatLng> polyline : polyLines) {
-                    OverlayOptions ooPolyline11 = new PolylineOptions().width(10)
-                            .points(polyline).dottedLine(true).color(0xAA00FF00);
-                    mBaiduMap.addOverlay(ooPolyline11);
-                    OverlayOptions ooPolygon = new PolygonOptions().points(polyline)
-                            .stroke(new Stroke(5, 0xAA00FF88)).fillColor(0xAAFFFF00);
-                    mBaiduMap.addOverlay(ooPolygon);
+//                    if (county.equals(C.CHONG_QING)) {
+//                        OverlayOptions ooPolyline11 = new PolylineOptions().width(10)
+//                                .points(polyline).dottedLine(true).color(lineColor);
+//                        mBaiduMap.addOverlay(ooPolyline11);
+//                    } else {
+//                        OverlayOptions ooPolygon = new PolygonOptions().points(polyline)
+//                                .stroke(new Stroke(5, R.color.aroundLineGray)).fillColor(areaColor);
+//                        mBaiduMap.addOverlay(ooPolygon);
+//                    }
                     for (LatLng latLng : polyline) {
                         builder.include(latLng);
                     }
                 }
                 mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLngBounds(builder.build()));
 
+                //设置区域背景
+                BitmapDescriptor bdGround = BitmapDescriptorFactory
+                        .fromResource(R.drawable.around_cq_bg);
+                OverlayOptions ooGround = new GroundOverlayOptions()
+                        .positionFromBounds(builder.build())
+                        .image(bdGround)
+                        .transparency(0.8f);
+
+                mBaiduMap.addOverlay(ooGround);
             }
         };
         mDistrictSearch.setOnDistrictSearchListener(listener);
@@ -159,7 +172,61 @@ public class AroundActivity extends BaseActivity implements IAroundView {
         setSupportActionBar(toolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.mainToolbar));
         mTitle.setText("周边");
+        mRight.setImageResource(R.mipmap.share);
         mBack.setOnClickListener(v -> finish());
+        mRight.setOnClickListener(this::popupWindow);
+    }
+
+    private void popupWindow(View v) {
+        View menu = getLayoutInflater().inflate(R.layout.window_popup_around_menu, null);
+        TextView tvNauture = menu.findViewById(R.id.tv_personality31);
+        tvNauture.setOnClickListener(v1 -> {
+            mBaiduMap.clear();
+            overlayDistrict(C.CHONG_QING);
+            presenter.getTypeScenics(1);
+            popupWindow.dismiss();
+        });
+        TextView tvPeople = menu.findViewById(R.id.tv_personality32);
+        tvPeople.setOnClickListener(v1 -> {
+            mBaiduMap.clear();
+            overlayDistrict(C.CHONG_QING);
+            presenter.getTypeScenics(2);
+            popupWindow.dismiss();
+        });
+        TextView tvQuite = menu.findViewById(R.id.tv_personality35);
+        tvQuite.setOnClickListener(v1 -> {
+            mBaiduMap.clear();
+            overlayDistrict(C.CHONG_QING);
+            presenter.getTypeScenics(3);
+            popupWindow.dismiss();
+        });
+        TextView tvNoise = menu.findViewById(R.id.tv_personality36);
+        tvNoise.setOnClickListener(v1 -> {
+            mBaiduMap.clear();
+            overlayDistrict(C.CHONG_QING);
+            presenter.getTypeScenics(4);
+            popupWindow.dismiss();
+        });
+        TextView tvNationality = menu.findViewById(R.id.tv_personality33);
+        tvNationality.setOnClickListener(v1 -> {
+            mBaiduMap.clear();
+            overlayDistrict(C.CHONG_QING);
+            presenter.getTypeScenics(5);
+            popupWindow.dismiss();
+        });
+        TextView tvTradional = menu.findViewById(R.id.tv_personality34);
+        tvTradional.setOnClickListener(v1 -> {
+            presenter.getTypeScenics(6);
+            mBaiduMap.clear();
+            overlayDistrict(C.CHONG_QING);
+            popupWindow.dismiss();
+        });
+        popupWindow = new PopupWindow(menu, WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
+        popupWindow.showAsDropDown(v);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -171,21 +238,27 @@ public class AroundActivity extends BaseActivity implements IAroundView {
         mMapView = findViewById(R.id.texture_map_around);
 
         mBaiduMap = mMapView.getMap();
-        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NONE);
+//        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NONE);
         mSearch = RoutePlanSearch.newInstance();
+//        mBaiduMap.showMapPoi(false);
+//        MapStatus mapStatus = new MapStatus.Builder()
+//                        .target(new LatLng(29.569389, 106.557978))
+//                        .zoom(12)
+//                        .build();
+//        MapStatusUpdate update = MapStatusUpdateFactory.newMapStatus(mapStatus);
+//        mBaiduMap.setMapStatus(update);
 
-        AroundPresenterImp presenter = new AroundPresenterImp(this, this);
+        presenter = new AroundPresenterImp(this, this);
         presenter.getSecnics();
     }
 
     @Override
     public void setScenics(ArrayList<Scenic> scenics) {
-        PLog.e(scenics.get(0).name);
         ArrayList<OverlayOptions> optionsArrayList = new ArrayList<>();
         for (Scenic scenic : scenics) {
             LatLng latLng = new LatLng(scenic.latitude, scenic.longitude);
             Bundle bundle = new Bundle();
-            bundle.putSerializable("scenic" ,scenic);
+            bundle.putSerializable("scenic", scenic);
             OverlayOptions options = new MarkerOptions()
                     .position(latLng)
                     .icon(BitmapDescriptorFactory.fromResource(R.mipmap.location_icon))
@@ -205,7 +278,7 @@ public class AroundActivity extends BaseActivity implements IAroundView {
         PlanNode start = PlanNode.withLocation(new LatLng(mScenic.latitude, mScenic.longitude));
         PlanNode end = PlanNode.withLocation(new LatLng(scenic.latitude, scenic.longitude));
         mSearch.walkingSearch(new WalkingRoutePlanOption().from(start).to(end));
-        OnGetRoutePlanResultListener routeListener = new OnGetRoutePlanResultListener(){
+        OnGetRoutePlanResultListener routeListener = new OnGetRoutePlanResultListener() {
 
             @SuppressLint("SetTextI18n")
             @Override
@@ -221,7 +294,6 @@ public class AroundActivity extends BaseActivity implements IAroundView {
                 }
                 if (result.error == SearchResult.ERRORNO.NO_ERROR) {
                     WalkingRouteLine route = result.getRouteLines().get(0);
-                    PLog.e(route.getDistance()+" juli");
                     walkTime.setText(String.valueOf(route.getDuration() / 60) + "min");
                     distance.setText(String.valueOf(route.getDistance()) + "m");
                 }
@@ -270,10 +342,24 @@ public class AroundActivity extends BaseActivity implements IAroundView {
         distance = scenicView.findViewById(R.id.tv_distance_around);
         walkTime = scenicView.findViewById(R.id.tv_walk_time_around);
 
-        Glide.with(this).load(scenic.img).error(R.drawable.ic_launcher_background).into(imgScenic);
+        //Glide加载监听器，错误调试
+//        RequestListener mRequestListener = new RequestListener() {
+//            @Override
+//            public boolean onException(Exception e, Object model, Target target, boolean isFirstResource) {
+//                PLog.e("onException: " + e.toString()+"  model:"+model+" isFirstResource: "+isFirstResource);
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onResourceReady(Object resource, Object model, Target target, boolean isFromMemoryCache, boolean isFirstResource) {
+//                return false;
+//            }
+//        };
+        Glide.with(this).load(scenic.img.replaceAll("\\\\", ""))
+                .error(R.drawable.ic_launcher_background).into(imgScenic);
         name.setText(scenic.name);
         scenicFlag.setText("景点标签：" + scenic.content);
-        openTime.setText("开放时间：" + scenic.times);
+        openTime.setText("开放时间：" + scenic.openTime);
         location.setText("景点地址：" + scenic.location);
         peopleAver.setText(String.valueOf(scenic.peopleAver));
         monthAver.setText(String.valueOf(scenic.monthAver));
@@ -282,6 +368,7 @@ public class AroundActivity extends BaseActivity implements IAroundView {
             if (mScenic != null) {
                 scenics.add(mScenic);
                 scenics.add(scenic);
+                PLog.e(mScenic.name);
                 Intent intent = new Intent(this, MapActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(C.SCENIC_DETAIL, scenics);
@@ -326,4 +413,5 @@ public class AroundActivity extends BaseActivity implements IAroundView {
         mMapView.onDestroy();
         super.onDestroy();
     }
+
 }

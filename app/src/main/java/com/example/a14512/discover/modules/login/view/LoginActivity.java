@@ -126,6 +126,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case C.COMPLETED:
+                    setResult(RESULT_OK);
                     startIntentActivity(this, MainActivity.class);
                     finish();
                     break;

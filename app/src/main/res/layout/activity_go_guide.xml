@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <com.baidu.mapapi.map.TextureMapView
+    <com.baidu.mapapi.map.MapView
         android:id="@+id/texture_map_go_guide"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

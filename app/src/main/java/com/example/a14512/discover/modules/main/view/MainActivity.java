@@ -93,12 +93,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         float nowVersionCode = VersionUtil.getVersionCode(this);
         SharedPreferences sp = getSharedPreferences("welcomeInfo", MODE_PRIVATE);
         float spVersionCode = sp.getFloat("spVersionCode", 0);
-        if (!C.ACCOUNT.equals(ACache.getDefault().getAsString(C.ACCOUNT))
-                && nowVersionCode > spVersionCode) {
+        if (nowVersionCode > spVersionCode) {
             SharedPreferences.Editor editor = sp.edit();
             editor.putFloat("spVersionCode", nowVersionCode);
             editor.apply();
-            startIntentActivity(this, PersonalityAdviceActivity.class);
+            if (!C.ACCOUNT.equals(ACache.getDefault().getAsString(C.ACCOUNT))) {
+                startIntentActivity(this, PersonalityAdviceActivity.class);
+            }
         } else {
             //非首次启动
         }

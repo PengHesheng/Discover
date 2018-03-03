@@ -25,5 +25,14 @@
 
     <color name="loginUnSelect">#4c5559</color>
 
+    <color name="aroundYellowDark">#fdcd4d</color>
+    <color name="aroundYellow">#fefeb4</color>
+    <color name="aroundGreen">#e0eeb3</color>
+    <color name="aroundBlue">#a9deff</color>
+    <color name="aroundBlueDark">#bfbae1</color>
+    <color name="aroundReaLight">#ffbdc7</color>
+    <color name="aroundOrange">#fc5d33</color>
+    <color name="aroundLineGray">#c19fb4</color>
+    <color name="aroundLineOrange">#fa8679</color>
 
 </resources>

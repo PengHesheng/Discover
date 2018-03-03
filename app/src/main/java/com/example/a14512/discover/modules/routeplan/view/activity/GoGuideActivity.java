@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -30,7 +31,7 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
-import com.baidu.mapapi.map.TextureMapView;
+import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.route.BikingRouteLine;
@@ -86,7 +87,7 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
     private LinearLayout mGoGuide;
 
     private RoutePlanSearch mSearch;
-    private TextureMapView mMapView;
+    private MapView mMapView;
     private BaiduMap mBaiduMap;
     private LocationUtil locationUtil;
     private BDAbstractLocationListener listener;
@@ -641,8 +642,16 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
                 }
                 break;
             case R.id.layout_finish:
-                mPresenter.endRoute(mScenics.get(0) + "-" + mScenics.get(mScenics.size() - 1));
-                startIntentActivity(this, MainActivity.class);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("确定结束路线吗？")
+                        .setCancelable(false)
+                        .setPositiveButton("是", (dialog, id) -> {
+                            mPresenter.endRoute(mScenics.get(0) + "-" + mScenics.get(mScenics.size() - 1));
+                            startIntentActivity(this, MainActivity.class);
+                        })
+                        .setNegativeButton("否", (dialog, id) -> dialog.cancel());
+                AlertDialog alert = builder.create();
+                alert.show();
                 break;
             case R.id.layout_all_route:
                 startActivity();
@@ -767,9 +776,8 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
                     if (guideType < mScenics.size() - 1) {
                         guideType++;
                         ToastUtil.show(this, "点击出去进入下一个导航");
-                        //TODO 评分
                     } else if (guideType == mScenics.size() - 1){
-
+                        mPresenter.endRoute(mScenics.get(0) + "-" + mScenics.get(mScenics.size() - 1));
                     }
                     break;
                 default:

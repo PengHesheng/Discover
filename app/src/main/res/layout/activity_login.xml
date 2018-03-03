@@ -52,6 +52,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:gravity="center">
 
         <TextView
@@ -78,13 +79,15 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:background="@mipmap/login_btn_bg"
-        android:textColor="#ffffff" />
+        android:text="@string/tv_register_login"
+        android:textSize="20sp"
+        android:textColor="#ffffff"
+        android:background="@drawable/layout_bg_all_route" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="60dp"
         android:gravity="center"
         android:text="@string/tv_login_third"
         android:textColor="#353535"
@@ -110,6 +113,7 @@
             android:layout_marginBottom="20dp"
             android:layout_marginEnd="15dp"
             android:layout_marginRight="15dp"
+            android:textSize="18sp"
             android:text="@string/tv_go_register" />
     </RelativeLayout>
 

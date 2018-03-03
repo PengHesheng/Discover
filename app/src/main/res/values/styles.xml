@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:actionOverflowMenuStyle" tools:ignore="NewApi">@color/loginSelect</item>
     </style>
 
     <!--新建一个主题，设置为透明样式，保证滑动的时候能看到下面的Activity-->

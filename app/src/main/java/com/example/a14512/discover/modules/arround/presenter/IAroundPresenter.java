@@ -10,4 +10,10 @@ public interface IAroundPresenter {
      * 获取所有的景点信息
      */
     void getSecnics();
+
+    /**
+     * 获取一定类型的景点信息
+     * @param type
+     */
+    void getTypeScenics(int type);
 }

@@ -35,6 +35,8 @@ public class Scenic implements Serializable {
 
     @SerializedName("place_price")
     public int peopleAver;
+
+    @SerializedName("place_adress")
     public String location;
 
     @SerializedName("place_introduce")
@@ -47,6 +49,12 @@ public class Scenic implements Serializable {
     public double longitude;
 
     @SerializedName("times")
-    public String times;
+    public String timeType;
+
+    @SerializedName("place_type")
+    public String type;
+
+    @SerializedName("place_Times")
+    public String openTime;
 
 }

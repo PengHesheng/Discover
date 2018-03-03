@@ -1,6 +1,7 @@
 package com.example.a14512.discover.network;
 
 
+import com.example.a14512.discover.modules.login.mode.RegisterData;
 import com.example.a14512.discover.modules.main.mode.entity.UserInfo;
 import com.example.a14512.discover.modules.main.mode.entity.WeatherData;
 import com.example.a14512.discover.modules.main.userself.myroute.mode.entity.MyRoute;
@@ -30,16 +31,16 @@ public interface ApiService {
      * @return
      */
     @GET("SendMessages")
-    Observable<Result<String>> getCode(@Query("phone") String phone, @Query("pssword") String pwd);
+    Observable<Result<RegisterData>> getCode(@Query("phone") String phone, @Query("pssword") String pwd);
 
     /**
      * 注册
      * @param phone
-     * @param userCode
+     * @param pwd
      * @return
      */
     @GET("RegisterSevlet")
-    Observable<Result<String>> register(@Query("phone") String phone, @Query("userCode") String userCode);
+    Observable<Result<Integer>> register(@Query("phone") String phone, @Query("password") String pwd);
 
     /**
      * 验证登录

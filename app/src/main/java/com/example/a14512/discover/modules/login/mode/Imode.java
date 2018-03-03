@@ -20,9 +20,9 @@ public interface Imode {
      * 判断是否注册
      * @param apiSubscriber
      * @param phone
-     * @param code
+     * @param pwd
      */
-    void register(ApiSubscriber<String> apiSubscriber, String phone, String code);
+    void register(ApiSubscriber<Integer> apiSubscriber, String phone, String pwd);
 
     /**
      * 获取验证码
@@ -30,5 +30,5 @@ public interface Imode {
      * @param phone
      * @param pwd
      */
-    void getCode(ApiSubscriber<String> apiSubscriber, String phone, String pwd);
+    void getCode(ApiSubscriber<RegisterData> apiSubscriber, String phone, String pwd);
 }
