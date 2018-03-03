@@ -16,6 +16,7 @@ import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.route.DrivingRouteLine;
 import com.baidu.mapapi.search.route.DrivingRouteLine.DrivingStep;
+import com.example.a14512.discover.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -185,7 +186,7 @@ public class DrivingRouteOverlay extends OverlayManager {
      * @return 终点图标
      */
     public BitmapDescriptor getTerminalMarker() {
-        return null;
+        return BitmapDescriptorFactory.fromResource(R.mipmap.location_icon);
     }
 
     /**

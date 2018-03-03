@@ -15,12 +15,14 @@ import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.routeplan.adpter.AllRouteAdapter;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
+import com.example.a14512.discover.share.Share;
 import com.example.a14512.discover.utils.ACache;
+import com.example.a14512.discover.utils.BitmapUtils;
 import com.example.a14512.discover.utils.DateFormatUtil;
 import com.example.a14512.discover.utils.DistanceUtil;
-import com.example.a14512.discover.utils.JsonUtil;
-import com.example.a14512.discover.utils.PLog;
+import com.example.a14512.discover.utils.ScreenShotUtils;
 import com.example.a14512.discover.utils.Time;
+import com.example.a14512.discover.utils.UploadPicture;
 
 import java.util.ArrayList;
 
@@ -59,12 +61,18 @@ public class AllRouteActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         setStatusBarColor(R.color.mainToolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.white));
-        mRight.setImageResource(R.mipmap.save);
+        mRight.setImageResource(R.mipmap.share_detail);
         mBack.setImageResource(R.mipmap.left_back);
         mBack.setOnClickListener(v -> finish());
-        mRight.setOnClickListener(v ->
-                //TODO  保存逻辑
-                PLog.e(JsonUtil.toJSONString(scenics)));
+        mRight.setOnClickListener(v -> {
+                //TODO 分享
+            UploadPicture.uploadPictureNoCrop(BitmapUtils.getBytes(ScreenShotUtils.takeScreenShot(this))
+                    , (key, info, response) -> {
+                if (info.isOK()) {
+                    Share.showShare("123456", UploadPicture.imageUrl, UploadPicture.imageUrl, "");
+                }
+            });
+        });
     }
 
     @SuppressLint("SetTextI18n")
@@ -100,7 +108,7 @@ public class AllRouteActivity extends BaseActivity {
         calculateNervous(time, mImgNervous);
         mTime.setText(timeHMS);
         mSumDistance.setText(DistanceUtil.transformMtoKM(sumDistance));
-        mSumTime.setText(sumTime(stepTimes));
+        mSumTime.setText(DateFormatUtil.tranceSecondToTime(sumTime(stepTimes)));
         mSumPay.setText(sumPay + "元");
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -163,12 +171,12 @@ public class AllRouteActivity extends BaseActivity {
         }
     }
 
-    private String sumTime(ArrayList<Integer> second) {
+    private int sumTime(ArrayList<Integer> second) {
         int sum = 0;
         for (Integer dis : second) {
             sum += dis;
         }
-        return DateFormatUtil.tranceSecondToTime(sum);
+        return sum;
     }
 
     private void initView() {

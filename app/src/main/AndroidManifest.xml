@@ -100,8 +100,6 @@
 
         <activity android:name=".modules.routeplan.view.activity.NavGuideActivity" />
 
-        <activity android:name=".modules.routeplan.view.activity.CommentScoreActivity" />
-
         <activity android:name=".modules.routeplan.view.activity.AllRouteActivity" />
 
         <activity android:name=".modules.routeplan.view.activity.BikeGuideActivity" />

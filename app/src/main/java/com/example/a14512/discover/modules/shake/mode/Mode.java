@@ -11,6 +11,6 @@ import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 public class Mode {
 
     public void getSharkeScenic(ApiSubscriber<Scenic> apiSubscriber) {
-        RetrofitHelper.getInstance().getSharkeScenic().subscribe(apiSubscriber);
+        RetrofitHelper.getInstance().getShakeScenic().subscribe(apiSubscriber);
     }
 }

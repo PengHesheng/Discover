@@ -42,7 +42,11 @@ public class ShakePresenterImp implements IShakePresenter {
                         if (value != null) {
                             ArrayList<Scenic> scenics = new ArrayList<>();
                             Scenic scenic = new Scenic();
-                            scenic.name = bdLocation.getStreet();
+                            if (bdLocation.getStreet() != null) {
+                                scenic.name = bdLocation.getStreet() + bdLocation.getStreetNumber();
+                            } else {
+                                scenic.name = "我的位置";
+                            }
                             scenic.latitude = bdLocation.getLatitude();
                             scenic.longitude = bdLocation.getLongitude();
                             scenic.location = bdLocation.getAddrStr();

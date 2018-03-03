@@ -18,6 +18,7 @@ import com.baidu.mapapi.map.Polyline;
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.route.BikingRouteLine;
+import com.example.a14512.discover.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,7 +139,7 @@ public class BikingRouteOverlay extends OverlayManager {
      * @return 终点图标
      */
     public BitmapDescriptor getTerminalMarker() {
-        return null;
+        return BitmapDescriptorFactory.fromResource(R.mipmap.location_icon);
     }
 
     /**

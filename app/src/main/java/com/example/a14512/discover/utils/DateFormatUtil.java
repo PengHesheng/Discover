@@ -139,13 +139,13 @@ public class DateFormatUtil {
         String startT = startTime.substring(startTime.length() - 5, startTime.length());
         String endDate = endTime.substring(0, endTime.length() - 5);
         String endT = endTime.substring(endTime.length() - 5, endTime.length());
-        int startDay = Integer.parseInt(startDate.substring(startDate.length() - 2, startDate.length()));
+        int startDay = Integer.parseInt(startDate.substring(8, startDate.length()));
         int startYear = Integer.parseInt(startDate.substring(0, 4));
         int startMonth = Integer.parseInt(startDate.substring(5, 7));
         int startH = Integer.parseInt(startT.substring(0, 2));
         int startM = Integer.parseInt(startT.substring(startT.length() - 2, startT.length()));
 
-        int endDay = Integer.parseInt(endDate.substring(endDate.length() - 2, endDate.length()));
+        int endDay = Integer.parseInt(endDate.substring(8, endDate.length()));
         int endYear = Integer.parseInt(endDate.substring(0, 4));
         int endMonth = Integer.parseInt(endDate.substring(5, 7));
         int endH = Integer.parseInt(endT.substring(0, 2));

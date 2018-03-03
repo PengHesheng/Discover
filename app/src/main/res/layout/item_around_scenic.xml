@@ -6,141 +6,153 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:padding="5dp"
-    android:background="@color/white"
-    android:orientation="horizontal">
-
-    <ImageView
-        android:id="@+id/img_scenic_around"
-        android:layout_width="0dp"
-        android:layout_weight="3"
-        android:layout_height="match_parent"
-        android:src="@mipmap/ic_launcher_round"/>
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="7"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:orientation="vertical">
+        android:background="@color/white"
+        android:padding="5dp"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_scenic_name_around"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:textColor="@color/titleBlack"
-            tools:text="仙女山国家森林公园"/>
+        <ImageView
+            android:id="@+id/img_scenic_around"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_launcher_round"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="7"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@mipmap/popularity" />
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_people_aver_around"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_scenic_name_around"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
+                android:textSize="20sp"
+                android:gravity="center"
                 android:textColor="@color/titleBlack"
-                android:textSize="14sp"
-                tools:text="人气62" />
+                tools:text="仙女山国家森林公园"/>
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:src="@mipmap/money_detail"/>
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/popularity" />
+
+                <TextView
+                    android:id="@+id/tv_people_aver_around"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:textColor="@color/titleBlack"
+                    android:textSize="14sp"
+                    tools:text="人气62" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@mipmap/money_detail"/>
+
+                <TextView
+                    android:id="@+id/tv_month_aver_around"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/titleBlack"
+                    android:textSize="14sp"
+                    tools:text="人均48" />
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_month_aver_around"
+                android:id="@+id/tv_flag_around"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/titleBlack"
+                tools:text="景点标签：的吧肯定不放卡绝版"/>
+
+            <TextView
+                android:id="@+id/tv_open_time_around"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/titleBlack"
+                tools:text="开房时间：的吧肯定不放卡绝版"/>
+
+            <TextView
+                android:id="@+id/tv_location_around"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/titleBlack"
                 android:textSize="14sp"
-                tools:text="人均48" />
+                android:layout_marginTop="5dp"
+                android:textColor="@color/titleBlack"
+                tools:text="景点地址：重庆市武隆县" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_distance"
+                    android:textColor="@color/titleBlack"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_distance_around"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/loginSelect"
+                    android:textSize="14sp"
+                    tools:text="886m" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/tv_walk_time"
+                    android:textColor="@color/titleBlack"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_walk_time_around"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/loginSelect"
+                    android:textSize="14sp"
+                    tools:text="15min" />
+            </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_flag_around"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/titleBlack"
-            tools:text="景点标签：的吧肯定不放卡绝版"/>
-
-        <TextView
-            android:id="@+id/tv_open_time_around"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/titleBlack"
-            tools:text="开房时间：的吧肯定不放卡绝版"/>
-
-        <TextView
-            android:id="@+id/tv_location_around"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/titleBlack"
-            tools:text="景点地址：重庆市武隆县" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tv_distance"
-                android:textColor="@color/titleBlack"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tv_distance_around"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/loginSelect"
-                android:textSize="14sp"
-                tools:text="886m" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginStart="20dp"
-                android:text="@string/tv_walk_time"
-                android:textColor="@color/titleBlack"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tv_walk_time_around"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/loginSelect"
-                android:textSize="14sp"
-                tools:text="15min" />
-        </LinearLayout>
     </LinearLayout>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/around_scenic_bg"/>
 </LinearLayout>

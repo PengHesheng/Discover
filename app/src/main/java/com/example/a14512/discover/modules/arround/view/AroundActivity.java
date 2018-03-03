@@ -172,6 +172,7 @@ public class AroundActivity extends BaseActivity implements IAroundView {
 
         mBaiduMap = mMapView.getMap();
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NONE);
+        mSearch = RoutePlanSearch.newInstance();
 
         AroundPresenterImp presenter = new AroundPresenterImp(this, this);
         presenter.getSecnics();
@@ -179,6 +180,7 @@ public class AroundActivity extends BaseActivity implements IAroundView {
 
     @Override
     public void setScenics(ArrayList<Scenic> scenics) {
+        PLog.e(scenics.get(0).name);
         ArrayList<OverlayOptions> optionsArrayList = new ArrayList<>();
         for (Scenic scenic : scenics) {
             LatLng latLng = new LatLng(scenic.latitude, scenic.longitude);
@@ -202,7 +204,6 @@ public class AroundActivity extends BaseActivity implements IAroundView {
     private void getWalkDistance(Scenic scenic) {
         PlanNode start = PlanNode.withLocation(new LatLng(mScenic.latitude, mScenic.longitude));
         PlanNode end = PlanNode.withLocation(new LatLng(scenic.latitude, scenic.longitude));
-        mSearch = RoutePlanSearch.newInstance();
         mSearch.walkingSearch(new WalkingRoutePlanOption().from(start).to(end));
         OnGetRoutePlanResultListener routeListener = new OnGetRoutePlanResultListener(){
 

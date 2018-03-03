@@ -1,6 +1,8 @@
 package com.example.a14512.discover.share;
 
 
+import android.annotation.SuppressLint;
+
 import com.example.a14512.discover.DiscoverApplication;
 import com.example.a14512.discover.share.onekeyshare.OnekeyShare;
 
@@ -12,7 +14,8 @@ import com.example.a14512.discover.share.onekeyshare.OnekeyShare;
 
 public class Share {
 
-    public static void showShare(String title, String url, String imageUrl) {
+    @SuppressLint("SdCardPath")
+    public static void showShare(String title, String url, String imageUrl, String appUrl) {
         OnekeyShare oks = new OnekeyShare();
         //关闭sso授权
         oks.disableSSOWhenAuthorize();
@@ -24,9 +27,10 @@ public class Share {
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
         oks.setTitleUrl(url);
         // text是分享文本，所有平台都需要这个字段
-        oks.setText("我分享了一个技术干货给你，请注意查收！");
+        oks.setText("我分享了一个景点给你，请注意查收！");
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-//        oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+        //确保SDcard下面存在此张图片
+//        oks.setImagePath(DiscoverApplication.cacheDir + "/Data/cacheImage/test.png");
         oks.setImageUrl(imageUrl);
         // url仅在微信（包括好友和朋友圈）中使用
         oks.setUrl("http://sharesdk.cn");
@@ -35,7 +39,7 @@ public class Share {
         // site是分享此内容的网站名称，仅在QQ空间使用
 //        oks.setSite(getString(R.string.app_name));
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-        oks.setSiteUrl(url);
+        oks.setSiteUrl(appUrl);
 
         // 启动分享GUI
         oks.show(DiscoverApplication.getContext());

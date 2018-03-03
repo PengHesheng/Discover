@@ -37,4 +37,14 @@ public class ModeImp {
         RetrofitHelper.getInstance().getCommentUser(place).subscribe(apiSubscriber);
     }
 
+    public void addMyRoute(ApiSubscriber<String> apiSubscriber, String routeName, int placeNum,
+                           int distance, int coast, int routeTime, String phone, String information) {
+        RetrofitHelper.getInstance().addMyRoute(routeName, placeNum, distance, coast, routeTime,
+                phone, information).subscribe(apiSubscriber);
+    }
+
+    public void endRoute(ApiSubscriber<Integer> apiSubscriber, String phone, String routeName) {
+        RetrofitHelper.getInstance().endRoute(phone, routeName).subscribe(apiSubscriber);
+    }
+
 }

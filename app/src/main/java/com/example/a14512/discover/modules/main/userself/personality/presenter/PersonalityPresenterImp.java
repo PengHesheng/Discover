@@ -8,6 +8,7 @@ import com.example.a14512.discover.modules.main.userself.personality.view.IPerso
 import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 import com.example.a14512.discover.utils.ACache;
 import com.example.a14512.discover.utils.PLog;
+import com.example.a14512.discover.utils.ToastUtil;
 
 /**
  * @author 14512 on 2018/2/19
@@ -26,6 +27,11 @@ public class PersonalityPresenterImp implements IPersonalityPresenter {
 
     @Override
     public void setPersonality(int type) {
+        String phone = ACache.getDefault().getAsString(C.ACCOUNT);
+        if (phone.equals(C.ACCOUNT)) {
+            ToastUtil.show(mContext, "未登录！");
+            return;
+        }
         String personality1 = mView.getPersonality1();
         String personality2 = mView.getPersonality2();
         String personality3 = mView.getPersonality3();
@@ -36,7 +42,6 @@ public class PersonalityPresenterImp implements IPersonalityPresenter {
             personality3 = "0";
         }
 
-        String phone = ACache.getDefault().getAsString(C.ACCOUNT);
         ApiSubscriber<Object> apiSubscriber = new ApiSubscriber<Object>(
                 mContext, true, true, "正在上传...") {
             @Override

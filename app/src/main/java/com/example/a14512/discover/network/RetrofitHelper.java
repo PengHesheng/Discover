@@ -210,7 +210,7 @@ public class RetrofitHelper {
                 .map(new ServiceResponseFun<>());
    }
 
-    public Observable<Scenic> getSharkeScenic() {
+    public Observable<Scenic> getShakeScenic() {
         return apiService.getShakeScenic().compose(SchedulerTransformer.transformer())
                 .onErrorResumeNext(new HttpResponseFunc<>())
                 .map(new ServiceResponseFun<>());
@@ -236,17 +236,22 @@ public class RetrofitHelper {
                 .map(new ServiceResponseFun<>());
    }
 
-   public Observable<String> setMyRoute(String routeName, int placeNumber, int allDistance,
-                                        int allCoast, int routeTime, String phone,
-                                        String routeInformation) {
-        return apiService.setMyRoute(routeName, placeNumber, allDistance, allCoast, routeTime,
-                phone, routeInformation).compose(SchedulerTransformer.transformer())
+   public Observable<Integer> endRoute(String phone, String routeName) {
+        return apiService.endRoute(phone, routeName).compose(SchedulerTransformer.transformer())
                 .onErrorResumeNext(new HttpResponseFunc<>())
                 .map(new ServiceResponseFun<>());
    }
 
-   public Observable<Integer> endRoute(String phone) {
-        return apiService.endRoute(phone).compose(SchedulerTransformer.transformer())
+   public Observable<String> addMyRoute(String routeName, int placeNum, int distance, int coast,
+                                         int routeTime, String phone, String information) {
+        return apiService.addMyRoute(routeName, placeNum, distance, coast, routeTime, phone, information)
+                .compose(SchedulerTransformer.transformer())
+                .onErrorResumeNext(new HttpResponseFunc<>())
+                .map(new ServiceResponseFun<>());
+   }
+
+   public Observable<ArrayList<Scenic>> getAroundScenic() {
+        return apiService.getAroundScenic().compose(SchedulerTransformer.transformer())
                 .onErrorResumeNext(new HttpResponseFunc<>())
                 .map(new ServiceResponseFun<>());
    }

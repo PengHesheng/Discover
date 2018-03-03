@@ -67,11 +67,7 @@ public class ScenicCommentAdapter extends RecyclerView.Adapter {
                 Glide.with(mContext).load(user.portrait)
                         .error(R.mipmap.ic_launcher).into(((CommentViewHolder) holder).portrait);
                 ((CommentViewHolder) holder).name.setText(user.name);
-                if (user.star == null) {
-                    setStar(0, ((CommentViewHolder) holder).imgComment);
-                } else {
-                    setStar(Integer.parseInt(user.star), ((CommentViewHolder) holder).imgComment);
-                }
+                setStar(user.star, ((CommentViewHolder) holder).imgComment);
             }
         } else if (holder instanceof FirstScenicDetailViewHolder){
             ((FirstScenicDetailViewHolder) holder).scenicName.setText(mScenic.name);

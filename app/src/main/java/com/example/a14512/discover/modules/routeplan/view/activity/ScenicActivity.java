@@ -20,7 +20,14 @@ import com.example.a14512.discover.modules.routeplan.mode.entity.ScenicCommentUs
 import com.example.a14512.discover.modules.routeplan.presenter.ScenicPresenterImp;
 import com.example.a14512.discover.modules.routeplan.view.imp.IScenicView;
 import com.example.a14512.discover.share.Share;
+import com.example.a14512.discover.utils.BitmapUtils;
+import com.example.a14512.discover.utils.ScreenShotUtils;
 import com.example.a14512.discover.utils.ToastUtil;
+import com.example.a14512.discover.utils.UploadPicture;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -87,7 +94,17 @@ public class ScenicActivity extends BaseActivity implements IScenicView{
         setDecorView();
         mBack.setOnClickListener(v -> finish());
         mShare.setImageResource(R.mipmap.share_detail);
-        mShare.setOnClickListener(v -> Share.showShare(mScenic.name, "www.baidu.com", ""));
+        mShare.setOnClickListener(v -> {
+            //TODO 分享
+            UploadPicture.uploadPictureNoCrop(BitmapUtils.getBytes(ScreenShotUtils.takeScreenShot(this)), new UpCompletionHandler() {
+                @Override
+                public void complete(String key, ResponseInfo info, JSONObject response) {
+                    if (info.isOK()) {
+                        Share.showShare("123456", UploadPicture.imageUrl, UploadPicture.imageUrl, "");
+                    }
+                }
+            });
+        });
     }
 
     private void initView() {

@@ -154,20 +154,7 @@ public class ChoosePresenterImp implements IChoosePresenter {
         double startLat = startScenic.latitude;
         double endLng = endScenic.longitude;
         double endLat = endScenic.latitude;
-
-//        double startLng , startLat ,endLng ,endLat;
         String phone = ACache.getDefault().getAsString(C.ACCOUNT);
-
-        //TODO 数据测试
-        startLng = 106.575662;
-        startLat = 29.532033;
-        endLng = 106.575532;
-        endLat = 29.531644;
-        time = 500;
-        startT = "11:00:00";
-        personSelect = 4;
-        tfSelect = 1;
-
         ApiSubscriber<ArrayList<Scenic>> apiSubscriber = new ApiSubscriber<ArrayList<Scenic>>(
                 mContext, false, false) {
             @Override

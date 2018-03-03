@@ -214,12 +214,34 @@ public interface ApiService {
                                                  @Query("routePlace") String routePlace);
 
     /**
+     * 保存我的路线
+     * @param routeName
+     * @param placeNum
+     * @param distance
+     * @param coast
+     * @param routeTime
+     * @param phone
+     * @param information
+     * @return
+     */
+    @GET("RouteResultServlet")
+    Observable<Result<String>> addMyRoute(@Query("routeName") String routeName,
+                                          @Query("placeNumber") int placeNum,
+                                          @Query("allDistance") int distance,
+                                          @Query("allCoast") int coast,
+                                          @Query("routeTime") int routeTime,
+                                          @Query("userPhone") String phone,
+                                          @Query("routeInformation") String information);
+
+    /**
      * 结束路线
      * @param phone
+     * @param routeName
      * @return
      */
     @GET("EndRouteServlet")
-    Observable<Result<Integer>> endRoute(@Query("userPhone") String phone);
+    Observable<Result<Integer>> endRoute(@Query("userPhone") String phone,
+                                         @Query("routeName") String routeName);
 
     /**
      * 添加已去景点
@@ -239,13 +261,11 @@ public interface ApiService {
     @GET("UserInformationServlet")
     Observable<Result<UserInfo>> getUserInfo(@Query("userPhone") String phone);
 
-    @GET("RouteResultServlet")
-    Observable<Result<String>> setMyRoute(@Query("routeName") String routeName,
-                                          @Query("placeNumber") int placeNumber,
-                                          @Query("allDistance") int allDistance,
-                                          @Query("allCoast") int allCoast,
-                                          @Query("routeTime") int routeTime,
-                                          @Query("userPhone") String phone,
-                                          @Query("routeInformation") String routeInformation);
+    /**
+     * 获取重庆市所有景点信息
+     * @return
+     */
+    @GET("AroundingServlet")
+    Observable<Result<ArrayList<Scenic>>> getAroundScenic();
 
 }

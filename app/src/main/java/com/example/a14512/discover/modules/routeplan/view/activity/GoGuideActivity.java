@@ -57,7 +57,11 @@ import com.baidu.navisdk.adapter.BaiduNaviManager;
 import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
+import com.example.a14512.discover.modules.main.view.MainActivity;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
+import com.example.a14512.discover.modules.routeplan.presenter.GoGuidePresenterImp;
+import com.example.a14512.discover.modules.routeplan.view.imp.IGoGuideView;
+import com.example.a14512.discover.utils.JsonUtil;
 import com.example.a14512.discover.utils.LocationUtil;
 import com.example.a14512.discover.utils.PLog;
 import com.example.a14512.discover.utils.ToastUtil;
@@ -74,10 +78,11 @@ import java.util.List;
  * @author 14512 on 2018/2/3
  */
 
-public class GoGuideActivity extends BaseActivity implements View.OnClickListener {
+public class GoGuideActivity extends BaseActivity implements View.OnClickListener, IGoGuideView {
 
     private ImageView mLeft;
     private Toolbar toolbar;
+    private ImageView mRight;
     private LinearLayout mGoGuide;
 
     private RoutePlanSearch mSearch;
@@ -89,7 +94,7 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
     private ArrayList<Scenic> mScenics;
     private ArrayList<LatLng> mLatLngs;
     private ArrayList<Integer> mTimes = new ArrayList<>();
-    private int position = 1, type, location = 0, sumDistance = 0, guideType = 0;
+    private int position = 1, type, location = 0, sumDistance = 0, guideType = 0, sumPay = 0;
     //骑行导航
     private BikeNavigateHelper mNaviHelper;
     BikeNaviLaunchParam param;
@@ -115,6 +120,8 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
     String authinfo = null;
 
     private BNRoutePlanNode.CoordinateType mCoordinateType = null;
+
+    private GoGuidePresenterImp mPresenter;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -379,8 +386,10 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
     private void initToolbar() {
         setStatusBarColor(R.color.mainToolbar);
         setSupportActionBar(toolbar);
-        toolbar.setBackground(null);
+//        toolbar.setBackground(null);
         mLeft.setOnClickListener(v -> finish());
+        mRight.setImageResource(R.mipmap.save);
+        mRight.setOnClickListener(v -> mPresenter.addMyRoute(JsonUtil.toJSONString(mScenics)));
     }
 
     private void getLocation() {
@@ -428,6 +437,7 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
             LatLng latLng = new LatLng(scenic.latitude, scenic.longitude);
             mPlanNodes.add(PlanNode.withLocation(latLng));
             mLatLngs.add(latLng);
+            sumPay += scenic.peopleAver;
         }
     }
 
@@ -532,6 +542,7 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
     private void initView() {
         mLeft = findViewById(R.id.img_toolbar_left);
         toolbar = findViewById(R.id.toolbar);
+        mRight = findViewById(R.id.img_toolbar_right);
         ImageView pre = findViewById(R.id.img_pre_scenic);
         ImageView next = findViewById(R.id.img_next_scenic);
         LinearLayout allRoute = findViewById(R.id.layout_all_route);
@@ -546,6 +557,8 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
         next.setOnClickListener(this);
         allRoute.setOnClickListener(this);
         finish.setOnClickListener(this);
+
+        mPresenter = new GoGuidePresenterImp(this, this);
     }
 
     /**
@@ -619,10 +632,6 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
                     ToastUtil.show(this, "已经到头了！");
                 }
                 break;
-//            case R.id.btn_back_home:
-//                position = 0;
-//                navigateTo();
-//                break;
             case R.id.img_next_scenic:
                 if (position < mLatLngs.size() - 1) {
                     position++;
@@ -632,7 +641,8 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
                 }
                 break;
             case R.id.layout_finish:
-                startIntentActivity(this, CommentScoreActivity.class);
+                mPresenter.endRoute(mScenics.get(0) + "-" + mScenics.get(mScenics.size() - 1));
+                startIntentActivity(this, MainActivity.class);
                 break;
             case R.id.layout_all_route:
                 startActivity();
@@ -758,11 +768,47 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
                         guideType++;
                         ToastUtil.show(this, "点击出去进入下一个导航");
                         //TODO 评分
+                    } else if (guideType == mScenics.size() - 1){
+
                     }
                     break;
                 default:
                     break;
             }
         }
+    }
+
+    @Override
+    public String getRouteName() {
+        return mScenics.get(0) + "-" + mScenics.get(mScenics.size() - 1);
+    }
+
+    @Override
+    public int getPlaceNum() {
+        return mScenics.size() - 2;
+    }
+
+    @Override
+    public int getAllDistance() {
+        return sumDistance / 1000;
+    }
+
+    @Override
+    public int getRouteTime() {
+        return  calculatePatTime(mTimes) / 3600;
+    }
+
+    @Override
+    public int getAllCoast() {
+        return sumPay;
+    }
+
+    private int calculatePatTime(ArrayList<Integer> second) {
+        int sum = 0;
+        for (int i : second) {
+            sum += i;
+        }
+        sum = sum / 60;
+        return sum;
     }
 }

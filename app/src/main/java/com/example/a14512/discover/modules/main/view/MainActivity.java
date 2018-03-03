@@ -38,6 +38,7 @@ import com.example.a14512.discover.modules.main.userself.share.view.MyShareActiv
 import com.example.a14512.discover.modules.main.userself.travel.view.TravelKnowledgeActivity;
 import com.example.a14512.discover.modules.routeplan.view.activity.ChooseActivity;
 import com.example.a14512.discover.modules.shake.view.ShakeActivity;
+import com.example.a14512.discover.utils.ACache;
 import com.example.a14512.discover.utils.LocationUtil;
 import com.example.a14512.discover.utils.ToastUtil;
 import com.example.a14512.discover.utils.VersionUtil;
@@ -92,7 +93,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         float nowVersionCode = VersionUtil.getVersionCode(this);
         SharedPreferences sp = getSharedPreferences("welcomeInfo", MODE_PRIVATE);
         float spVersionCode = sp.getFloat("spVersionCode", 0);
-        if (nowVersionCode > spVersionCode) {
+        if (!C.ACCOUNT.equals(ACache.getDefault().getAsString(C.ACCOUNT))
+                && nowVersionCode > spVersionCode) {
             SharedPreferences.Editor editor = sp.edit();
             editor.putFloat("spVersionCode", nowVersionCode);
             editor.apply();

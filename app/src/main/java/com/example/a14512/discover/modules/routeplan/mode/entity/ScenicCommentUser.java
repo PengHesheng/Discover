@@ -14,9 +14,21 @@ public class ScenicCommentUser implements Serializable {
     @SerializedName("userName")
     public String name;
 
-    @SerializedName("comment")
-    public String star;
+    @SerializedName("allScore")
+    public int star;
 
     @SerializedName("userPhone")
     public String phone;
+
+    @SerializedName("firstScore")
+    public int firstStar;
+
+    @SerializedName("secondScore")
+    public int sencondStar;
+
+    @SerializedName("thirdScore")
+    public int thirdStar;
+
+    @SerializedName("fourthScore")
+    public int fourthStar;
 }
