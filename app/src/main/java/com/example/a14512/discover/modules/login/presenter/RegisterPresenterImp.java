@@ -31,7 +31,7 @@ public class RegisterPresenterImp implements IRegisterPresenter {
     public void getCode() {
         String phone = mView.getPhoneNum();
         String pwd = mView.getPwd();
-        if (phone.isEmpty() && pwd.isEmpty()) {
+        if (!phone.isEmpty() && !pwd.isEmpty()) {
             ApiSubscriber<RegisterData> apiSubscriber = new ApiSubscriber<RegisterData>(
                     mContext, false, false) {
                 @Override
@@ -39,11 +39,11 @@ public class RegisterPresenterImp implements IRegisterPresenter {
                     ToastUtil.show(mContext, value.getMessage());
                     if (value.getMessage().equals("短信发送成功")) {
                         mCode = value.getTextCode();
+                        mView.showCodeTime();
                     }
                 }
             };
             mMode.getCode(apiSubscriber, phone, pwd);
-            mView.showCodeTime();
         } else {
             ToastUtil.show(mContext, "电话号码或者密码为空！");
         }
@@ -54,7 +54,7 @@ public class RegisterPresenterImp implements IRegisterPresenter {
         String phone = mView.getPhoneNum();
         String pwd = mView.getPwd();
         String code = mView.getCode();
-        if (phone.isEmpty() && pwd.isEmpty() && code.isEmpty()) {
+        if (!phone.isEmpty() && !pwd.isEmpty() && !code.isEmpty()) {
             if (Integer.valueOf(code) == mCode) {
                 ApiSubscriber<Integer> apiSubscriber = new ApiSubscriber<Integer>(
                         mContext, true, true, "正在注册，请稍候!") {
@@ -69,7 +69,7 @@ public class RegisterPresenterImp implements IRegisterPresenter {
                         }
                     }
                 };
-                mMode.register(apiSubscriber, phone, code);
+                mMode.register(apiSubscriber, phone, pwd);
             } else {
                 ToastUtil.show(mContext, "验证码错误！");
             }

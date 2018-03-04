@@ -12,7 +12,7 @@
         android:layout_height="225dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/img_head_portrait"
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="PHS"
+            tools:text="PHS"
             android:textColor="#ffffff"
             android:textSize="20sp" />
 
@@ -60,7 +60,7 @@
         <ImageView
             android:layout_width="93dp"
             android:layout_height="93dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/default_portrait" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -7,12 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.modules.routeplan.mode.entity.ScenicCommentUser;
+import com.example.a14512.discover.utils.PLog;
 
 import java.util.ArrayList;
 
@@ -65,9 +67,12 @@ public class ScenicCommentAdapter extends RecyclerView.Adapter {
             ScenicCommentUser user = mUsers.get(position-1);
             if (user != null) {
                 Glide.with(mContext).load(user.portrait)
-                        .error(R.mipmap.ic_launcher).into(((CommentViewHolder) holder).portrait);
+                        .error(R.mipmap.default_portrait).into(((CommentViewHolder) holder).portrait);
                 ((CommentViewHolder) holder).name.setText(user.name);
-                setStar(user.star, ((CommentViewHolder) holder).imgComment);
+                PLog.e(user.star);
+                if (user.star != null) {
+                    ((CommentViewHolder) holder).mRatingBar.setRating(Integer.valueOf(user.star));
+                }
             }
         } else if (holder instanceof FirstScenicDetailViewHolder){
             ((FirstScenicDetailViewHolder) holder).scenicName.setText(mScenic.name);
@@ -97,31 +102,6 @@ public class ScenicCommentAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private void setStar(int star, ImageView imageView) {
-        switch (star) {
-            case 0:
-                Glide.with(mContext).load(R.drawable.nervous0).into(imageView);
-                break;
-            case 1:
-                Glide.with(mContext).load(R.drawable.nervous1).into(imageView);
-                break;
-            case 2:
-                Glide.with(mContext).load(R.drawable.nervous2).into(imageView);
-                break;
-            case 3:
-                Glide.with(mContext).load(R.drawable.nervous3).into(imageView);
-                break;
-            case 4:
-                Glide.with(mContext).load(R.drawable.nervous4).into(imageView);
-                break;
-            case 5:
-                Glide.with(mContext).load(R.drawable.nervous5).into(imageView);
-                break;
-            default:
-                break;
-        }
-    }
-
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
@@ -139,15 +119,15 @@ public class ScenicCommentAdapter extends RecyclerView.Adapter {
     public class CommentViewHolder extends RecyclerView.ViewHolder {
         ImageView portrait;
         TextView name;
-        ImageView imgComment;
+        RatingBar mRatingBar;
         LinearLayout zan;
 
         public CommentViewHolder(View itemView) {
             super(itemView);
             portrait = itemView.findViewById(R.id.img_scenic_details_comment_portrait);
             name = itemView.findViewById(R.id.tv_scenic_details_comment_name);
-            imgComment = itemView.findViewById(R.id.img_scenic_details_comment);
-            zan = itemView.findViewById(R.id.layout_scenic_details_comment_zan);
+            mRatingBar = itemView.findViewById(R.id.rating_bar_scenic_details_comment);
+//            zan = itemView.findViewById(R.id.layout_scenic_details_comment_zan);
         }
     }
 

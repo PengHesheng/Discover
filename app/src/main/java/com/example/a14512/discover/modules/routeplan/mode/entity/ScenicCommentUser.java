@@ -11,24 +11,24 @@ import java.io.Serializable;
 public class ScenicCommentUser implements Serializable {
     public String portrait;
 
-    @SerializedName("userName")
+    @SerializedName("user_name")
     public String name;
 
     @SerializedName("allScore")
-    public int star;
+    public String star;
 
     @SerializedName("userPhone")
     public String phone;
 
     @SerializedName("firstScore")
-    public int firstStar;
+    public String firstStar;
 
     @SerializedName("secondScore")
-    public int sencondStar;
+    public String sencondStar;
 
     @SerializedName("thirdScore")
-    public int thirdStar;
+    public String thirdStar;
 
     @SerializedName("fourthScore")
-    public int fourthStar;
+    public String fourthStar;
 }

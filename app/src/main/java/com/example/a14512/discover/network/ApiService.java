@@ -119,7 +119,7 @@ public interface ApiService {
      * @return
      */
     @GET("PlaceFollowServlet")
-    Observable<Result<Integer>> followScenic(@Query("placeFollow") int isFollow,
+    Observable<Result<Integer>> followScenic(@Query("placeFound") int isFollow,
                                     @Query("userPhone") String phone,
                                     @Query("placeName") String placeName);
 

@@ -42,6 +42,12 @@ public class CommentScenicActivity extends BaseActivity implements ICommentView 
 
     private void getData() {
         mScores = new ArrayList<>();
+        ArrayList<String> scenicNames = getIntent().getStringArrayListExtra("my_historic_route");
+        for (String name : scenicNames) {
+            ScenicScore score = new ScenicScore();
+            score.name = name;
+            mScores.add(score);
+        }
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -72,5 +78,10 @@ public class CommentScenicActivity extends BaseActivity implements ICommentView 
     @Override
     public ArrayList<ScenicScore> getScenicScore() {
         return mScores;
+    }
+
+    @Override
+    public void finishActivity() {
+        finish();
     }
 }

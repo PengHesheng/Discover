@@ -316,6 +316,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (isLogin) {
             mLoginOut.setVisibility(View.GONE);
             mLogin.setVisibility(View.VISIBLE);
+            mPresenter.getUserInfo();
         } else {
             mLoginOut.setVisibility(View.VISIBLE);
             mLogin.setVisibility(View.GONE);
@@ -336,7 +337,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         userLoginLayout.setBackgroundResource(R.mipmap.center_bg);
                     }
                 });*/
-        if (userInfo.name == null) {
+        if (userInfo.name.isEmpty()) {
             mName.setText("用户");
         } else {
             mName.setText(userInfo.name);

@@ -114,7 +114,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 mPresenter.login(isRemember);
                 break;
             case R.id.tv_going_register:
-                startActivityForResult(new Intent(this, RegisterActivity.class), C.COMPLETED);
+//                startActivityForResult(new Intent(this, RegisterActivity.class), C.COMPLETED);
+                startIntentActivity(this, RegisterActivity.class);
                 break;
             default:
                 break;

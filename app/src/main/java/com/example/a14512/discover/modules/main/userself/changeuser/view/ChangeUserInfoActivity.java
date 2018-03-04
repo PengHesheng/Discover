@@ -137,6 +137,7 @@ public class ChangeUserInfoActivity extends BaseActivity implements View.OnClick
         mRight.setEnabled(false);
 
         mPresenter = new ChangeInfoPresenterImp(this, this);
+        mPresenter.getUserInfo();
     }
 
     @Override
@@ -230,7 +231,14 @@ public class ChangeUserInfoActivity extends BaseActivity implements View.OnClick
 
     @Override
     public String getSex() {
-        return mTvSex.getText().toString();
+        String sex = (String) mTvSex.getText();
+        if ("男".equals(sex)) {
+            return "1";
+        } else if ("女".equals(sex)) {
+            return "0";
+        } else {
+            return "-1";
+        }
     }
 
     @Override
@@ -255,7 +263,13 @@ public class ChangeUserInfoActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void setSex(String sex) {
-        mTvSex.setText(sex);
+        if (Integer.valueOf(sex) == 1) {
+            mTvSex.setText("男");
+        } else if (Integer.valueOf(sex) == 0) {
+            mTvSex.setText("女");
+        } else {
+            mTvSex.setText("其他");
+        }
     }
 
     @Override

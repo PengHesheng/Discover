@@ -42,7 +42,7 @@ public class ScenicActivity extends BaseActivity implements IScenicView{
     private ImageView mShare;
     private Toolbar toolbar;
     private RecyclerView mRecyclerView;
-    private  ScenicCommentAdapter adapter;
+    private ScenicCommentAdapter adapter;
     private Scenic mScenic;
     private ScenicPresenterImp mPresenter;
     private LinearLayout attention;
@@ -85,7 +85,7 @@ public class ScenicActivity extends BaseActivity implements IScenicView{
                     ToastUtil.show(ScenicActivity.this, "取消关注");
                 }
             });
-            Glide.with(this).load(mScenic.img).error(R.mipmap.ic_launcher_round).into(imgScenic);
+            Glide.with(this).load(mScenic.img.replaceAll("\\\\", "")).error(R.mipmap.ic_launcher_round).into(imgScenic);
         }
     }
 

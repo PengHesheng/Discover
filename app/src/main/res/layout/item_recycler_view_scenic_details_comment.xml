@@ -37,49 +37,52 @@
                 android:textSize="14sp"
                 tools:text="迷途的汪汪" />
 
-            <ImageView
-                android:id="@+id/img_scenic_details_comment"
-                android:layout_width="match_parent"
-                android:layout_height="15dp"
-                android:layout_marginTop="3dp"
-                tools:src="@drawable/nervous0"/>
+            <RatingBar
+                android:id="@+id/rating_bar_scenic_details_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rating="0"
+                android:isIndicator="true"
+                style="@style/myRatingBar"
+                android:numStars="6"
+                android:stepSize="1.0"/>
         </LinearLayout>
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:gravity="center_vertical">
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="13dp"-->
+        <!--android:gravity="center_vertical">-->
 
-        <LinearLayout
-            android:id="@+id/layout_scenic_details_comment_zan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="14dp"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/layout_bg_white"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginEnd="14dp"
-            android:layout_alignParentEnd="true">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/layout_scenic_details_comment_zan"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginRight="14dp"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:background="@drawable/layout_bg_white"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:layout_marginEnd="14dp"-->
+            <!--android:layout_alignParentEnd="true">-->
 
-            <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_marginRight="5dp"
-                android:src="@mipmap/zan"
-                android:layout_marginEnd="5dp" />
+            <!--<ImageView-->
+                <!--android:layout_width="12dp"-->
+                <!--android:layout_height="12dp"-->
+                <!--android:layout_marginRight="5dp"-->
+                <!--android:src="@mipmap/zan"-->
+                <!--android:layout_marginEnd="5dp" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:text="@string/tv_zan"
-                android:textColor="#656464"
-                />
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="12sp"-->
+                <!--android:text="@string/tv_zan"-->
+                <!--android:textColor="#656464"-->
+                <!--/>-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
-    </RelativeLayout>
+    <!--</RelativeLayout>-->
 </LinearLayout>

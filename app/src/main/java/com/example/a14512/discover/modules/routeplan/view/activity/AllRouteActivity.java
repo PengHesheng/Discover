@@ -61,7 +61,7 @@ public class AllRouteActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         setStatusBarColor(R.color.mainToolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.white));
-        mRight.setImageResource(R.mipmap.share_detail);
+        mRight.setImageResource(R.mipmap.exchange_direction);
         mBack.setImageResource(R.mipmap.left_back);
         mBack.setOnClickListener(v -> finish());
         mRight.setOnClickListener(v -> {

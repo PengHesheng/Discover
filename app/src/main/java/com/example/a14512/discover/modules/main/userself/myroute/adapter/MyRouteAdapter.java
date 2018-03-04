@@ -11,9 +11,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.modules.main.userself.myroute.mode.entity.MyRoute;
 import com.example.a14512.discover.modules.main.userself.myroute.view.CommentScenicActivity;
+import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
+import com.example.a14512.discover.modules.routeplan.view.activity.MapActivity;
+import com.example.a14512.discover.utils.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -63,13 +67,26 @@ public class MyRouteAdapter extends RecyclerView.Adapter {
         //TODO  跳转后的逻辑
         if (type == 0) {
             //我的路线
+            Intent intent = new Intent(mContext, MapActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(C.SCENIC_DETAIL, myRoute.getRouteInformation());
+            intent.putExtra(C.SCENIC_DETAIL, bundle);
+            mContext.startActivity(intent);
         } else {
             //历史路线
-            Intent intent = new Intent(mContext, CommentScenicActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("my_historic_route", myRoute);
-            intent.putExtra("my_historic_route", bundle);
-            mContext.startActivity(intent);
+            if (myRoute.isComment) {
+                ToastUtil.show(mContext, "你已经评论了哦！");
+            } else {
+                ArrayList<Scenic> scenics = myRoute.getRouteInformation();
+                ArrayList<String> scenicNames = new ArrayList<>();
+                for (int i = 1; i < scenics.size() - 1; i++) {
+                    scenicNames.add(scenics.get(i).name);
+                    myRoute.isComment = true;
+                }
+                Intent intent = new Intent(mContext, CommentScenicActivity.class);
+                intent.putStringArrayListExtra("my_historic_route", scenicNames);
+                mContext.startActivity(intent);
+            }
         }
     }
 

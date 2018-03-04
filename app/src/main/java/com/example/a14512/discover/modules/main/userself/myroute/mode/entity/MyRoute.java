@@ -1,8 +1,10 @@
 package com.example.a14512.discover.modules.main.userself.myroute.mode.entity;
 
+import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.google.gson.Gson;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * @author 14512 on 2018/2/9
@@ -21,9 +23,10 @@ public class MyRoute implements Serializable {
      * place_number : 455
      */
 
+    public boolean isComment = false;
     private String route_time;
     private String route_name;
-    private String routeInformation;
+    private ArrayList<Scenic> routeInformation;
     private int all_coast;
     private int all_distance;
     private int route_found;
@@ -50,11 +53,11 @@ public class MyRoute implements Serializable {
         this.route_name = route_name;
     }
 
-    public String getRouteInformation() {
+    public ArrayList<Scenic> getRouteInformation() {
         return routeInformation;
     }
 
-    public void setRouteInformation(String routeInformation) {
+    public void setRouteInformation(ArrayList<Scenic> routeInformation) {
         this.routeInformation = routeInformation;
     }
 

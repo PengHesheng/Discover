@@ -11,14 +11,18 @@ import java.io.Serializable;
 public class Scenic implements Serializable {
 
     /**
-     * place_time : 70
-     * place_popularity : 62
-     * place_lat : 29.509211
-     * place_name : 重庆动物园
-     * place_photo : null
-     * place_lng : 106.512557
-     * place_introduce : 4A级景区 亲子好去处
-     * place_price : 20
+     * place_name   String  地点名称
+     * place_time    int    建议游玩时间
+     * place_popularity    int     景点人气
+     * place_introduce  String  景点介绍
+     * place_price 	int      景点价格
+     * place_photo       String 景点照片
+     * times       int     -1上午，0下午，1晚上
+     * place_lng   double   景点经度
+     * place_lat   double   景点纬度
+     * place_type（景点类型） int
+     * place_adress（景点地址）String
+     * place_Times（活跃时间参数） String  不用管
      */
 
     @SerializedName("place_photo")

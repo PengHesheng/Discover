@@ -91,18 +91,23 @@ public class ChoosePresenterImp implements IChoosePresenter {
 
         String startTime = mView.getStartTime();
         String endTime = mView.getEndTime();
-        ACache.getDefault().put("start_time", startTime);
-        ACache.getDefault().put("end_time", endTime);
-        String sT = ACache.getDefault().getAsString("start_time");
-        String eT = ACache.getDefault().getAsString("end_time");
 
-        startT = startTime.substring(startTime.length() - 5, startTime.length());
-        time = DateFormatUtil.calculateMinute(sT, eT);
-        PLog.e(""+time);
-        if (time > 0) {
-            getLocation();
+        if (!startPlace.isEmpty() && !endPlace.isEmpty() && !startTime.isEmpty() && !endTime.isEmpty()) {
+            ACache.getDefault().put("start_time", startTime);
+            ACache.getDefault().put("end_time", endTime);
+            String sT = ACache.getDefault().getAsString("start_time");
+            String eT = ACache.getDefault().getAsString("end_time");
+
+            startT = startTime.substring(startTime.length() - 5, startTime.length());
+            time = DateFormatUtil.calculateMinute(sT, eT);
+            PLog.e("" + time);
+            if (time > 0) {
+                getLocation();
+            } else {
+                ToastUtil.show(mContext, "时间选取为三天内！");
+            }
         } else {
-            ToastUtil.show(mContext, "时间选取为三天内！");
+            ToastUtil.show(mContext, "起点、终点、开始时间、结束时间不能为空！");
         }
     }
 
@@ -156,7 +161,7 @@ public class ChoosePresenterImp implements IChoosePresenter {
         double endLat = endScenic.latitude;
         String phone = ACache.getDefault().getAsString(C.ACCOUNT);
         ApiSubscriber<ArrayList<Scenic>> apiSubscriber = new ApiSubscriber<ArrayList<Scenic>>(
-                mContext, false, false) {
+                mContext, true, true) {
             @Override
             public void onNext(ArrayList<Scenic> value) {
                 PLog.e(value.size()+"");
@@ -170,12 +175,6 @@ public class ChoosePresenterImp implements IChoosePresenter {
                     mView.startActivity(false, personSelect);
                     PLog.e("null");
                 }
-            }
-
-            @Override
-            public void onComplete() {
-                super.onComplete();
-                mView.dismissDialog();
             }
         };
         mModel.getScenic(apiSubscriber, startLng, startLat, endLng, endLat, startPlace, endPlace,

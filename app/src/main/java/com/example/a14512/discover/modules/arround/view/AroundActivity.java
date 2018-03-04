@@ -369,6 +369,7 @@ public class AroundActivity extends BaseActivity implements IAroundView {
                 scenics.add(mScenic);
                 scenics.add(scenic);
                 PLog.e(mScenic.name);
+                //TODO 跳转到景点信息后再跳转到地图
                 Intent intent = new Intent(this, MapActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(C.SCENIC_DETAIL, scenics);

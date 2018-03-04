@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 
+import com.example.a14512.discover.network.RxUtil.exception.ApiException;
+import com.example.a14512.discover.utils.ToastUtil;
+
 import java.lang.ref.WeakReference;
 
 import io.reactivex.Observer;
@@ -98,12 +101,12 @@ public abstract class ApiSubscriber<T> implements DialogInterface.OnCancelListen
 
     @Override
     public void onError(Throwable e) {
-//        ApiException ex = (ApiException) e;
-//        Context context = this.contextWeakReference.get();
-//        if (context != null) {
-//            ToastUtil.show(ex.getDisplayMessage());
-//        }
-//        dismissProgressDialog();
+        ApiException ex = (ApiException) e;
+        Context context = this.contextWeakReference.get();
+        if (context != null) {
+            ToastUtil.show(ex.getDisplayMessage());
+        }
+        dismissProgressDialog();
     }
 
     @Override

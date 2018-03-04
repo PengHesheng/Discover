@@ -11,6 +11,8 @@ import com.example.a14512.discover.utils.ACache;
 import com.example.a14512.discover.utils.Time;
 import com.example.a14512.discover.utils.ToastUtil;
 
+import java.net.URLEncoder;
+
 /**
  * @author 14512 on 2018/3/2
  */
@@ -51,7 +53,7 @@ public class GoGuidePresenterImp implements IAllRoutePresenter {
             }
         };
         mMode.addMyRoute(apiSubscriber, routeName, placeNum, distance,
-                coast, routeTime, phone, information);
+                coast, routeTime, phone, URLEncoder.encode(information));
     }
 
     @Override

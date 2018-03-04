@@ -43,6 +43,7 @@ public class CommentPresenterImp implements ICommentPresenter{
             public void onNext(Integer value) {
                 if (value == 1 && finalNum == scores.size()) {
                     ToastUtil.show(mContext, "评分成功，感谢您的评价！");
+                    mView.finishActivity();
                 } else {
 //                    ToastUtil.show(mContext, "出问题了哦，请稍候再试！");
                 }

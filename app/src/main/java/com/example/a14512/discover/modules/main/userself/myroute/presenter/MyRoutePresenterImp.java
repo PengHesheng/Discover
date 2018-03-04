@@ -7,6 +7,7 @@ import com.example.a14512.discover.modules.main.userself.myroute.mode.Mode;
 import com.example.a14512.discover.modules.main.userself.myroute.mode.entity.MyRoute;
 import com.example.a14512.discover.modules.main.userself.myroute.presenter.imp.IMyRoutePresenter;
 import com.example.a14512.discover.modules.main.userself.myroute.view.imp.IMyRouteView;
+import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 import com.example.a14512.discover.utils.ACache;
 import com.example.a14512.discover.utils.PLog;
@@ -31,6 +32,17 @@ public class MyRoutePresenterImp implements IMyRoutePresenter {
     @Override
     public void getHistoricRouteFromACache() {
         ArrayList<MyRoute> routes = (ArrayList<MyRoute>) ACache.getDefault().getAsObject("my_historic");
+        //TODO 测试
+        ArrayList<Scenic> scenics = (ArrayList<Scenic>) ACache.getDefault().getAsObject(C.SCENIC_DETAIL);
+        MyRoute myRoute = new MyRoute();
+        myRoute.setAll_coast(1234);
+        myRoute.setAll_distance(12345);
+        myRoute.setPlace_number("4");
+        myRoute.setRoute_found(0);
+        myRoute.setRoute_name(scenics.get(0).name+"-"+scenics.get(scenics.size() - 1).name);
+        myRoute.setRouteInformation(scenics);
+        myRoute.setRoute_time("2018/03/4");
+        routes.add(myRoute);
         if (routes != null) {
             mView.setHistoricRoute(routes);
         }
@@ -51,7 +63,7 @@ public class MyRoutePresenterImp implements IMyRoutePresenter {
                 mContext, true, true) {
             @Override
             public void onNext(ArrayList<MyRoute> value) {
-                if (value != null) {
+                if (!value.isEmpty()) {
                     PLog.e(value.get(0).getRoute_name());
                     chooseMyRoute(value);
                 }
@@ -62,8 +74,10 @@ public class MyRoutePresenterImp implements IMyRoutePresenter {
 
     @Override
     public boolean isACache() {
-        ArrayList<MyRoute> historicRoutes = (ArrayList<MyRoute>) ACache.getDefault().getAsObject("my_historic");
-        ArrayList<MyRoute> myRoutes = (ArrayList<MyRoute>) ACache.getDefault().getAsObject("my_collect");
+        ArrayList<MyRoute> historicRoutes = (ArrayList<MyRoute>) ACache.getDefault()
+                .getAsObject("my_historic");
+        ArrayList<MyRoute> myRoutes = (ArrayList<MyRoute>) ACache.getDefault()
+                .getAsObject("my_collect");
         return myRoutes != null || historicRoutes != null;
     }
 

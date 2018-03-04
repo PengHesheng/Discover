@@ -189,7 +189,7 @@ public class ChooseActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.btn_build:
                 mPresenter.putData();
-                showDialog();
+//                showDialog();
                 break;
             case R.id.img_exchange_place:
                 KeyBoardUtil.hideInputFromWindow(this, mainLayout);

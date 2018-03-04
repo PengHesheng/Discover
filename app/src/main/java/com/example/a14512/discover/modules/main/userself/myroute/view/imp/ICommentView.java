@@ -15,4 +15,9 @@ public interface ICommentView {
      * @return
      */
     ArrayList<ScenicScore> getScenicScore();
+
+    /**
+     * 结束活动
+     */
+    void finishActivity();
 }
