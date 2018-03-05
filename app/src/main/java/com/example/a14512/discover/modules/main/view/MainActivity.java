@@ -4,9 +4,11 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,6 +20,9 @@ import com.baidu.location.BDLocation;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.resource.bitmap.FitCenter;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
@@ -60,7 +65,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private static final int WRITE_EXTERNAL_STORAGE = 5;
     private static final int BODY_SENSORS = 6;
 
-    private Toolbar mToolbar;
     private LinearLayout mLogin;
     private LinearLayout mLoginOut;
     private ImageView mPortrait;
@@ -155,8 +159,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private void initView() {
         mSlidingView = findViewById(R.id.sliding_view);
 
-        mToolbar = findViewById(R.id.toolbar);
-
         mLogin = findViewById(R.id.layout_login);
         mLoginOut = findViewById(R.id.layout_login_out);
         mPortrait = findViewById(R.id.img_head_portrait);
@@ -174,13 +176,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         LinearLayout settings = findViewById(R.id.layout_menu_settings);
 
         LinearLayout mainLayout = findViewById(R.id.main_layout);
-
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        ImageView imgMain1 = findViewById(R.id.img_main1);
         ImageView menu = findViewById(R.id.main_menu_icon);
         LinearLayout imgBtnRoutePlan = findViewById(R.id.layout_route_plan);
         LinearLayout imgBtnAround = findViewById(R.id.layout_around);
         LinearLayout imgBtnShark = findViewById(R.id.layout_shake);
 
-        setSupportActionBar(mToolbar);
+        setSupportActionBar(toolbar);
+        Glide.with(this)
+                .load(R.drawable.main_bg)
+                .into(new SimpleTarget<GlideDrawable>() {
+                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        mainLayout.setBackground(resource);
+                    }
+                });
+        Glide.with(this).load(R.drawable.main_img1).into(imgMain1);
         mainLayout.setOnClickListener(this);
 
         mLogin.setOnClickListener(this);
