@@ -83,7 +83,7 @@
         <activity android:name=".modules.login.view.RegisterActivity" />
 
 
-        <activity android:name=".modules.arround.view.AroundActivity"/>
+        <activity android:name=".modules.around.view.AroundActivity"/>
 
         <activity android:name=".modules.shake.view.ShakeActivity" />
 

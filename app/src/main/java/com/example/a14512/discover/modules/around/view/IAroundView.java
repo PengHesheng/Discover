@@ -1,4 +1,4 @@
-package com.example.a14512.discover.modules.arround.view;
+package com.example.a14512.discover.modules.around.view;
 
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 

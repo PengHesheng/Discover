@@ -1,4 +1,4 @@
-package com.example.a14512.discover.modules.arround.mode;
+package com.example.a14512.discover.modules.around.mode;
 
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.network.RetrofitHelper;

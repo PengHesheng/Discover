@@ -1,4 +1,4 @@
-package com.example.a14512.discover.modules.arround.view;
+package com.example.a14512.discover.modules.around.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -47,7 +47,7 @@ import com.bumptech.glide.Glide;
 import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
-import com.example.a14512.discover.modules.arround.presenter.AroundPresenterImp;
+import com.example.a14512.discover.modules.around.presenter.AroundPresenterImp;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.modules.routeplan.view.activity.ScenicActivity;
 import com.example.a14512.discover.utils.LocationUtil;

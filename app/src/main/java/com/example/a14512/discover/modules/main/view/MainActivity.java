@@ -7,11 +7,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.location.BDAbstractLocationListener;
@@ -23,7 +22,7 @@ import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.custom.SlidingView;
-import com.example.a14512.discover.modules.arround.view.AroundActivity;
+import com.example.a14512.discover.modules.around.view.AroundActivity;
 import com.example.a14512.discover.modules.login.view.LoginActivity;
 import com.example.a14512.discover.modules.main.mode.entity.UserInfo;
 import com.example.a14512.discover.modules.main.mode.entity.WeatherData;
@@ -61,6 +60,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private static final int WRITE_EXTERNAL_STORAGE = 5;
     private static final int BODY_SENSORS = 6;
 
+    private Toolbar mToolbar;
     private LinearLayout mLogin;
     private LinearLayout mLoginOut;
     private ImageView mPortrait;
@@ -155,6 +155,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private void initView() {
         mSlidingView = findViewById(R.id.sliding_view);
 
+        mToolbar = findViewById(R.id.toolbar);
+
         mLogin = findViewById(R.id.layout_login);
         mLoginOut = findViewById(R.id.layout_login_out);
         mPortrait = findViewById(R.id.img_head_portrait);
@@ -171,13 +173,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mWeatherIcon = findViewById(R.id.img_weather_icon);
         LinearLayout settings = findViewById(R.id.layout_menu_settings);
 
-        RelativeLayout mainLayout = findViewById(R.id.main_layout);
+        LinearLayout mainLayout = findViewById(R.id.main_layout);
 
         ImageView menu = findViewById(R.id.main_menu_icon);
-        ImageButton imgBtnRoutePlan = findViewById(R.id.img_btn_route_plan);
-        ImageButton imgBtnAround = findViewById(R.id.img_btn_around);
-        ImageButton imgBtnShark = findViewById(R.id.img_btn_shark);
+        LinearLayout imgBtnRoutePlan = findViewById(R.id.layout_route_plan);
+        LinearLayout imgBtnAround = findViewById(R.id.layout_around);
+        LinearLayout imgBtnShark = findViewById(R.id.layout_shake);
 
+        setSupportActionBar(mToolbar);
         mainLayout.setOnClickListener(this);
 
         mLogin.setOnClickListener(this);
@@ -250,7 +253,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.main_menu_icon:
                 mSlidingView.changeMenu();
                 break;
-            case R.id.img_btn_route_plan:
+            case R.id.layout_route_plan:
                 if (mSlidingView.getMenu()) {
                     mSlidingView.changeMenu();
                 } else {
@@ -262,14 +265,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     }
                 }
                 break;
-            case R.id.img_btn_around:
+            case R.id.layout_around:
                 if (mSlidingView.getMenu()) {
                     mSlidingView.changeMenu();
                 } else {
                     startIntentActivity(this, AroundActivity.class);
                 }
                 break;
-            case R.id.img_btn_shark:
+            case R.id.layout_shake:
                 if (mSlidingView.getMenu()) {
                     mSlidingView.changeMenu();
                 } else {

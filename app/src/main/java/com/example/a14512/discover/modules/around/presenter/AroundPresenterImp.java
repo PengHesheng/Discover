@@ -1,9 +1,9 @@
-package com.example.a14512.discover.modules.arround.presenter;
+package com.example.a14512.discover.modules.around.presenter;
 
 import android.content.Context;
 
-import com.example.a14512.discover.modules.arround.mode.Mode;
-import com.example.a14512.discover.modules.arround.view.IAroundView;
+import com.example.a14512.discover.modules.around.mode.Mode;
+import com.example.a14512.discover.modules.around.view.IAroundView;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 import com.example.a14512.discover.utils.ACache;

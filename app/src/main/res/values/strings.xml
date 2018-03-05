@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
 
-    <string name="app_name">Discover</string>
+    <string name="app_name">简单游</string>
     <string name="search_hint_left">起点</string>
     <string name="search_hint_right">终点</string>
     <string name="btn_route_plan">生成</string>
@@ -122,6 +122,6 @@
     <string name="tv_confirm_submit">确认提交信息</string>
     <string name="tv_walk_time">预计步行时间：</string>
     <string name="tv_distance">距您：</string>
-    <string name="tv_where_you_want">你都喜欢去些什么地方呢...</string>
+    <string name="tv_where_you_want">你都喜欢去些什么地方呢…</string>
     <string name="tv_register">注册</string>
 </resources>
