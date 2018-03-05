@@ -35,6 +35,11 @@ public class C {
     public static final int CHOOSE_CITY = 10;
 
     /**
+     * 用于从不同的地方跳转到景点活动
+     */
+    public static final int SCENIC_TYPE = 99;
+
+    /**
      * route plan time
      */
     public static final String MORNING = "morning";

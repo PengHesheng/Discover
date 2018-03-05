@@ -50,7 +50,6 @@ public class ScenicPresenterImp implements IScenicPresenter {
                 @Override
                 public void onNext(Integer value) {
                     if (value != null) {
-                        PLog.e(" "+value);
                         mView.isFollow(value);
                     }
                 }

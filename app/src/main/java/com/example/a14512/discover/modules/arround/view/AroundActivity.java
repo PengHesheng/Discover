@@ -49,9 +49,8 @@ import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.arround.presenter.AroundPresenterImp;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
-import com.example.a14512.discover.modules.routeplan.view.activity.MapActivity;
+import com.example.a14512.discover.modules.routeplan.view.activity.ScenicActivity;
 import com.example.a14512.discover.utils.LocationUtil;
-import com.example.a14512.discover.utils.PLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -368,12 +367,11 @@ public class AroundActivity extends BaseActivity implements IAroundView {
             if (mScenic != null) {
                 scenics.add(mScenic);
                 scenics.add(scenic);
-                PLog.e(mScenic.name);
-                //TODO 跳转到景点信息后再跳转到地图
-                Intent intent = new Intent(this, MapActivity.class);
+                Intent intent = new Intent(this, ScenicActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(C.SCENIC_DETAIL, scenics);
                 intent.putExtra(C.SCENIC_DETAIL, bundle);
+                intent.putExtra("type", C.SCENIC_TYPE);
                 startActivity(intent);
             }
         });

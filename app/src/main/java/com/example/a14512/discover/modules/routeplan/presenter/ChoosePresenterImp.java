@@ -161,10 +161,11 @@ public class ChoosePresenterImp implements IChoosePresenter {
         double endLat = endScenic.latitude;
         String phone = ACache.getDefault().getAsString(C.ACCOUNT);
         ApiSubscriber<ArrayList<Scenic>> apiSubscriber = new ApiSubscriber<ArrayList<Scenic>>(
-                mContext, true, true) {
+                mContext, false, false) {
             @Override
             public void onNext(ArrayList<Scenic> value) {
                 PLog.e(value.size()+"");
+                mView.dismissDialog();
                 if (!value.isEmpty()) {
                     value.add(0, startScenic);
                     value.add(endScenic);
@@ -175,6 +176,18 @@ public class ChoosePresenterImp implements IChoosePresenter {
                     mView.startActivity(false, personSelect);
                     PLog.e("null");
                 }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                mView.dismissDialog();
+            }
+
+            @Override
+            public void onComplete() {
+                super.onComplete();
+                mView.dismissDialog();
             }
         };
         mModel.getScenic(apiSubscriber, startLng, startLat, endLng, endLat, startPlace, endPlace,

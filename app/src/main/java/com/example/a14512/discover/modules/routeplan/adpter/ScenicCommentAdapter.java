@@ -12,9 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.a14512.discover.R;
-import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.modules.routeplan.mode.entity.ScenicCommentUser;
-import com.example.a14512.discover.utils.PLog;
 
 import java.util.ArrayList;
 
@@ -24,96 +22,41 @@ import java.util.ArrayList;
 
 public class ScenicCommentAdapter extends RecyclerView.Adapter {
     private Context mContext;
-    private int type;
-    private ArrayList<ScenicCommentUser> mUsers = new ArrayList<>();
-    private Scenic mScenic;
+    private ArrayList<ScenicCommentUser> mUsers;
 
-    private OnItemClickListener mOnItemClickListener;
-
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener1) {
-        this.mOnItemClickListener = onItemClickListener1;
-    }
-
-    public ScenicCommentAdapter(Context context, int type) {
+    public ScenicCommentAdapter(Context context) {
         this.mContext = context;
-        this.type = type;
     }
 
-    public void setCommentAdapter(ArrayList<ScenicCommentUser> list) {
-        this.mUsers = list;
-    }
-
-    public void setScenicAdapter(Scenic scenic) {
-        this.mScenic = scenic;
+    public void setCommentAdapter(ArrayList<ScenicCommentUser> users) {
+        this.mUsers = users;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == 1) {
-            View view = LayoutInflater.from(mContext)
-                    .inflate(R.layout.item_recycler_view_scenic_details_comment, parent, false);
-            return new CommentViewHolder(view);
-        } else if (viewType == 0) {
-            View view = LayoutInflater.from(mContext)
-                    .inflate(R.layout.item_recycler_view_scenic_details, parent, false);
-            return new FirstScenicDetailViewHolder(view);
-        }
-        return null;
+        View view = LayoutInflater.from(mContext)
+                .inflate(R.layout.item_recycler_view_scenic_details_comment, parent, false);
+        return new CommentViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof CommentViewHolder) {
-            ScenicCommentUser user = mUsers.get(position-1);
+            ScenicCommentUser user = mUsers.get(position);
             if (user != null) {
                 Glide.with(mContext).load(user.portrait)
                         .error(R.mipmap.default_portrait).into(((CommentViewHolder) holder).portrait);
                 ((CommentViewHolder) holder).name.setText(user.name);
-                PLog.e(user.star);
                 if (user.star != null) {
                     ((CommentViewHolder) holder).mRatingBar.setRating(Integer.valueOf(user.star));
                 }
             }
-        } else if (holder instanceof FirstScenicDetailViewHolder){
-            ((FirstScenicDetailViewHolder) holder).scenicName.setText(mScenic.name);
-            ((FirstScenicDetailViewHolder) holder).workTime.setText(""+mScenic.time);
-            ((FirstScenicDetailViewHolder) holder).about.setText(mScenic.content);
-            ((FirstScenicDetailViewHolder) holder).location.setText(mScenic.location);
-            ((FirstScenicDetailViewHolder) holder).money.setText("人均"+mScenic.peopleAver);
-            ((FirstScenicDetailViewHolder) holder).monthPeople.setText("人气"+mScenic.monthAver);
-            setDefaultText(((FirstScenicDetailViewHolder) holder).attention);
-            if (mOnItemClickListener != null) {
-                ((FirstScenicDetailViewHolder) holder).attention.setOnClickListener(v -> {
-                    mOnItemClickListener.onOnePartyClick(((FirstScenicDetailViewHolder) holder).attention, position);
-                });
-            }
-        }
-    }
-
-    private void setDefaultText(LinearLayout attention) {
-        ImageView img = attention.findViewById(R.id.img_attention);
-        TextView tv = attention.findViewById(R.id.tv_attention);
-        if (type == 1) {
-            img.setVisibility(View.GONE);
-            tv.setText("已关注");
-        } else {
-            img.setVisibility(View.VISIBLE);
-            tv.setText("关注");
-        }
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == 0) {
-            return 0;
-        } else {
-            return 1;
         }
     }
 
     @Override
     public int getItemCount() {
-        return mUsers.size() + 1;
+        return mUsers.size();
     }
 
     public class CommentViewHolder extends RecyclerView.ViewHolder {
@@ -128,22 +71,6 @@ public class ScenicCommentAdapter extends RecyclerView.Adapter {
             name = itemView.findViewById(R.id.tv_scenic_details_comment_name);
             mRatingBar = itemView.findViewById(R.id.rating_bar_scenic_details_comment);
 //            zan = itemView.findViewById(R.id.layout_scenic_details_comment_zan);
-        }
-    }
-
-    public class FirstScenicDetailViewHolder extends RecyclerView.ViewHolder {
-        TextView scenicName, monthPeople, money, location, workTime, about;
-        LinearLayout attention;
-
-        public FirstScenicDetailViewHolder(View itemView) {
-            super(itemView);
-            scenicName = itemView.findViewById(R.id.tv_details_scenic_name);
-            monthPeople = itemView.findViewById(R.id.tv_scenic_details_people);
-            money = itemView.findViewById(R.id.tv_scenic_details_money);
-            attention = itemView.findViewById(R.id.layout_details_attention);
-            location = itemView.findViewById(R.id.tv_scenic_details_location);
-            workTime = itemView.findViewById(R.id.tv_scenic_details_time);
-            about = itemView.findViewById(R.id.tv_scenic_details_about);
         }
     }
 }
