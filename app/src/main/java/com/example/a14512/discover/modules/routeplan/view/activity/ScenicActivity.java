@@ -143,8 +143,6 @@ public class ScenicActivity extends BaseActivity implements IScenicView, View.On
             bundle.putSerializable("scenic", mScenic);
             introduceFragment.setArguments(bundle);
             ticketFragment.setArguments(bundle);
-            consumeFragment.setArguments(bundle);
-            strategyFragment.setArguments(bundle);
         }
     }
 
