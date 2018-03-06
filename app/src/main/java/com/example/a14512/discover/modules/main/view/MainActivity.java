@@ -72,6 +72,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private TextView mSigned;
     private TextView mTemperature;
     private ImageView mWeatherIcon;
+    private ImageView menu;
 
     private SlidingView mSlidingView;
 
@@ -178,12 +179,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         LinearLayout mainLayout = findViewById(R.id.main_layout);
         Toolbar toolbar = findViewById(R.id.toolbar);
         ImageView imgMain1 = findViewById(R.id.img_main1);
-        ImageView menu = findViewById(R.id.main_menu_icon);
+        menu = findViewById(R.id.main_menu_icon);
         LinearLayout imgBtnRoutePlan = findViewById(R.id.layout_route_plan);
         LinearLayout imgBtnAround = findViewById(R.id.layout_around);
         LinearLayout imgBtnShark = findViewById(R.id.layout_shake);
 
         setSupportActionBar(toolbar);
+        Glide.with(this).load(R.drawable.main_img1).priority(Priority.HIGH).into(imgMain1);
         Glide.with(this)
                 .load(R.drawable.main_bg)
                 .into(new SimpleTarget<GlideDrawable>() {
@@ -193,7 +195,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         mainLayout.setBackground(resource);
                     }
                 });
-        Glide.with(this).load(R.drawable.main_img1).into(imgMain1);
         mainLayout.setOnClickListener(this);
 
         mLogin.setOnClickListener(this);
@@ -302,6 +303,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case C.LOGIN:
+                    mPresenter.getUserInfo();
                     mIsLogin = true;
                     isLogin(true);
                     break;
@@ -345,6 +347,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 .bitmapTransform(new CropCircleTransformation(this), new FitCenter(this))
                 .priority(Priority.HIGH)
                 .error(R.mipmap.default_portrait).into(mPortrait);
+        Glide.with(this).load(userInfo.portrait)
+                .bitmapTransform(new CropCircleTransformation(this), new FitCenter(this))
+                .priority(Priority.HIGH)
+                .error(R.mipmap.default_portrait).into(menu);
         /*Glide.with(this)
                 .load(R.mipmap.center_bg)
                 .into(new SimpleTarget<GlideDrawable>() {
@@ -353,7 +359,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         userLoginLayout.setBackgroundResource(R.mipmap.center_bg);
                     }
                 });*/
-        if (userInfo.name.isEmpty()) {
+        if (userInfo.name == null) {
             mName.setText("用户");
         } else {
             mName.setText(userInfo.name);

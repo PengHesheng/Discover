@@ -1,5 +1,6 @@
 package com.example.a14512.discover.modules.main.userself.settings.view;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -67,12 +68,13 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         loginOut.setOnClickListener(this);
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.layout_setting_advice:
                 popupWindowAdvice();
-                mPopupWindow.showAsDropDown(v);
+                mPopupWindow.showAsDropDown(v, 0, 0, Gravity.CENTER_HORIZONTAL);
                 break;
             case R.id.layout_setting_about:
                 popupWindowAbout();

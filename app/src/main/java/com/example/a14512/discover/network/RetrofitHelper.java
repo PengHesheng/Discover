@@ -5,8 +5,10 @@ import com.example.a14512.discover.DiscoverApplication;
 import com.example.a14512.discover.modules.login.mode.RegisterData;
 import com.example.a14512.discover.modules.main.mode.entity.UserInfo;
 import com.example.a14512.discover.modules.main.userself.myroute.mode.entity.MyRoute;
+import com.example.a14512.discover.modules.routeplan.mode.entity.ConsumeMode;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.modules.routeplan.mode.entity.ScenicCommentUser;
+import com.example.a14512.discover.modules.routeplan.mode.entity.StrategyMode;
 import com.example.a14512.discover.network.RxUtil.SchedulerTransformer;
 import com.example.a14512.discover.network.RxUtil.interceptor.HttpResponseFunc;
 import com.example.a14512.discover.network.RxUtil.interceptor.ServiceResponseFun;
@@ -256,5 +258,19 @@ public class RetrofitHelper {
                 .onErrorResumeNext(new HttpResponseFunc<>())
                 .map(new ServiceResponseFun<>());
    }
+
+   public Observable<ArrayList<ConsumeMode>> getConsume(String placeName) {
+        return apiService.getConsume(placeName)
+                .compose(SchedulerTransformer.transformer())
+                .onErrorResumeNext(new HttpResponseFunc<>())
+                .map(new ServiceResponseFun<>());
+   }
+
+    public Observable<ArrayList<StrategyMode>> getStrategy(String placeName) {
+        return apiService.getStrategy(placeName)
+                .compose(SchedulerTransformer.transformer())
+                .onErrorResumeNext(new HttpResponseFunc<>())
+                .map(new ServiceResponseFun<>());
+    }
 
 }

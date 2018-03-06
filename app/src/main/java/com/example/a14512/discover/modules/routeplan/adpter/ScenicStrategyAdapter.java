@@ -40,7 +40,7 @@ public class ScenicStrategyAdapter extends RecyclerView.Adapter {
             StrategyMode strategyMode = mStrategyModes.get(position);
             if (strategyMode != null) {
                 ((StrategyViewHolder) holder).name.setText(strategyMode.name);
-                Glide.with(mContext).load(strategyMode.img).error(R.mipmap.ic_launcher)
+                Glide.with(mContext).load(strategyMode.img).error(R.mipmap.ic_launch)
                         .into(((StrategyViewHolder) holder).img);
                 ((StrategyViewHolder) holder).score.setText(strategyMode.comment);
                 ((StrategyViewHolder) holder).way.setText(strategyMode.way);

@@ -3,7 +3,9 @@ package com.example.a14512.discover.modules.welcome;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
@@ -21,6 +23,7 @@ public class WelcomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setDecorView();
         setContentView(R.layout.activity_welcome);
+        initView();
         //启动页
         new Handler().postDelayed(this::justVersion, 2000);
     }
@@ -40,4 +43,9 @@ public class WelcomeActivity extends BaseActivity {
         }
     }
 
+    private void initView() {
+        ImageView imgLaunch = findViewById(R.id.img_launch);
+
+        Glide.with(this).load(R.drawable.launch).into(imgLaunch);
+    }
 }

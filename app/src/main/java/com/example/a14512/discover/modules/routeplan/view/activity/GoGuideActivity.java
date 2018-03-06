@@ -28,10 +28,13 @@ import com.baidu.mapapi.bikenavi.adapter.IBRoutePlanListener;
 import com.baidu.mapapi.bikenavi.model.BikeRoutePlanError;
 import com.baidu.mapapi.bikenavi.params.BikeNaviLaunchParam;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.route.BikingRouteLine;
@@ -129,8 +132,8 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_go_guide);
-        getData();
         initView();
+        getData();
         initToolbar();
         getLocation();
         searchResult();
@@ -434,12 +437,22 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
         mLatLngs = new ArrayList<>();
         mScenics = (ArrayList<Scenic>) getIntent().getBundleExtra(C.SCENIC_DETAIL).getSerializable(C.SCENIC_DETAIL);
         type = getIntent().getIntExtra("type", 1);
-        for (Scenic scenic : mScenics) {
+        assert mScenics != null;
+        ArrayList<OverlayOptions> optionsArrayList = new ArrayList<>();
+        for (int i = 0; i < mScenics.size(); i++) {
+            Scenic scenic = mScenics.get(i);
             LatLng latLng = new LatLng(scenic.latitude, scenic.longitude);
             mPlanNodes.add(PlanNode.withLocation(latLng));
             mLatLngs.add(latLng);
             sumPay += scenic.peopleAver;
+            if (i != 0 && i != mScenics.size() -1) {
+                OverlayOptions options = new MarkerOptions()
+                        .position(latLng)
+                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.location_icon));
+                optionsArrayList.add(options);
+            }
         }
+        mBaiduMap.addOverlays(optionsArrayList);
     }
 
     /**
@@ -777,7 +790,7 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
                         guideType++;
                         ToastUtil.show(this, "点击出去进入下一个导航");
                     } else if (guideType == mScenics.size() - 1){
-                        mPresenter.endRoute(mScenics.get(0) + "-" + mScenics.get(mScenics.size() - 1));
+                        mPresenter.endRoute(mScenics.get(0).name + "-" + mScenics.get(mScenics.size() - 1).name);
                     }
                     break;
                 default:
@@ -788,7 +801,7 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public String getRouteName() {
-        return mScenics.get(0) + "-" + mScenics.get(mScenics.size() - 1);
+        return mScenics.get(0).name + "-" + mScenics.get(mScenics.size() - 1).name;
     }
 
     @Override

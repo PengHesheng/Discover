@@ -44,7 +44,7 @@ public class ScenicConsumeAdapter extends RecyclerView.Adapter {
                 ((ConsumeViewHolder) holder).name.setText(consumeMode.name);
                 ((ConsumeViewHolder) holder).content.setText(consumeMode.content);
                 ((ConsumeViewHolder) holder).category.setText(consumeMode.category);
-                ((ConsumeViewHolder) holder).money.setText(String.valueOf(consumeMode.money));
+                ((ConsumeViewHolder) holder).money.setText(consumeMode.money);
             }
         }
     }

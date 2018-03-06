@@ -63,8 +63,10 @@ public class RoutePlanAdapter extends RecyclerView.Adapter {
                 ((ScenicViewHolder) holder).monthAver.setText("人气" + scenic.monthAver);
                 ((ScenicViewHolder) holder).peopleAver.setText("人均" + scenic.peopleAver);
                 ((ScenicViewHolder) holder).place.setText(scenic.location);
-                Glide.with(mContext).load(scenic.img.replaceAll("\\\\", ""))
-                        .error(R.mipmap.ic_launcher).into(((ScenicViewHolder) holder).img);
+                if (scenic.img != null) {
+                    Glide.with(mContext).load(scenic.img.replaceAll("\\\\", ""))
+                            .error(R.mipmap.ic_launch).into(((ScenicViewHolder) holder).img);
+                }
             }
             //如果设置了回调，则设置点击事件
             if (mOnItemClickListener != null) {
@@ -120,6 +122,5 @@ public class RoutePlanAdapter extends RecyclerView.Adapter {
     public ArrayList<Scenic> getScenics() {
         return this.mScenics;
     }
-
 
 }

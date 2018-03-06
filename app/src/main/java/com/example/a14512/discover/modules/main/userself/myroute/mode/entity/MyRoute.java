@@ -12,25 +12,25 @@ import java.util.ArrayList;
 
 public class MyRoute implements Serializable {
 
-
     /**
-     * route_time : 2016235
-     * route_name : 呵呵
-     * routeInformation : [hhoih.45]
-     * all_coast : 5888
-     * all_distance : 5544
+     * route_time : 0
+     * route_name : com.example.a14512.discover.modules.routeplan.mode.entity.Scenic@7c6d54c-com.example.a14512.discover.modules.routeplan.mode.entity.Scenic@96e2995
+     * routeInformation : [{"place_name":"我的位置","place_time":0,"place_popularity":0,"place_price":0,"place_lat":29.537006,"place_lng":106.6165,"times":"-2"},{"place_photo":"http:\\/\\/hiphotos.bdimg.com\\/lvpics\\/pic\\/item\\/d833c895d143ad4bc54dab8982025aafa40f0613.jpg","place_name":"洋人街游乐场","place_time":64,"place_popularity":48,"place_price":48,"place_introduce":"游乐园 亲子好去处","place_lat":34.326984,"place_lng":118.678375,"times":"1"},{"place_photo":"http:\\/\\/hiphotos.bdimg.com\\/lvpics\\/pic\\/item\\/4afbfbedab64034f092474d6aec379310b551d70.jpg","place_name":"儿童乐园","place_time":61,"place_popularity":40,"place_price":40,"place_introduce":"游乐园","place_lat":34.22016,"place_lng":118.57085,"times":"1"},{"place_name":"观音桥","place_time":0,"place_popularity":0,"place_price":0,"place_lat":29.478386,"place_lng":106.06864,"times":"2"}]
+     * all_coast : 88
+     * all_distance : 3284
      * route_found : 1
-     * place_number : 455
+     * place_number : 2
      */
 
-    public boolean isComment = false;
     private String route_time;
     private String route_name;
-    private ArrayList<Scenic> routeInformation;
     private int all_coast;
     private int all_distance;
     private int route_found;
     private String place_number;
+    private ArrayList<Scenic> routeInformation;
+
+    public boolean isComment = false;
 
     public static MyRoute objectFromData(String str) {
 
@@ -51,14 +51,6 @@ public class MyRoute implements Serializable {
 
     public void setRoute_name(String route_name) {
         this.route_name = route_name;
-    }
-
-    public ArrayList<Scenic> getRouteInformation() {
-        return routeInformation;
-    }
-
-    public void setRouteInformation(ArrayList<Scenic> routeInformation) {
-        this.routeInformation = routeInformation;
     }
 
     public int getAll_coast() {
@@ -92,4 +84,13 @@ public class MyRoute implements Serializable {
     public void setPlace_number(String place_number) {
         this.place_number = place_number;
     }
+
+    public ArrayList<Scenic> getRouteInformation() {
+        return routeInformation;
+    }
+
+    public void setRouteInformation(ArrayList<Scenic> routeInformation) {
+        this.routeInformation = routeInformation;
+    }
+
 }

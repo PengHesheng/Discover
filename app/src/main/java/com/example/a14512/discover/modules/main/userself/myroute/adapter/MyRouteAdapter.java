@@ -17,6 +17,7 @@ import com.example.a14512.discover.modules.main.userself.myroute.mode.entity.MyR
 import com.example.a14512.discover.modules.main.userself.myroute.view.CommentScenicActivity;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.modules.routeplan.view.activity.MapActivity;
+import com.example.a14512.discover.utils.Time;
 import com.example.a14512.discover.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -51,14 +52,15 @@ public class MyRouteAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyRouteViewHolder) {
             MyRoute myRoute = mMyRoutes.get(position);
-            String startToEnd = myRoute.getRoute_name();
-            String start = startToEnd.substring(0, startToEnd.indexOf("-"));
-            String end = startToEnd.substring(startToEnd.indexOf("-") + 1, startToEnd.length());
+            ArrayList<Scenic> scenics = myRoute.getRouteInformation();
+            assert scenics != null;
+            String start = scenics.get(0).name;
+            String end = scenics.get(scenics.size() - 1).name;
             ((MyRouteViewHolder) holder).start.setText(start);
             ((MyRouteViewHolder) holder).end.setText(end);
             ((MyRouteViewHolder) holder).pay.setText(String.valueOf(myRoute.getAll_coast()) + "元");
             ((MyRouteViewHolder) holder).path.setText(String.valueOf(myRoute.getAll_distance()) + "km");
-            ((MyRouteViewHolder) holder).saveTime.setText(myRoute.getRoute_time());
+            ((MyRouteViewHolder) holder).saveTime.setText(Time.getNowYMD());
             ((MyRouteViewHolder) holder).mLayout.setOnClickListener(v -> startActivity(myRoute));
         }
     }

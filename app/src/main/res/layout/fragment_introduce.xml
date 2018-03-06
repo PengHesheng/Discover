@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="15dp"
-        android:background="#f1f8f0"
         android:textSize="14sp"
         android:textColor="#868686"
         tools:text="胖子爱上了螃蟹——2008年5月浙江海盐，两位胖子为胖子兄弟有了第一次亲密接触..." />

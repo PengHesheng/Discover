@@ -18,8 +18,10 @@ import com.example.a14512.discover.C;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.routeplan.adpter.ViewPagerAdapter;
+import com.example.a14512.discover.modules.routeplan.mode.entity.ConsumeMode;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.modules.routeplan.mode.entity.ScenicCommentUser;
+import com.example.a14512.discover.modules.routeplan.mode.entity.StrategyMode;
 import com.example.a14512.discover.modules.routeplan.presenter.ScenicPresenterImp;
 import com.example.a14512.discover.modules.routeplan.view.fragment.CommentFragment;
 import com.example.a14512.discover.modules.routeplan.view.fragment.ConsumeFragment;
@@ -80,7 +82,7 @@ public class ScenicActivity extends BaseActivity implements IScenicView, View.On
     private void initTabLayout() {
         TAB_TITLE.add("简介");
         TAB_TITLE.add("购票");
-        TAB_TITLE.add("消费");
+        TAB_TITLE.add("旅购");
         TAB_TITLE.add("攻略");
         TAB_TITLE.add("评价");
         introduceFragment = new IntroduceFragment();
@@ -127,7 +129,10 @@ public class ScenicActivity extends BaseActivity implements IScenicView, View.On
         }
         if (mScenic != null) {
             mPresenter.getData(mScenic.name);
-            Glide.with(this).load(mScenic.img.replaceAll("\\\\", "")).error(R.mipmap.ic_launcher_round).into(imgScenic);
+            if (mScenic.img != null) {
+                Glide.with(this).load(mScenic.img.replaceAll("\\\\", ""))
+                        .error(R.mipmap.ic_launch).into(imgScenic);
+            }
             scenicName.setText(mScenic.name);
             scenicMonthAver.setText("人气" + mScenic.monthAver);
             scenicPeopleAver.setText("人均" + mScenic.peopleAver);
@@ -181,11 +186,26 @@ public class ScenicActivity extends BaseActivity implements IScenicView, View.On
     }
 
     @Override
-    public void setAdapter(ArrayList<ScenicCommentUser> users) {
+    public void setCommentAdapter(ArrayList<ScenicCommentUser> users) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("comment_users", users);
         commentFragment.setArguments(bundle);
     }
+
+    @Override
+    public void setConsumeAdapter(ArrayList<ConsumeMode> consumeModes) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("consume", consumeModes);
+        consumeFragment.setArguments(bundle);
+    }
+
+    @Override
+    public void setStrategyAdapter(ArrayList<StrategyMode> strategyModes) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("strategy", strategyModes);
+        strategyFragment.setArguments(bundle);
+    }
+
 
     @Override
     public void isFollow(int result) {

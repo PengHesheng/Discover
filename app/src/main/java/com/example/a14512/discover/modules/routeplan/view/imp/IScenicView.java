@@ -1,6 +1,8 @@
 package com.example.a14512.discover.modules.routeplan.view.imp;
 
+import com.example.a14512.discover.modules.routeplan.mode.entity.ConsumeMode;
 import com.example.a14512.discover.modules.routeplan.mode.entity.ScenicCommentUser;
+import com.example.a14512.discover.modules.routeplan.mode.entity.StrategyMode;
 
 import java.util.ArrayList;
 
@@ -11,9 +13,22 @@ import java.util.ArrayList;
 public interface IScenicView {
 
     /**
+     * 评分
      * @param users
      */
-    void setAdapter(ArrayList<ScenicCommentUser> users);
+    void setCommentAdapter(ArrayList<ScenicCommentUser> users);
+
+    /**
+     * 旅行购物
+     * @param consumeModes
+     */
+    void setConsumeAdapter(ArrayList<ConsumeMode> consumeModes);
+
+    /**
+     * 攻略
+     * @param strategyModes
+     */
+    void setStrategyAdapter(ArrayList<StrategyMode> strategyModes);
 
     /**
      * 是否关注成功

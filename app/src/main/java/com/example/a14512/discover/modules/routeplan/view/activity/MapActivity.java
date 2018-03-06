@@ -16,9 +16,12 @@ import android.widget.TextView;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.route.BikingRouteLine;
@@ -81,7 +84,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
     private Map<String, List<TransitRouteLine.TransitStep>> mBusMap;
     private List<String> mNodes;
     private ExpandableListAdapter adapter;
-    private int position = 0, type = 1;
+    private int position = 0, type = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +104,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onReceiveLocation(BDLocation location) {
                 toastError(location.getLocType());
-                routePlanBus();
+                routePlanCar();
                 MyLocationData locData = new MyLocationData.Builder()
                         .accuracy(location.getRadius())
                         // 此处设置开发者获取到的方向信息，顺时针0-360
@@ -140,12 +143,23 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                 .getBundleExtra(C.SCENIC_DETAIL).getSerializable(C.SCENIC_DETAIL);
         if (mScenics != null) {
             mPlace.setText(mScenics.get(0).name + "——" + mScenics.get(mScenics.size() - 1).name);
-            for (Scenic scenic : mScenics) {
+            ArrayList<OverlayOptions> optionsArrayList = new ArrayList<>();
+            for (int i = 0; i < mScenics.size(); i++) {
+                Scenic scenic = mScenics.get(i);
                 mNodes.add(scenic.name);
                 PlanNode planNode = PlanNode.withLocation(new LatLng(scenic.latitude, scenic.longitude));
                 mPlanNodes.add(planNode);
+                if (i != 0 && i != mScenics.size() -1) {
+                    LatLng latLng = new LatLng(scenic.latitude, scenic.longitude);
+                    OverlayOptions options = new MarkerOptions()
+                            .position(latLng)
+                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.location_icon));
+                    optionsArrayList.add(options);
+                }
             }
+            mBaiduMap.addOverlays(optionsArrayList);
         }
+
     }
 
     private void searchResult() {

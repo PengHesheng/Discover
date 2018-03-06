@@ -8,8 +8,9 @@
     tools:context=".modules.welcome.WelcomeActivity">
 
     <ImageView
+        android:id="@+id/img_launch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/launch"/>
+        tools:src="@drawable/launch"/>
 </LinearLayout>

@@ -96,8 +96,7 @@
                 android:id="@+id/tv_details_scenic_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="3dp"
-                android:paddingStart="3dp"
+                android:padding="10dp"
                 android:textColor="#545555"
                 android:textSize="18sp"
                 tools:ignore="RtlSymmetry"
@@ -106,7 +105,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -117,7 +115,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="7dp"
                     android:layout_marginStart="10dp"
-                    android:src="@mipmap/popularity" />
+                    android:src="@mipmap/popularity"
+                    tools:ignore="RtlHardcoded" />
 
                 <TextView
                     android:id="@+id/tv_scenic_details_people"
@@ -133,7 +132,8 @@
                     android:layout_height="15dp"
                     android:layout_marginLeft="50dp"
                     android:layout_marginStart="50dp"
-                    android:src="@mipmap/money_detail" />
+                    android:src="@mipmap/money_detail"
+                    tools:ignore="RtlHardcoded" />
 
                 <TextView
                     android:id="@+id/tv_scenic_details_money"
@@ -143,7 +143,8 @@
                     android:layout_marginStart="7dp"
                     android:textColor="#8b8d8d"
                     android:textSize="12sp"
-                    tools:text="人均70" />
+                    tools:text="人均70"
+                    tools:ignore="RtlHardcoded" />
 
                 <LinearLayout
                     android:id="@+id/layout_details_attention"
@@ -152,7 +153,8 @@
                     android:layout_marginLeft="90dp"
                     android:layout_marginStart="90dp"
                     android:background="@drawable/layout_bg_red"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    tools:ignore="RtlHardcoded">
 
                     <ImageView
                         android:id="@+id/img_attention"
@@ -179,7 +181,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#f1f8f0"
+            android:background="#ffffff"
             android:padding="5dp"
             android:layout_marginTop="12dp"
             android:layout_marginLeft="10dp"
@@ -199,7 +201,8 @@
                 tools:text="地址：江南大道南坪万达广场新馆2楼B栋5楼23号店美甲旁"
                 android:textSize="14sp"
                 android:textColor="#868686"
-                android:layout_marginStart="7dp" />
+                android:layout_marginStart="7dp"
+                tools:ignore="RtlHardcoded" />
         </LinearLayout>
 
         <LinearLayout
@@ -207,7 +210,7 @@
             android:layout_height="27dp"
             android:orientation="horizontal"
             android:layout_marginTop="2dp"
-            android:background="#f1f8f0"
+            android:background="#ffffff"
             android:padding="5dp"
             android:gravity="center_vertical"
             android:layout_marginLeft="10dp"

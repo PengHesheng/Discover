@@ -12,7 +12,7 @@
         android:layout_height="225dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/img_head_portrait"
@@ -32,20 +32,25 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="15dp"
-                android:layout_height="15dp" />
+                android:layout_height="15dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/edit_pen"/>
 
             <TextView
                 android:id="@+id/tv_head_signed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
                 android:textColor="#ffffff"
-                tools:text="你从哪里来？将要去哪里？" />
+                android:gravity="center"
+                tools:text="你从哪里来？将要去哪里？"
+                android:layout_marginStart="5dp" />
         </LinearLayout>
 
     </LinearLayout>

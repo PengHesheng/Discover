@@ -8,10 +8,9 @@ import com.example.a14512.discover.modules.routeplan.presenter.imp.IAllRoutePres
 import com.example.a14512.discover.modules.routeplan.view.imp.IGoGuideView;
 import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 import com.example.a14512.discover.utils.ACache;
+import com.example.a14512.discover.utils.PLog;
 import com.example.a14512.discover.utils.Time;
 import com.example.a14512.discover.utils.ToastUtil;
-
-import java.net.URLEncoder;
 
 /**
  * @author 14512 on 2018/3/2
@@ -41,6 +40,7 @@ public class GoGuidePresenterImp implements IAllRoutePresenter {
         int coast = mView.getAllCoast();
         int routeTime = mView.getRouteTime();
         String saveTime = Time.getNowYMD();
+        PLog.e(routeName);
         ApiSubscriber<String> apiSubscriber = new ApiSubscriber<String>(mContext, true,
                 true, "正在保存路线...") {
             @Override
@@ -53,7 +53,7 @@ public class GoGuidePresenterImp implements IAllRoutePresenter {
             }
         };
         mMode.addMyRoute(apiSubscriber, routeName, placeNum, distance,
-                coast, routeTime, phone, URLEncoder.encode(information));
+                coast, routeTime, phone, information);
     }
 
     @Override

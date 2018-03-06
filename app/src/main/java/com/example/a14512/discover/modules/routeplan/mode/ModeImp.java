@@ -1,7 +1,9 @@
 package com.example.a14512.discover.modules.routeplan.mode;
 
+import com.example.a14512.discover.modules.routeplan.mode.entity.ConsumeMode;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.modules.routeplan.mode.entity.ScenicCommentUser;
+import com.example.a14512.discover.modules.routeplan.mode.entity.StrategyMode;
 import com.example.a14512.discover.network.RetrofitHelper;
 import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 
@@ -45,6 +47,14 @@ public class ModeImp {
 
     public void endRoute(ApiSubscriber<Integer> apiSubscriber, String phone, String routeName) {
         RetrofitHelper.getInstance().endRoute(phone, routeName).subscribe(apiSubscriber);
+    }
+
+    public void getConsume(ApiSubscriber<ArrayList<ConsumeMode>> apiSubscriber, String place) {
+        RetrofitHelper.getInstance().getConsume(place).subscribe(apiSubscriber);
+    }
+
+    public void getStrategy(ApiSubscriber<ArrayList<StrategyMode>> apiSubscriber, String place) {
+        RetrofitHelper.getInstance().getStrategy(place).subscribe(apiSubscriber);
     }
 
 }

@@ -38,20 +38,12 @@ public class ConsumeFragment extends BaseFragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        initData();
-        ScenicConsumeAdapter adapter = new ScenicConsumeAdapter(mConsumeModes);
-        mRecyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-    }
-
-    private void initData() {
-        for (int i = 0; i < 5; i++) {
-            ConsumeMode consumeMode = new ConsumeMode();
-            consumeMode.name = "潘哥两" + i;
-            consumeMode.content = "很好的美食" + i;
-            consumeMode.category = "一类， 两类 " + i;
-            consumeMode.money = 10 + i;
-            mConsumeModes.add(consumeMode);
+        if (getArguments() != null) {
+            mConsumeModes = (ArrayList<ConsumeMode>) getArguments().getSerializable("consume");
+            assert mConsumeModes != null;
+            ScenicConsumeAdapter adapter = new ScenicConsumeAdapter(mConsumeModes);
+            mRecyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
     }
 

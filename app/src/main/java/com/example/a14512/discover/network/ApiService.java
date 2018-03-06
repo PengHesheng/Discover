@@ -5,12 +5,16 @@ import com.example.a14512.discover.modules.login.mode.RegisterData;
 import com.example.a14512.discover.modules.main.mode.entity.UserInfo;
 import com.example.a14512.discover.modules.main.mode.entity.WeatherData;
 import com.example.a14512.discover.modules.main.userself.myroute.mode.entity.MyRoute;
+import com.example.a14512.discover.modules.routeplan.mode.entity.ConsumeMode;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.modules.routeplan.mode.entity.ScenicCommentUser;
+import com.example.a14512.discover.modules.routeplan.mode.entity.StrategyMode;
 
 import java.util.ArrayList;
 
 import io.reactivex.Observable;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -225,14 +229,15 @@ public interface ApiService {
      * @param information
      * @return
      */
-    @GET("RouteResultServlet")
-    Observable<Result<String>> addMyRoute(@Query("routeName") String routeName,
-                                          @Query("placeNumber") int placeNum,
-                                          @Query("allDistance") int distance,
-                                          @Query("allCoast") int coast,
-                                          @Query("routeTime") int routeTime,
-                                          @Query("userPhone") String phone,
-                                          @Query("routeInformation") String information);
+    @FormUrlEncoded
+    @POST("RouteResultServlet")
+    Observable<Result<String>> addMyRoute(@Field("routeName") String routeName,
+                                          @Field("placeNumber") int placeNum,
+                                          @Field("allDistance") int distance,
+                                          @Field("allCoast") int coast,
+                                          @Field("routeTime") int routeTime,
+                                          @Field("userPhone") String phone,
+                                          @Field("routeInformation") String information);
 
     /**
      * 结束路线
@@ -269,4 +274,14 @@ public interface ApiService {
     @GET("AroundingServlet")
     Observable<Result<ArrayList<Scenic>>> getAroundScenic();
 
+    /**
+     * 获取旅行购物信息
+     * @param placeName
+     * @return
+     */
+    @GET("TravelCoastServlet")
+    Observable<Result<ArrayList<ConsumeMode>>> getConsume(@Query("placeName") String placeName);
+
+    @GET("StrategyServlet")
+    Observable<Result<ArrayList<StrategyMode>>> getStrategy(@Query("placeName") String placeName);
 }

@@ -4,12 +4,13 @@ import android.content.Context;
 
 import com.example.a14512.discover.C;
 import com.example.a14512.discover.modules.routeplan.mode.ModeImp;
+import com.example.a14512.discover.modules.routeplan.mode.entity.ConsumeMode;
 import com.example.a14512.discover.modules.routeplan.mode.entity.ScenicCommentUser;
+import com.example.a14512.discover.modules.routeplan.mode.entity.StrategyMode;
 import com.example.a14512.discover.modules.routeplan.presenter.imp.IScenicPresenter;
 import com.example.a14512.discover.modules.routeplan.view.imp.IScenicView;
 import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 import com.example.a14512.discover.utils.ACache;
-import com.example.a14512.discover.utils.PLog;
 
 import java.util.ArrayList;
 
@@ -35,11 +36,33 @@ public class ScenicPresenterImp implements IScenicPresenter {
             @Override
             public void onNext(ArrayList<ScenicCommentUser> value) {
                 if (value != null) {
-                    mView.setAdapter(value);
+                    mView.setCommentAdapter(value);
                 }
             }
         };
         mModeImp.getCommentUser(apiSubscriber, place);
+
+        ApiSubscriber<ArrayList<ConsumeMode>> apiSubscriber1 =
+                new ApiSubscriber<ArrayList<ConsumeMode>>(mContext, false, false) {
+            @Override
+            public void onNext(ArrayList<ConsumeMode> value) {
+                if (value != null) {
+                    mView.setConsumeAdapter(value);
+                }
+            }
+        };
+        mModeImp.getConsume(apiSubscriber1, place);
+
+        ApiSubscriber<ArrayList<StrategyMode>> apiSubscriber2 =
+                new ApiSubscriber<ArrayList<StrategyMode>>(mContext, false, false) {
+            @Override
+            public void onNext(ArrayList<StrategyMode> value) {
+                if (value != null) {
+                    mView.setStrategyAdapter(value);
+                }
+            }
+        };
+        mModeImp.getStrategy(apiSubscriber2, place);
     }
 
     @Override

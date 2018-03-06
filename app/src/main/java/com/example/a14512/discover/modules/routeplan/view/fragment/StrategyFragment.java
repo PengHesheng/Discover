@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseFragment;
 import com.example.a14512.discover.modules.routeplan.adpter.ScenicStrategyAdapter;
-import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.modules.routeplan.mode.entity.StrategyMode;
 
 import java.util.ArrayList;
@@ -22,9 +21,6 @@ import java.util.ArrayList;
 
 public class StrategyFragment extends BaseFragment {
 
-    private RecyclerView mRecyclerView;
-    private ArrayList<StrategyMode> mStrategyModes = new ArrayList<>();
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,27 +30,18 @@ public class StrategyFragment extends BaseFragment {
     }
 
     private void initView(View view) {
-        mRecyclerView = view.findViewById(R.id.strategy_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.strategy_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(layoutManager);
 
-        Scenic scenic = (Scenic) getArguments().getSerializable("scenic");
-        assert scenic != null;
-
-        initData();
-        ScenicStrategyAdapter adapter = new ScenicStrategyAdapter(mStrategyModes);
-        mRecyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-    }
-
-    private void initData() {
-        for (int i = 0; i < 5; i++) {
-            StrategyMode strategyMode = new StrategyMode();
-            strategyMode.name = "潘哥两" + i;
-            strategyMode.comment = "味道很不错" + i;
-            strategyMode.way = "乘坐轻轨1" + i + "分钟到达";
-            mStrategyModes.add(strategyMode);
+        if (getArguments() != null) {
+            ArrayList<StrategyMode> strategyModes = (ArrayList<StrategyMode>) getArguments()
+                    .getSerializable("strategy");
+            assert strategyModes != null;
+            ScenicStrategyAdapter adapter = new ScenicStrategyAdapter(strategyModes);
+            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
     }
 
