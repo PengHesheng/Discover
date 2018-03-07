@@ -23,6 +23,7 @@
         app:tabTextColor="#414141">
 
         <android.support.design.widget.TabItem
+            android:id="@+id/tabItem1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tab_collect_route" />

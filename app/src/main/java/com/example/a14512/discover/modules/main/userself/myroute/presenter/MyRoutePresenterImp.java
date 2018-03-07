@@ -45,7 +45,7 @@ public class MyRoutePresenterImp implements IMyRoutePresenter {
     }
 
     @Override
-    public void getMtRoute() {
+    public void getMtRoute(int type) {
         String phone = ACache.getDefault().getAsString(C.ACCOUNT);
         ApiSubscriber<ArrayList<MyRoute>> apiSubscriber = new ApiSubscriber<ArrayList<MyRoute>>(
                 mContext, true, true) {
@@ -53,7 +53,7 @@ public class MyRoutePresenterImp implements IMyRoutePresenter {
             public void onNext(ArrayList<MyRoute> value) {
                 if (!value.isEmpty()) {
                     PLog.e(value.get(0).getRoute_name());
-                    chooseMyRoute(value);
+                    chooseMyRoute(value, type);
                 }
             }
         };
@@ -69,7 +69,7 @@ public class MyRoutePresenterImp implements IMyRoutePresenter {
         return myRoutes != null || historicRoutes != null;
     }
 
-    private void chooseMyRoute(ArrayList<MyRoute> routes) {
+    private void chooseMyRoute(ArrayList<MyRoute> routes, int type) {
         ArrayList<MyRoute> historicRoutes = new ArrayList<>();
         ArrayList<MyRoute> collectRoutes = new ArrayList<>();
         for (MyRoute myRoute : routes) {
@@ -81,7 +81,10 @@ public class MyRoutePresenterImp implements IMyRoutePresenter {
         }
         ACache.getDefault().put("my_historic", historicRoutes);
         ACache.getDefault().put("my_collect", collectRoutes);
-        mView.setMyCollect(collectRoutes);
-//        mView.setHistoricRoute(historicRoutes);
+        if (type == 0) {
+            mView.setMyCollect(collectRoutes);
+        } else {
+            mView.setHistoricRoute(historicRoutes);
+        }
     }
 }

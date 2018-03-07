@@ -33,6 +33,8 @@ public class MyRouteActivity extends BaseActivity implements IMyRouteView {
     private MyRoutePresenterImp mPresenter;
     private MyRouteAdapter mAdapter;
 
+    private int type = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +51,7 @@ public class MyRouteActivity extends BaseActivity implements IMyRouteView {
         mAdapter = new MyRouteAdapter(this);
         mPresenter = new MyRoutePresenterImp(this, this);
         if (!mPresenter.isACache()) {
-            mPresenter.getMtRoute();
+            mPresenter.getMtRoute(type);
         } else {
             mPresenter.getMyCollectFromACache();
         }
@@ -59,9 +61,11 @@ public class MyRouteActivity extends BaseActivity implements IMyRouteView {
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0:
+                        type = 0;
                         mPresenter.getMyCollectFromACache();
                         break;
                     case 1:
+                        type = 1;
                         mPresenter.getHistoricRouteFromACache();
                         break;
                     default:
@@ -80,7 +84,7 @@ public class MyRouteActivity extends BaseActivity implements IMyRouteView {
             }
         });
         mRefreshLayout.setOnRefreshListener(() -> {
-            mPresenter.getMtRoute();
+            mPresenter.getMtRoute(type);
             mRefreshLayout.setRefreshing(false);
         });
     }

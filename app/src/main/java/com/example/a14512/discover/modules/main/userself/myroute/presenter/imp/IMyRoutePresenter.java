@@ -18,8 +18,9 @@ public interface IMyRoutePresenter {
 
     /**
      * 获取我的路线
+     * @param type
      */
-    void getMtRoute();
+    void getMtRoute(int type);
 
     /**
      * @return

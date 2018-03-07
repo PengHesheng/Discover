@@ -44,7 +44,7 @@ public class RoutePlanActivity extends BaseActivity implements IRoutePlanView, V
 
     private RoutePlanPresenterImp mPresenter;
 
-    private int personSelect;
+    private int personSelect, morningSize, afternoonSize, eveningSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,12 +129,15 @@ public class RoutePlanActivity extends BaseActivity implements IRoutePlanView, V
         switch (category) {
             case C.MORNING:
                 setMorningAdapter(scenics);
+                morningSize = scenics.size();
                 break;
             case C.AFTERNOON:
                 setAfternoonAdapter(scenics);
+                afternoonSize = scenics.size();
                 break;
             case C.EVENING:
                 setEveningAdapter(scenics);
+                eveningSize = scenics.size();
                 break;
             default:
                 break;
@@ -164,9 +167,12 @@ public class RoutePlanActivity extends BaseActivity implements IRoutePlanView, V
         mMorningAdapter.notifyDataSetChanged();
         mMorningRecyclerView.setAdapter(mMorningAdapter);
         mMorningAdapter.setOnItemClickListener((view, position) -> {
-            if (position == arrayList.size() - 1) {
+            if (position == 0) {
                 mPresenter.deleteOneData(C.MORNING, arrayList.get(position).name, position,
-                        arrayList.get(position - 1).name, null, personSelect);
+                        arrayList.get(position).name, arrayList.get(position).name, personSelect);
+            } else if (afternoonSize == 0 && eveningSize == 0 && position == arrayList.size() - 1){
+                mPresenter.deleteOneData(C.MORNING, arrayList.get(position).name, position,
+                        arrayList.get(position - 1).name, arrayList.get(position - 1).name, personSelect);
             } else {
                 mPresenter.deleteOneData(C.MORNING, arrayList.get(position).name, position,
                         arrayList.get(position - 1).name, arrayList.get(position + 1).name, personSelect);
@@ -180,9 +186,12 @@ public class RoutePlanActivity extends BaseActivity implements IRoutePlanView, V
         mAfternoonAdapter.notifyDataSetChanged();
         mAfternoonRecyclerView.setAdapter(mAfternoonAdapter);
         mAfternoonAdapter.setOnItemClickListener((view, position) -> {
-            if (position == arrayList.size() - 1) {
+            if (morningSize == 0 && position == 0) {
                 mPresenter.deleteOneData(C.AFTERNOON, arrayList.get(position).name, position,
-                        arrayList.get(position - 1).name, null, personSelect);
+                        arrayList.get(position).name, arrayList.get(position).name, personSelect);
+            } else if (eveningSize == 0 && position == arrayList.size() - 1) {
+                mPresenter.deleteOneData(C.AFTERNOON, arrayList.get(position).name, position,
+                        arrayList.get(position - 1).name, arrayList.get(position - 1).name, personSelect);
             } else {
                 mPresenter.deleteOneData(C.AFTERNOON, arrayList.get(position).name, position,
                         arrayList.get(position - 1).name, arrayList.get(position + 1).name, personSelect);
@@ -196,6 +205,10 @@ public class RoutePlanActivity extends BaseActivity implements IRoutePlanView, V
         mEveningAdapter.notifyDataSetChanged();
         mEveningRecyclerView.setAdapter(mEveningAdapter);
         mEveningAdapter.setOnItemClickListener((view, position) -> {
+            if (afternoonSize == 0 && position == 0) {
+                mPresenter.deleteOneData(C.EVENING, arrayList.get(position).name, position,
+                        arrayList.get(position).name, arrayList.get(position).name, personSelect);
+            }
             if (position == arrayList.size() - 1) {
                 mPresenter.deleteOneData(C.EVENING, arrayList.get(position).name, position,
                         arrayList.get(position - 1).name, null, personSelect);
