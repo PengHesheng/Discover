@@ -12,13 +12,12 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="关于"
-        android:textColor="#efefef"
         android:textSize="24sp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launch" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,7 +25,6 @@
         android:gravity="center"
         android:padding="10dp"
         android:text="走一步"
-        android:textColor="#efefef"
         android:textSize="24sp" />
 
     <TextView
@@ -35,7 +33,6 @@
         android:gravity="center"
         android:padding="10dp"
         android:text="版本号：1.0.0"
-        android:textColor="#efefef"
         android:textSize="18sp" />
 
     <TextView
@@ -45,7 +42,6 @@
         android:gravity="center"
         android:padding="10dp"
         android:text="重庆邮电大学"
-        android:textColor="#efefef"
         android:textSize="20sp" />
 
     <TextView
@@ -54,6 +50,5 @@
         android:gravity="center"
         android:padding="10dp"
         android:text="“走一步”研发团队"
-        android:textColor="#efefef"
         android:textSize="20sp" />
 </LinearLayout>

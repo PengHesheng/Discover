@@ -9,6 +9,7 @@ import com.example.a14512.discover.modules.routeplan.presenter.imp.IRoutePlanPre
 import com.example.a14512.discover.modules.routeplan.view.imp.IRoutePlanView;
 import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 import com.example.a14512.discover.utils.ACache;
+import com.example.a14512.discover.utils.PLog;
 import com.example.a14512.discover.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -98,13 +99,13 @@ public class RoutePlanPresenterImp implements IRoutePlanPresenter{
             evening = getInitData(3, 4);
         }
 
-        if (morning != null) {
+        if (!morning.isEmpty()) {
             mView.setAdapter(morning, C.MORNING);
         }
-        if (afternoon != null) {
+        if (!afternoon.isEmpty()) {
             mView.setAdapter(afternoon, C.AFTERNOON);
         }
-        if (evening != null) {
+        if (!evening.isEmpty()) {
             mView.setAdapter(evening, C.EVENING);
         }
 
@@ -130,10 +131,12 @@ public class RoutePlanPresenterImp implements IRoutePlanPresenter{
     private ArrayList<Scenic> getScenics(ArrayList<Scenic> scenics, int type) {
         ArrayList<Scenic> scenicArrayList = new ArrayList<>();
         for (Scenic scenic : scenics) {
+            PLog.e(scenic.timeType);
             if (scenic.timeType != null && Integer.valueOf(scenic.timeType) == type) {
                 scenicArrayList.add(scenic);
             }
         }
+        PLog.e(scenicArrayList.size()+"");
         return scenicArrayList;
     }
 

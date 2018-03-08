@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:textSize="24sp"
-        android:textColor="#efefef"
         android:text="欢迎加入意见反馈群"/>
 
     <TextView
@@ -22,6 +21,5 @@
         android:gravity="center"
         android:padding="10dp"
         android:textSize="24sp"
-        android:textColor="#efefef"
         android:text="群号：55851188"/>
 </LinearLayout>

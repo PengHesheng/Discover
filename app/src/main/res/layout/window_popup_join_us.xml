@@ -13,7 +13,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
-        android:textColor="#efefef"
         android:padding="10dp"
         android:text="加入我们"/>
 
@@ -23,8 +22,7 @@
         android:gravity="center"
         android:padding="10dp"
         android:textSize="20sp"
-        android:textColor="#efefef"
-        android:text="“走一步”研发团队"/>
+        android:text="“简单游”研发团队"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,6 +30,5 @@
         android:gravity="center"
         android:padding="10dp"
         android:textSize="20sp"
-        android:textColor="#efefef"
         android:text="群号：23464654"/>
 </LinearLayout>

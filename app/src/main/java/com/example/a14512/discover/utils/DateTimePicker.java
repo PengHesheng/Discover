@@ -1,5 +1,6 @@
 package com.example.a14512.discover.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
@@ -32,6 +33,7 @@ public class DateTimePicker {
         mLayoutInflater = LayoutInflater.from(activity);
     }
 
+    @SuppressLint("DefaultLocale")
     public void setDatePicker (final TextView textView){
         mCalendar = Calendar.getInstance();
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);

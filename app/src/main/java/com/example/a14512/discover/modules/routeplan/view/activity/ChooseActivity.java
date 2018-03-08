@@ -66,7 +66,7 @@ public class ChooseActivity extends BaseActivity implements View.OnClickListener
     private ChoosePresenterImp mPresenter;
     private boolean isSortDistance = false, isLessPay = false, isLognPlay = false,
             isHighComment = false, isRecommend = false, isRecommend2 = false,
-            isOpen = true, isFirst = true;
+            isOpen = true, isFirst = true, isFirstLaunch = true;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -188,6 +188,7 @@ public class ChooseActivity extends BaseActivity implements View.OnClickListener
                 isHighComment = changeButton(mBtnHighComment, isHighComment);
                 break;
             case R.id.btn_build:
+                isFirstLaunch = true;
                 mPresenter.putData();
                 showDialog();
                 break;
@@ -363,7 +364,10 @@ public class ChooseActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void startActivity(boolean isHaveData, int personSelect) {
         if (isHaveData) {
-            startIntentActivity(this, RoutePlanActivity.class, "personSelect", personSelect);
+            if (isFirstLaunch) {
+                startIntentActivity(this, RoutePlanActivity.class, "personSelect", personSelect);
+                isFirstLaunch = false;
+            }
         } else {
             ToastUtil.show(this, "没有找到规划的数据！");
         }

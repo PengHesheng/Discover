@@ -99,6 +99,9 @@ public class RoutePlanActivity extends BaseActivity implements IRoutePlanView, V
                         mEveningRecyclerView.setBackground(resource);
                     }
                 });
+        mEveningAdapter = new RoutePlanAdapter(this);
+        mAfternoonAdapter = new RoutePlanAdapter(this);
+        mMorningAdapter = new RoutePlanAdapter(this);
     }
 
     private void initToolbar() {
@@ -162,7 +165,6 @@ public class RoutePlanActivity extends BaseActivity implements IRoutePlanView, V
     }
 
     private void setMorningAdapter(ArrayList<Scenic> arrayList) {
-        mMorningAdapter = new RoutePlanAdapter(this);
         mMorningAdapter.setRoutePlanAdapter(arrayList);
         mMorningAdapter.notifyDataSetChanged();
         mMorningRecyclerView.setAdapter(mMorningAdapter);
@@ -172,7 +174,7 @@ public class RoutePlanActivity extends BaseActivity implements IRoutePlanView, V
                         arrayList.get(position).name, arrayList.get(position).name, personSelect);
             } else if (afternoonSize == 0 && eveningSize == 0 && position == arrayList.size() - 1){
                 mPresenter.deleteOneData(C.MORNING, arrayList.get(position).name, position,
-                        arrayList.get(position - 1).name, arrayList.get(position - 1).name, personSelect);
+                        arrayList.get(position).name, arrayList.get(position).name, personSelect);
             } else {
                 mPresenter.deleteOneData(C.MORNING, arrayList.get(position).name, position,
                         arrayList.get(position - 1).name, arrayList.get(position + 1).name, personSelect);
@@ -181,7 +183,6 @@ public class RoutePlanActivity extends BaseActivity implements IRoutePlanView, V
     }
 
     private void setAfternoonAdapter(ArrayList<Scenic> arrayList) {
-        mAfternoonAdapter = new RoutePlanAdapter(this);
         mAfternoonAdapter.setRoutePlanAdapter(arrayList);
         mAfternoonAdapter.notifyDataSetChanged();
         mAfternoonRecyclerView.setAdapter(mAfternoonAdapter);
@@ -191,7 +192,7 @@ public class RoutePlanActivity extends BaseActivity implements IRoutePlanView, V
                         arrayList.get(position).name, arrayList.get(position).name, personSelect);
             } else if (eveningSize == 0 && position == arrayList.size() - 1) {
                 mPresenter.deleteOneData(C.AFTERNOON, arrayList.get(position).name, position,
-                        arrayList.get(position - 1).name, arrayList.get(position - 1).name, personSelect);
+                        arrayList.get(position).name, arrayList.get(position).name, personSelect);
             } else {
                 mPresenter.deleteOneData(C.AFTERNOON, arrayList.get(position).name, position,
                         arrayList.get(position - 1).name, arrayList.get(position + 1).name, personSelect);
@@ -200,7 +201,6 @@ public class RoutePlanActivity extends BaseActivity implements IRoutePlanView, V
     }
 
     private void setEveningAdapter(ArrayList<Scenic> arrayList) {
-        mEveningAdapter = new RoutePlanAdapter(this);
         mEveningAdapter.setRoutePlanAdapter(arrayList);
         mEveningAdapter.notifyDataSetChanged();
         mEveningRecyclerView.setAdapter(mEveningAdapter);
@@ -211,7 +211,7 @@ public class RoutePlanActivity extends BaseActivity implements IRoutePlanView, V
             }
             if (position == arrayList.size() - 1) {
                 mPresenter.deleteOneData(C.EVENING, arrayList.get(position).name, position,
-                        arrayList.get(position - 1).name, null, personSelect);
+                        arrayList.get(position).name, arrayList.get(position).name, personSelect);
             } else {
                 mPresenter.deleteOneData(C.EVENING, arrayList.get(position).name, position,
                         arrayList.get(position - 1).name, arrayList.get(position + 1).name, personSelect);

@@ -120,7 +120,11 @@ public class RoutePlanAdapter extends RecyclerView.Adapter {
     }
 
     public ArrayList<Scenic> getScenics() {
-        return this.mScenics;
+        if (mScenics.size() == 0) {
+            return null;
+        } else {
+            return this.mScenics;
+        }
     }
 
 }

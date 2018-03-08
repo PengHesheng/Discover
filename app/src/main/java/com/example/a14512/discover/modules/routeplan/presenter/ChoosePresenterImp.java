@@ -53,10 +53,10 @@ public class ChoosePresenterImp implements IChoosePresenter {
         this.mView = chooseView;
         mModel = new ModeImp();
         poiSearch = PoiSearch.newInstance();
+        locationUtil = LocationUtil.getInstance();
     }
 
     private void getLocation() {
-        locationUtil = LocationUtil.getInstance();
         listener = new BDAbstractLocationListener() {
             @Override
             public void onReceiveLocation(BDLocation location) {
@@ -100,7 +100,6 @@ public class ChoosePresenterImp implements IChoosePresenter {
 
             startT = startTime.substring(startTime.length() - 5, startTime.length());
             time = DateFormatUtil.calculateMinute(sT, eT);
-            PLog.e("" + time);
             if (time > 0) {
                 getLocation();
             } else {
@@ -174,7 +173,6 @@ public class ChoosePresenterImp implements IChoosePresenter {
                     mView.startActivity(true, personSelect);
                 } else {
                     mView.startActivity(false, personSelect);
-                    PLog.e("null");
                 }
             }
 

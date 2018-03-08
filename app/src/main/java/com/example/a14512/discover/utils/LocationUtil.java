@@ -30,7 +30,7 @@ public class LocationUtil {
         option.setCoorType("bd09ll");
         //可选，设置发起定位请求的间隔，int类型，单位ms
         //可选，设置是否使用gps，默认false
-        option.setLocationNotify(true);
+//        option.setLocationNotify(true);
         option.setIsNeedAddress(true);
         option.setOpenGps(true);
         mLocationClient.setLocOption(option);

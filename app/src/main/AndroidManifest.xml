@@ -90,7 +90,8 @@
         <activity android:name=".modules.routeplan.view.activity.ChooseActivity"
             android:windowSoftInputMode="adjustResize|adjustPan"/>
 
-        <activity android:name=".modules.routeplan.view.activity.RoutePlanActivity" />
+        <activity android:name=".modules.routeplan.view.activity.RoutePlanActivity"
+            android:launchMode="singleTop"/>
 
         <activity android:name=".modules.main.userself.travel.view.WebActivity" />
 
