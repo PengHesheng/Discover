@@ -171,6 +171,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         LinearLayout shareLayout = findViewById(R.id.layout_my_share);
         LinearLayout travelLayout = findViewById(R.id.layout_travel);
         LinearLayout personalityLayout = findViewById(R.id.layout_personality);
+        LinearLayout recommendLayout = findViewById(R.id.layoutMainReCommend);
 
         mTemperature = findViewById(R.id.tv_menu_temperature);
         mWeatherIcon = findViewById(R.id.img_weather_icon);
@@ -206,6 +207,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         routeLayout.setOnClickListener(this);
         shareLayout.setOnClickListener(this);
         travelLayout.setOnClickListener(this);
+        recommendLayout.setOnClickListener(this);
         personalityLayout.setOnClickListener(this);
 
         settings.setOnClickListener(this);
@@ -246,6 +248,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 } else {
                     startActivityForResult(new Intent(this, LoginActivity.class), C.LOGIN);
                 }
+                break;
+            case R.id.layoutMainReCommend:
+                ToastUtil.show(this, "暂未上线，敬请期待!");
                 break;
             case R.id.layout_my_share:
                 startIntentActivity(this, MyShareActivity.class);

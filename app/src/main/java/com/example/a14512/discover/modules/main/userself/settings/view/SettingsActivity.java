@@ -74,7 +74,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.layout_setting_advice:
                 popupWindowAdvice();
-                mPopupWindow.showAsDropDown(v, 0, 0, Gravity.CENTER_HORIZONTAL);
+                mPopupWindow.showAtLocation(v, Gravity.CENTER, 0 , 0);
                 break;
             case R.id.layout_setting_about:
                 popupWindowAbout();

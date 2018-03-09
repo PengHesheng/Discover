@@ -44,31 +44,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center_horizontal">
-
-                <EditText
-                    android:id="@+id/edt_code"
-                    android:layout_width="120dp"
-                    android:layout_height="48dp"
-                    android:paddingLeft="5dp"
-                    android:paddingStart="5dp"
-                    android:textColor="#7a546169"
-                    android:textSize="15sp"
-                    android:inputType="numberSigned"
-                    android:hint="@string/edt_code"
-                    tools:ignore="RtlSymmetry" />
-
-                <Button
-                    android:id="@+id/btn_get_code"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/btn_get_code"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_horizontal">
 
@@ -93,6 +68,32 @@
                     android:src="@mipmap/pwd_unshow"/>
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal">
+
+                <EditText
+                    android:id="@+id/edt_code"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"
+                    android:paddingLeft="5dp"
+                    android:paddingStart="5dp"
+                    android:textColor="#7a546169"
+                    android:textSize="15sp"
+                    android:inputType="numberSigned"
+                    android:hint="@string/edt_code"
+                    tools:ignore="RtlSymmetry" />
+
+                <Button
+                    android:id="@+id/btn_get_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_get_code"/>
+            </LinearLayout>
+
 
             <Button
                 android:id="@+id/btn_register"
