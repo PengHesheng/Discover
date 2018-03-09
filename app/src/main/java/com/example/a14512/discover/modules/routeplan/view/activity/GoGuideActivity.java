@@ -324,7 +324,7 @@ public class GoGuideActivity extends BaseActivity implements View.OnClickListene
             // 开发者可以使用旧的算路接口，也可以使用新的算路接口,可以接收诱导信息等
             // BaiduNaviManager.getInstance().launchNavigator(this, list, 1, true, new DemoRoutePlanListener(sNode));
             BaiduNaviManager.getInstance().launchNavigator(this, startAndEnd, 1,
-                    false, new DemoRoutePlanListener(startAndEnd.get(0)), eventListerner);
+                    true, new DemoRoutePlanListener(startAndEnd.get(0)), eventListerner);
         }
     }
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.main.userself.personality.presenter.PersonalityPresenterImp;
+import com.example.a14512.discover.utils.ToastUtil;
 
 /**
  * @author 14512 on 2018/2/19
@@ -143,5 +144,6 @@ public class PersonalityAdviceActivity extends BaseActivity implements IPersonal
     @Override
     public void finishActivity() {
         finish();
+        ToastUtil.show(R.string.tv_choose_hint);
     }
 }

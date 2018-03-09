@@ -9,6 +9,7 @@ import com.example.a14512.discover.modules.shake.mode.Mode;
 import com.example.a14512.discover.modules.shake.view.IShakeView;
 import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 import com.example.a14512.discover.utils.LocationUtil;
+import com.example.a14512.discover.utils.PLog;
 
 import java.util.ArrayList;
 
@@ -49,6 +50,7 @@ public class ShakePresenterImp implements IShakePresenter {
                     @Override
                     public void onNext(Scenic value) {
                         if (value != null) {
+                            PLog.e(value.name);
                             ArrayList<Scenic> scenics = new ArrayList<>();
                             scenics.add(scenic);
                             scenics.add(value);

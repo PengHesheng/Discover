@@ -124,4 +124,5 @@
     <string name="tv_distance">距您：</string>
     <string name="tv_where_you_want">你都喜欢去些什么地方呢…</string>
     <string name="tv_register">注册</string>
+    <string name="tv_choose_hint">目前只提供重庆范围内的旅游服务</string>
 </resources>

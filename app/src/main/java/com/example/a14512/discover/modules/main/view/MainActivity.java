@@ -107,6 +107,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
         } else {
             //非首次启动
+            ToastUtil.show(R.string.tv_choose_hint);
         }
     }
 

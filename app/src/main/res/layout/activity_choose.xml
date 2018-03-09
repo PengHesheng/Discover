@@ -25,9 +25,11 @@
                 android:layout_height="150dp"
                 android:scaleType="fitXY"/>
 
-            <View
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="21dp"
+                android:gravity="center"
+                android:text="@string/tv_choose_hint"
                 android:background="#d4d4d4"/>
 
             <LinearLayout
