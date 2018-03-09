@@ -239,9 +239,15 @@ public class RoutePlanActivity extends BaseActivity implements IRoutePlanView, V
                 if (scenicsLast != null) {
                     ArrayList<Scenic> scenics = new ArrayList<>();
                     scenics.add(scenicsLast.get(0));
-                    scenics.addAll(mMorningAdapter.getScenics());
-                    scenics.addAll(mAfternoonAdapter.getScenics());
-                    scenics.addAll(mEveningAdapter.getScenics());
+                    if (mMorningAdapter.getItemCount() != 0) {
+                        scenics.addAll(mMorningAdapter.getScenics());
+                    }
+                    if (mAfternoonAdapter.getItemCount() != 0) {
+                        scenics.addAll(mAfternoonAdapter.getScenics());
+                    }
+                    if (mEveningAdapter.getItemCount() != 0) {
+                        scenics.addAll(mEveningAdapter.getScenics());
+                    }
                     scenics.add(scenicsLast.get(scenicsLast.size() - 1));
                     PLog.e(""+scenics.get(scenics.size() - 1).name);
                     Bundle bundle = new Bundle();
