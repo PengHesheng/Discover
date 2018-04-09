@@ -21,7 +21,6 @@ import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 import com.example.a14512.discover.utils.ACache;
 import com.example.a14512.discover.utils.DateFormatUtil;
 import com.example.a14512.discover.utils.LocationUtil;
-import com.example.a14512.discover.utils.PLog;
 import com.example.a14512.discover.utils.ToastUtil;
 
 import java.util.ArrayList;

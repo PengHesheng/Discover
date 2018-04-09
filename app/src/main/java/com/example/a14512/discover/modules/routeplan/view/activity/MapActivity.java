@@ -45,7 +45,6 @@ import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.routeplan.adpter.ExpandableListAdapter;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.utils.LocationUtil;
-import com.example.a14512.discover.utils.PLog;
 import com.example.a14512.discover.utils.ToastUtil;
 import com.example.a14512.discover.utils.mapapi.overlayutil.BikingRouteOverlay;
 import com.example.a14512.discover.utils.mapapi.overlayutil.DrivingRouteOverlay;

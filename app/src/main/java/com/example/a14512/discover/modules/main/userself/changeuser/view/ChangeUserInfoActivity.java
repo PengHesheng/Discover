@@ -30,7 +30,6 @@ import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.main.userself.changeuser.presenter.ChangeInfoPresenterImp;
 import com.example.a14512.discover.utils.CompleteWatcher;
 import com.example.a14512.discover.utils.KeyBoardUtil;
-import com.example.a14512.discover.utils.PLog;
 import com.example.a14512.discover.utils.ToastUtil;
 import com.example.a14512.discover.utils.UploadPicture;
 

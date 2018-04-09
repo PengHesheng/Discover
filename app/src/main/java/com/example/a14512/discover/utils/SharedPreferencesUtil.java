@@ -1,5 +1,6 @@
 package com.example.a14512.discover.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -14,6 +15,7 @@ public class SharedPreferencesUtil {
 
     private final static String OTHER_INFO = "other_info";
 
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
 
 

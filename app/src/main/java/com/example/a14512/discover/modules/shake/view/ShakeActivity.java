@@ -19,7 +19,6 @@ import com.example.a14512.discover.base.BaseActivity;
 import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.modules.routeplan.view.activity.MapActivity;
 import com.example.a14512.discover.modules.shake.presenter.ShakePresenterImp;
-import com.example.a14512.discover.utils.PLog;
 
 import java.util.ArrayList;
 

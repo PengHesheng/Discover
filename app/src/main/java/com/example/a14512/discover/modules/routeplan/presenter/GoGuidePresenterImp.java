@@ -8,7 +8,6 @@ import com.example.a14512.discover.modules.routeplan.presenter.imp.IAllRoutePres
 import com.example.a14512.discover.modules.routeplan.view.imp.IGoGuideView;
 import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 import com.example.a14512.discover.utils.ACache;
-import com.example.a14512.discover.utils.PLog;
 import com.example.a14512.discover.utils.Time;
 import com.example.a14512.discover.utils.ToastUtil;
 

@@ -48,7 +48,7 @@ public class ObservableTimer {
 
                     @Override
                     public void onError(Throwable e) {
-                        PLog.d(TAG, e.toString());
+//                        PLog.d(TAG, e.toString());
                     }
 
                     @Override

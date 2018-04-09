@@ -26,24 +26,4 @@ public class ApiException extends Exception {
         return code;
     }
 
-   /* public ApiException(String detailMessage) {
-        super(detailMessage);
-    }
-
-    public ApiException(int resultCode, String msg) {
-        this(handleErrorCode(resultCode,msg));
-    }
-
-    private static String handleErrorCode(int code, String s) {
-        String msg;
-        switch (code) {
-            case 400:
-                msg = "请登录后再试";
-                break;
-            default:
-                msg = s;
-                break;
-        }
-        return msg;
-    }*/
 }

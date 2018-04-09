@@ -24,7 +24,6 @@ import com.example.a14512.discover.modules.routeplan.mode.entity.Scenic;
 import com.example.a14512.discover.modules.routeplan.presenter.RoutePlanPresenterImp;
 import com.example.a14512.discover.modules.routeplan.view.imp.IRoutePlanView;
 import com.example.a14512.discover.utils.ACache;
-import com.example.a14512.discover.utils.PLog;
 
 import java.util.ArrayList;
 

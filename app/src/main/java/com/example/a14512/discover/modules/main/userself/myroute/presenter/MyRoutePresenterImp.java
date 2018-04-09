@@ -9,7 +9,6 @@ import com.example.a14512.discover.modules.main.userself.myroute.presenter.imp.I
 import com.example.a14512.discover.modules.main.userself.myroute.view.imp.IMyRouteView;
 import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 import com.example.a14512.discover.utils.ACache;
-import com.example.a14512.discover.utils.PLog;
 
 import java.util.ArrayList;
 

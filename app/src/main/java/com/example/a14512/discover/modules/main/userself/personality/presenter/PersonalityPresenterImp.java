@@ -7,7 +7,6 @@ import com.example.a14512.discover.modules.main.userself.personality.mode.Mode;
 import com.example.a14512.discover.modules.main.userself.personality.view.IPersonalityView;
 import com.example.a14512.discover.network.RxUtil.ApiSubscriber;
 import com.example.a14512.discover.utils.ACache;
-import com.example.a14512.discover.utils.PLog;
 import com.example.a14512.discover.utils.ToastUtil;
 
 /**

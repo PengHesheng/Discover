@@ -13,7 +13,6 @@ import com.baidu.navisdk.adapter.NaviModuleFactory;
 import com.baidu.navisdk.adapter.NaviModuleImpl;
 import com.example.a14512.discover.R;
 import com.example.a14512.discover.base.BaseActivity;
-import com.example.a14512.discover.utils.PLog;
 import com.example.a14512.discover.utils.ToastUtil;
 
 import java.util.ArrayList;

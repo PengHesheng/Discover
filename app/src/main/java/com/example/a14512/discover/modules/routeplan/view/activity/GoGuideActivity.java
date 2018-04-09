@@ -67,7 +67,6 @@ import com.example.a14512.discover.modules.routeplan.presenter.GoGuidePresenterI
 import com.example.a14512.discover.modules.routeplan.view.imp.IGoGuideView;
 import com.example.a14512.discover.utils.JsonUtil;
 import com.example.a14512.discover.utils.LocationUtil;
-import com.example.a14512.discover.utils.PLog;
 import com.example.a14512.discover.utils.ToastUtil;
 import com.example.a14512.discover.utils.mapapi.overlayutil.BikingRouteOverlay;
 import com.example.a14512.discover.utils.mapapi.overlayutil.DrivingRouteOverlay;
